@@ -7,12 +7,12 @@ import { posts } from "@/data/posts";
 import { AdSlot } from "@/components/AdSlot";
 
 const skills = [
-  { icon: Brain, label: "Machine Learning" },
   { icon: Code2, label: "Python" },
+  { icon: Brain, label: "TensorFlow" },
   { icon: Cloud, label: "AWS" },
-  { icon: Database, label: "Data Analytics" },
-  { icon: Sparkles, label: "AI Systems" },
-  { icon: TrendingUp, label: "MLOps" },
+  { icon: Sparkles, label: "NLP" },
+  { icon: Database, label: "Power BI" },
+  { icon: TrendingUp, label: "LangChain" },
 ];
 
 const Index = () => {
@@ -35,9 +35,8 @@ const Index = () => {
               <span className="text-gradient">AI & Data Science</span>
             </h1>
             <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl">
-              I'm <span className="text-foreground font-medium">Adithya</span> — a final-year AI & Data Science engineer
-              crafting machine learning systems, cloud-native pipelines, and writing tutorials that
-              help engineers level up.
+              I'm <span className="text-foreground font-medium">Adithya K</span> — a B.Tech AI & Data Science graduate from Ambur, Tamil Nadu.
+              I craft production ML systems, not just Jupyter experiments — from multi-agent clinical AI to job automation pipelines.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -49,6 +48,9 @@ const Index = () => {
               </Button>
               <Button asChild variant="ghost" size="lg">
                 <Link to="/contact">Contact</Link>
+              </Button>
+              <Button asChild variant="ghost" size="lg">
+                <a href="https://github.com/Adithya0805" target="_blank" rel="noreferrer">GitHub</a>
               </Button>
             </div>
 
@@ -68,10 +70,10 @@ const Index = () => {
       <section className="container -mt-12 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            ["15+", "AI Projects"],
-            ["20+", "Technical Articles"],
-            ["4+", "AWS Certifications Track"],
-            ["1k+", "Hours of Practice"],
+            ["7", "AI Projects"],
+            ["6", "Certifications"],
+            ["94%", "Model Accuracy"],
+            ["50+", "Lab Hours"],
           ].map(([n, l]) => (
             <div key={l} className="glass rounded-xl p-5 text-center shadow-card">
               <div className="text-3xl font-display font-bold text-gradient">{n}</div>

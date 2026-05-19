@@ -9,20 +9,20 @@ export const Footer = () => (
           <span className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
             <Sparkles className="w-4 h-4 text-primary-foreground" />
           </span>
-          <span className="text-gradient">Adithya</span>
+          <span className="text-gradient">Adithya K</span>
         </Link>
         <p className="mt-4 text-sm text-muted-foreground max-w-md">
-          AI & Data Science engineer building practical machine learning systems,
-          writing tutorials, and exploring the frontier of applied AI.
+          B.Tech AI & Data Science graduate building production ML systems,
+          and exploring the frontier of applied AI.
         </p>
         <div className="flex gap-3 mt-5">
-          <a href="https://github.com" aria-label="GitHub" className="p-2 rounded-md border border-border hover:border-primary hover:text-primary transition-smooth">
+          <a href="https://github.com/Adithya0805" target="_blank" rel="noreferrer" aria-label="GitHub" className="p-2 rounded-md border border-border hover:border-primary hover:text-primary transition-smooth">
             <Github className="w-4 h-4" />
           </a>
-          <a href="https://linkedin.com" aria-label="LinkedIn" className="p-2 rounded-md border border-border hover:border-primary hover:text-primary transition-smooth">
+          <a href="https://www.linkedin.com/in/adithya-k-76baab204/" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="p-2 rounded-md border border-border hover:border-primary hover:text-primary transition-smooth">
             <Linkedin className="w-4 h-4" />
           </a>
-          <a href="mailto:hello@adithya.dev" aria-label="Email" className="p-2 rounded-md border border-border hover:border-primary hover:text-primary transition-smooth">
+          <a href="mailto:adithyaadhi0805@gmail.com" aria-label="Email" className="p-2 rounded-md border border-border hover:border-primary hover:text-primary transition-smooth">
             <Mail className="w-4 h-4" />
           </a>
         </div>
@@ -49,7 +49,7 @@ export const Footer = () => (
     </div>
     <div className="border-t border-border/60">
       <div className="container py-5 text-xs text-muted-foreground flex flex-col md:flex-row justify-between gap-2">
-        <p>© {new Date().getFullYear()} Adithya. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Adithya K. All rights reserved.</p>
         <p>Built with care for the AI community.</p>
       </div>
     </div>

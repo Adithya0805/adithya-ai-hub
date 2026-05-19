@@ -48,6 +48,12 @@ const Projects = () => {
                         <h3 className="text-sm font-semibold text-primary uppercase tracking-wider">Solution</h3>
                         <p className="mt-1 text-muted-foreground">{p.solution}</p>
                       </div>
+                      {p.impact && (
+                        <div>
+                          <h3 className="text-sm font-semibold text-primary uppercase tracking-wider">Impact</h3>
+                          <p className="mt-1 text-muted-foreground">{p.impact}</p>
+                        </div>
+                      )}
                       <div>
                         <h3 className="text-sm font-semibold text-primary uppercase tracking-wider">Tech Stack</h3>
                         <div className="mt-2 flex flex-wrap gap-1.5">

@@ -3,36 +3,37 @@ import { Button } from "@/components/ui/button";
 import { Download, Mail } from "lucide-react";
 
 const timeline = [
-  { year: "2026", title: "Final Year — AI & Data Science", desc: "Capstone projects, internships, advanced ML coursework." },
-  { year: "2025", title: "AWS & MLOps Deep Dive", desc: "Built production-grade ML pipelines on AWS." },
-  { year: "2024", title: "Applied Machine Learning", desc: "Shipped first end-to-end predictive systems." },
-  { year: "2023", title: "Foundations", desc: "Math, statistics, Python, and core data structures." },
+  { year: "2025", title: "B.Tech — AI & Data Science", desc: "Dhanalakshmi Srinivasan College of Engineering, Coimbatore. CGPA: 8.5" },
+  { year: "2025", title: "AWS re/Start Programme", desc: "Cultus & Amazon Web Services" },
+  { year: "2021", title: "Higher Secondary (Class XII)", desc: "Hindu Higher Secondary School, Ambur. 82%" },
+  { year: "2019", title: "SSLC (Class X)", desc: "Hindu Higher Secondary School, Ambur. 74%" },
 ];
 
 const skills = [
-  { group: "Languages", items: ["Python", "SQL", "JavaScript", "Bash"] },
-  { group: "ML / AI", items: ["Scikit-learn", "PyTorch", "TensorFlow", "LangChain", "OpenAI"] },
-  { group: "Cloud / DevOps", items: ["AWS (EC2, S3, IAM, Lambda)", "Docker", "Linux", "Git"] },
-  { group: "Data", items: ["Pandas", "NumPy", "PostgreSQL", "Matplotlib", "Tableau"] },
+  { group: "Programming Languages", items: ["Python", "SQL", "C++", "JavaScript", "Bash"] },
+  { group: "AI / ML Frameworks", items: ["TensorFlow", "Keras", "PyTorch", "Scikit-learn", "XGBoost"] },
+  { group: "Cloud & Tools", items: ["AWS (EC2, S3, IAM, SageMaker)", "Docker", "Git", "GitHub", "Power BI"] },
+  { group: "Data Science", items: ["EDA", "Statistical Modelling", "NLP", "Computer Vision"] },
+  { group: "Soft Skills", items: ["Analytical Thinking", "Team Collaboration", "Problem-Solving"] },
 ];
 
-const certs = ["AWS Cloud Practitioner (in progress)", "Google Data Analytics", "DeepLearning.AI ML Specialization"];
+const certs = ["AWS re/Start Programme (Cultus & AWS)", "Prompt Engineering for Generative AI (Internshala)", "Data Science Job Simulation (BCG)", "Networking Essentials (Cisco)", "Entry Level Python Programmer (Cisco)", "Web Development Fundamentals"];
 
 const Resume = () => (
   <Layout>
     <section className="container py-20">
       <p className="text-sm text-primary font-medium">Resume</p>
-      <h1 className="mt-2 text-4xl md:text-5xl font-bold">Adithya — AI & Data Science Engineer</h1>
+      <h1 className="mt-2 text-4xl md:text-5xl font-bold">Adithya K — AI & Data Science Engineer</h1>
       <p className="mt-4 text-muted-foreground max-w-2xl">
         A snapshot for recruiters and hiring managers. Download the full resume or get in touch.
       </p>
 
       <div className="mt-6 flex gap-3 flex-wrap">
         <Button variant="hero" size="lg" asChild>
-          <a href="/resume.pdf" download><Download className="w-4 h-4" /> Download Resume</a>
+          <a href="https://www.linkedin.com/in/adithya-k-76baab204/" target="_blank" rel="noreferrer"><Download className="w-4 h-4" /> View LinkedIn</a>
         </Button>
         <Button variant="glass" size="lg" asChild>
-          <a href="mailto:hello@adithya.dev"><Mail className="w-4 h-4" /> Email Me</a>
+          <a href="mailto:adithyaadhi0805@gmail.com"><Mail className="w-4 h-4" /> Email Me</a>
         </Button>
       </div>
 

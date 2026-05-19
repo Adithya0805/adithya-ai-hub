@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Menu, X, Sparkles } from "lucide-react";
+import { Menu, X, Sparkles, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const links = [
@@ -35,7 +35,7 @@ export const Navbar = () => {
           <span className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center shadow-glow">
             <Sparkles className="w-4 h-4 text-primary-foreground" />
           </span>
-          <span className="text-gradient">Adithya</span>
+          <span className="text-gradient">Adithya K</span>
         </Link>
 
         <div className="hidden lg:flex items-center gap-1">
@@ -55,7 +55,10 @@ export const Navbar = () => {
           ))}
         </div>
 
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex items-center gap-3">
+          <a href="https://github.com/Adithya0805" target="_blank" rel="noreferrer" className="p-2 text-muted-foreground hover:text-foreground transition-smooth">
+            <Github className="w-5 h-5" />
+          </a>
           <Button asChild variant="hero" size="sm">
             <Link to="/contact">Hire Me</Link>
           </Button>

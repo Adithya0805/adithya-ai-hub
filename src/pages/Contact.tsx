@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail, MessageCircle } from "lucide-react";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Name required").max(100),
@@ -38,14 +38,17 @@ const Contact = () => {
             Have an opportunity, a question, or just want to say hi? Drop a message — I read every email.
           </p>
           <div className="mt-8 space-y-3">
-            <a href="mailto:hello@adithya.dev" className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border hover:border-primary transition-smooth">
-              <Mail className="w-5 h-5 text-primary" /> hello@adithya.dev
+            <a href="mailto:adithyaadhi0805@gmail.com" className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border hover:border-primary transition-smooth">
+              <Mail className="w-5 h-5 text-primary" /> adithyaadhi0805@gmail.com
             </a>
-            <a href="https://linkedin.com" className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border hover:border-primary transition-smooth">
+            <a href="https://www.linkedin.com/in/adithya-k-76baab204/" target="_blank" rel="noreferrer" className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border hover:border-primary transition-smooth">
               <Linkedin className="w-5 h-5 text-primary" /> LinkedIn
             </a>
-            <a href="https://github.com" className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border hover:border-primary transition-smooth">
+            <a href="https://github.com/Adithya0805" target="_blank" rel="noreferrer" className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border hover:border-primary transition-smooth">
               <Github className="w-5 h-5 text-primary" /> GitHub
+            </a>
+            <a href="https://wa.me/918825714576" target="_blank" rel="noreferrer" className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border hover:border-primary transition-smooth">
+              <MessageCircle className="w-5 h-5 text-primary" /> WhatsApp
             </a>
           </div>
         </div>
