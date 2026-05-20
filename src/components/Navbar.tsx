@@ -8,8 +8,7 @@ const links = [
   { to: "/about", label: "About" },
   { to: "/projects", label: "Projects" },
   { to: "/blog", label: "Blog" },
-  { to: "/tools", label: "AI Tools" },
-  { to: "/resume", label: "Resume" },
+  { to: "/resources", label: "Resources" },
   { to: "/contact", label: "Contact" },
 ];
 
@@ -35,7 +34,7 @@ export const Navbar = () => {
           <span className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center shadow-glow">
             <Sparkles className="w-4 h-4 text-primary-foreground" />
           </span>
-          <span className="text-gradient">Adithya K</span>
+          <span className="text-gradient">Adithya AI Hub</span>
         </Link>
 
         <div className="hidden lg:flex items-center gap-1">
@@ -56,7 +55,12 @@ export const Navbar = () => {
         </div>
 
         <div className="hidden lg:flex items-center gap-3">
-          <a href="https://github.com/Adithya0805" target="_blank" rel="noreferrer" className="p-2 text-muted-foreground hover:text-foreground transition-smooth">
+          <a
+            href="https://github.com/Adithya0805"
+            target="_blank"
+            rel="noreferrer"
+            className="p-2 text-muted-foreground hover:text-foreground transition-smooth"
+          >
             <Github className="w-5 h-5" />
           </a>
           <Button asChild variant="hero" size="sm">

@@ -1,71 +1,187 @@
 import { useParams, Link, Navigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { Layout } from "@/components/Layout";
 import { posts } from "@/data/posts";
-import { AdSlot } from "@/components/AdSlot";
-import { ArrowLeft } from "lucide-react";
-
-function renderContent(md: string) {
-  const blocks = md.trim().split(/\n\n+/);
-  return blocks.map((b, i) => {
-    if (b.startsWith("## ")) return <h2 key={i} className="text-2xl font-bold mt-10 mb-3">{b.slice(3)}</h2>;
-    if (b.startsWith("```")) {
-      const code = b.replace(/```[a-z]*\n?/, "").replace(/```$/, "");
-      return (
-        <pre key={i} className="my-5 rounded-xl bg-secondary/60 border border-border p-4 overflow-x-auto text-sm font-mono">
-          <code>{code}</code>
-        </pre>
-      );
-    }
-    if (b.startsWith("- ")) {
-      const items = b.split("\n").map((l) => l.replace(/^- /, ""));
-      return <ul key={i} className="list-disc pl-6 space-y-1 my-4 text-muted-foreground">{items.map((it, j) => <li key={j}>{it}</li>)}</ul>;
-    }
-    return <p key={i} className="my-4 text-muted-foreground leading-relaxed">{b}</p>;
-  });
-}
+import { AdUnit, AdRectangle } from "@/components/AdSlot";
+import { ReadingProgress } from "@/components/ReadingProgress";
+import { AuthorCard } from "@/components/AuthorCard";
+import { BlogCard } from "@/components/BlogCard";
+import { TagBadge } from "@/components/TagBadge";
+import { ArrowLeft, Clock, Calendar } from "lucide-react";
 
 const BlogPost = () => {
   const { slug } = useParams();
   const post = posts.find((p) => p.slug === slug);
   if (!post) return <Navigate to="/blog" replace />;
 
-  const toc = post.content.split("\n").filter((l) => l.startsWith("## ")).map((l) => l.slice(3));
+  // Related posts: same category, exclude current
+  const related = posts
+    .filter((p) => p.category === post.category && p.slug !== post.slug)
+    .slice(0, 3);
+
+  // Auto-split content at "mid" point for in-article ad
+  const splitContent = (html: string) => {
+    // Find the 3rd occurrence of </p> to inject ad after it
+    let count = 0;
+    let splitIdx = -1;
+    for (let i = 0; i < html.length - 3; i++) {
+      if (html.slice(i, i + 4) === "</p>") {
+        count++;
+        if (count === 3) {
+          splitIdx = i + 4;
+          break;
+        }
+      }
+    }
+    if (splitIdx === -1) return { part1: html, part2: "" };
+    return { part1: html.slice(0, splitIdx), part2: html.slice(splitIdx) };
+  };
+
+  const { part1, part2 } = splitContent(post.content);
+
+  // Table of contents from h2 tags
+  const headings = [...post.content.matchAll(/<h2[^>]*>(.*?)<\/h2>/g)].map(
+    (m) => m[1].replace(/<[^>]+>/g, "")
+  );
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.date,
+    author: {
+      "@type": "Person",
+      name: "Adithya Kuppusamy",
+      url: "https://adithya-ai-hub.vercel.app/about",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Adithya AI Hub",
+      url: "https://adithya-ai-hub.vercel.app",
+    },
+  };
 
   return (
     <Layout>
-      <article className="container py-20 max-w-3xl">
-        <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-6">
-          <ArrowLeft className="w-4 h-4" /> Back to blog
-        </Link>
-        <span className="text-xs px-2.5 py-1 rounded-md bg-primary/10 text-primary border border-primary/20">{post.category}</span>
-        <h1 className="mt-4 text-4xl md:text-5xl font-bold leading-tight">{post.title}</h1>
-        <p className="mt-4 text-muted-foreground">{post.readTime} read · {new Date(post.date).toLocaleDateString()}</p>
+      <ReadingProgress />
 
-        <div className="mt-8 aspect-[16/8] rounded-2xl bg-hero grid-bg border border-border" />
+      <Helmet>
+        <title>{post.title} | Adithya AI Hub</title>
+        <meta name="description" content={post.excerpt} />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.excerpt} />
+        <meta property="og:type" content="article" />
+        <meta
+          property="og:url"
+          content={`https://adithya-ai-hub.vercel.app/blog/${post.slug}`}
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      </Helmet>
 
-        {toc.length > 0 && (
-          <nav className="mt-10 p-5 rounded-xl bg-card border border-border">
-            <p className="text-sm font-semibold mb-3">Table of contents</p>
-            <ol className="space-y-1.5 text-sm text-muted-foreground list-decimal pl-5">
-              {toc.map((t) => <li key={t}>{t}</li>)}
-            </ol>
-          </nav>
-        )}
+      <article className="container py-20">
+        <div className="max-w-3xl mx-auto">
+          {/* Back link */}
+          <Link
+            to="/blog"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-8 transition-smooth"
+          >
+            <ArrowLeft className="w-4 h-4" /> Back to Blog
+          </Link>
 
-        <div className="mt-8">{renderContent(post.content)}</div>
+          {/* Header */}
+          <TagBadge tag={post.category} />
+          <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+            {post.title}
+          </h1>
 
-        <div className="mt-10 flex flex-wrap gap-2">
-          {post.tags.map((t) => (
-            <span key={t} className="text-xs px-2 py-1 rounded bg-secondary">#{t}</span>
-          ))}
+          <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <Clock className="w-4 h-4" />
+              {post.readTime} read
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Calendar className="w-4 h-4" />
+              {new Date(post.date).toLocaleDateString("en-IN", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </span>
+          </div>
+
+          {/* Tags */}
+          <div className="mt-4 flex flex-wrap gap-2">
+            {post.tags.map((t) => (
+              <span key={t} className="text-xs px-2 py-0.5 rounded bg-secondary border border-border text-muted-foreground">
+                #{t}
+              </span>
+            ))}
+          </div>
+
+          {/* Hero image placeholder */}
+          <div className="mt-8 aspect-[16/7] rounded-2xl bg-hero grid-bg border border-border overflow-hidden relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-sm text-muted-foreground">Adithya AI Hub</span>
+            </div>
+          </div>
+
+          {/* Ad: below title */}
+          <AdUnit adFormat="horizontal" className="mt-8" />
+
+          {/* Table of contents */}
+          {headings.length > 0 && (
+            <nav className="mt-8 p-5 rounded-xl bg-card border border-border">
+              <p className="text-sm font-semibold mb-3">Table of Contents</p>
+              <ol className="space-y-1.5 text-sm text-muted-foreground list-decimal pl-5">
+                {headings.map((h, i) => (
+                  <li key={i} className="hover:text-primary transition-smooth cursor-pointer">
+                    {h}
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )}
+
+          {/* Article content — Part 1 */}
+          <div
+            className="mt-8 prose-blog"
+            dangerouslySetInnerHTML={{ __html: part1 }}
+          />
+
+          {/* Mid-article ad (after 3rd paragraph) */}
+          {part2 && (
+            <>
+              <div className="my-8 flex justify-center">
+                <AdRectangle />
+              </div>
+              <div
+                className="prose-blog"
+                dangerouslySetInnerHTML={{ __html: part2 }}
+              />
+            </>
+          )}
+
+          {/* Ad: above related posts */}
+          <AdUnit adFormat="horizontal" className="mt-10" />
+
+          {/* Author card */}
+          <AuthorCard />
         </div>
 
-        <AdSlot />
-
-        <section className="mt-10 p-6 rounded-xl bg-card border border-border">
-          <h3 className="font-semibold">Comments</h3>
-          <p className="text-sm text-muted-foreground mt-2">Comments are coming soon. In the meantime, reach out via the contact page.</p>
-        </section>
+        {/* Related posts */}
+        {related.length > 0 && (
+          <section className="max-w-3xl mx-auto mt-14">
+            <h2 className="text-2xl font-bold mb-6">Related Posts</h2>
+            <div className="grid md:grid-cols-3 gap-5">
+              {related.map((p) => (
+                <BlogCard key={p.slug} post={p} featured />
+              ))}
+            </div>
+          </section>
+        )}
       </article>
     </Layout>
   );
