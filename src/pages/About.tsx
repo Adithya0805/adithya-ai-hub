@@ -81,10 +81,10 @@ const About = () => {
     setErrMsg("");
     setStatus("loading");
     try {
-      const res = await fetch("https://formspree.io/f/mqejeokj", {
+      const res = await fetch("https://formspree.io/f/mjgzgzbn", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ ...form, _subject: `Contact from ${form.name} — Adithya AI Hub` }),
+        body: JSON.stringify({ ...form, _subject: `Contact from ${form.name} — Adithya AI Hub`, source: 'contact-form' }),
       });
       if (res.ok) {
         setStatus("success");
