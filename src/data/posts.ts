@@ -11,6 +11,107 @@ export interface Post {
 }
 
 export const posts: Post[] = [
+  {
+    slug: 'my-tcs-nqt-experience-2026-honest-review',
+    title: 'My TCS NQT Experience 2026 — Honest Review from a Tamil Nadu Student',
+    date: '2026-05-21',
+    excerpt: 'I sat for TCS NQT 2026 at iON Digital Zone Vellore. Here is exactly what happened — section by section, no sugarcoating. Read this before you appear.',
+    tags: ['TCS', 'NQT', 'Interview Prep', 'Campus Placement', 'Career'],
+    category: 'Interview Prep',
+    readTime: '7 min read',
+    featured: true,
+    content: `
+<h2>Why I'm Writing This</h2>
+<p>When I was preparing for TCS NQT, I searched everywhere for honest student experiences. Most blogs were either too vague or just copy-pasted syllabus content. So here's my real account — what I felt walking in, what the questions were like, what I got wrong, and what you should do differently.</p>
+<p>I appeared for TCS NQT on <strong>April 3, 2026</strong> at <strong>iON Digital Zone, Vellore</strong>. B.Tech in AI & Data Science. This was one of my most important exams for landing a fresher IT job.</p>
+
+<h2>Before the Exam — What I Did</h2>
+<p>I prepared for about 3 weeks covering aptitude, reasoning, verbal, and Python coding. Honest confession — I underestimated the verbal section. That was my first mistake.</p>
+
+<h2>Reaching the Exam Center</h2>
+<p>iON Digital Zone Vellore is well-organized. Reach at least 45 minutes early. They verify hall ticket, ID proof, and do biometric registration. The lab had proper systems, good internet, no technical issues during my slot.</p>
+
+<h2>Section 1 — Aptitude and Reasoning</h2>
+<p><strong>My experience: Medium — manageable but tight on time.</strong></p>
+<p>Standard questions — percentages, ratios, time and work, profit-loss, number series. Reasoning had blood relations, direction sense, and syllogisms. The problem was time — questions weren't hard but there were enough to keep you on your toes.</p>
+<p><strong>Tricky patterns to practice:</strong></p>
+<ul>
+  <li>Two trains approaching each other — relative speed with a twist</li>
+  <li>Coding-decoding where the pattern shifts mid-series</li>
+  <li>Data sufficiency questions — these eat time if unpracticed</li>
+  <li>Number series where the difference itself follows a pattern</li>
+</ul>
+<p><strong>Tip:</strong> Don't spend more than 90 seconds on any single question. Mark and move. Time management is the real test here.</p>
+
+<h2>Section 2 — Verbal</h2>
+<p><strong>My experience: Medium — harder than expected.</strong></p>
+<p>Reading comprehension passages were long and inference-based. Sentence correction had subtle errors — wrong prepositions, misplaced modifiers, subject-verb agreement in complex sentences.</p>
+<p><strong>What tripped me up:</strong></p>
+<ul>
+  <li>Fill in the blanks with two blanks — both options looked correct at first glance</li>
+  <li>Para-jumbles with 5 sentences — need practice to crack fast</li>
+  <li>Vocabulary in context — the word meant something different in that specific passage</li>
+</ul>
+<p><strong>Tip:</strong> Read one English article daily for 2 weeks before exam. The Hindu or BBC. Your comprehension speed will improve significantly.</p>
+
+<h2>Section 3 — Coding Round</h2>
+<p><strong>My experience: Q1 partially solved. Q2 not attempted.</strong></p>
+<p>2 coding questions, 30 minutes. Platform accepts C, C++, Java, Python.</p>
+<p>Q1 was array-based — find a specific pattern and return a result. My solution passed some test cases, not all. Partial marks secured. Q2 I understood the logic but ran out of time.</p>
+<p><strong>Python patterns TCS NQT loves:</strong></p>
+<pre><code>
+# Pattern 1 — Conditional string reversal
+def conditional_reverse(s):
+    words = s.split()
+    result = []
+    for word in words:
+        if len(word) > 4:
+            result.append(word[::-1])
+        else:
+            result.append(word)
+    return ' '.join(result)
+
+# Pattern 2 — Find missing number
+def find_missing(arr, n):
+    expected = n * (n + 1) // 2
+    return expected - sum(arr)
+
+# Pattern 3 — Count vowels and consonants
+def count_vc(s):
+    vowels = sum(1 for c in s.lower() if c in 'aeiou')
+    consonants = sum(1 for c in s.lower() if c.isalpha() and c not in 'aeiou')
+    return vowels, consonants
+</code></pre>
+<p><strong>Tip:</strong> Solve Q1 in under 12 minutes so you have time for Q2. Speed matters more than perfection.</p>
+
+<h2>What I Would Do Differently</h2>
+<ul>
+  <li>Practice verbal more seriously — 30 minutes daily</li>
+  <li>Time-box every coding question to 12 minutes max</li>
+  <li>Do 2 full mock tests before the actual exam</li>
+  <li>Practice data sufficiency questions for aptitude</li>
+</ul>
+
+<h2>3-Week Prep Plan for You</h2>
+<ul>
+  <li><strong>Week 1:</strong> Aptitude — IndiaBix daily, 30 questions per day. Time-speed-distance, percentages, profit-loss.</li>
+  <li><strong>Week 2:</strong> Verbal — Read English articles daily. RC passages on Oliveboard or PrepInsta. Para-jumbles every day.</li>
+  <li><strong>Week 3:</strong> Coding — 2 Easy HackerRank problems daily in Python. Arrays, strings, number patterns.</li>
+</ul>
+
+<h2>Quick Q&A</h2>
+<p><strong>Q: Is TCS NQT hard for an average student?</strong><br/>A: No. With 3 weeks of consistent practice it is manageable.</p>
+<p><strong>Q: Which language to use for coding?</strong><br/>A: Python. Fastest to write, easy syntax, less boilerplate.</p>
+<p><strong>Q: Is there negative marking?</strong><br/>A: No negative marking. Attempt every question.</p>
+<p><strong>Q: What score is safe to clear?</strong><br/>A: Aim for 60%+ overall. Sectional cutoffs exist so don't skip any section.</p>
+<p><strong>Q: Can I clear NQT without coaching?</strong><br/>A: Yes, absolutely. I prepared completely self-study using free resources.</p>
+
+<h2>Final Thought</h2>
+<p>TCS NQT is not the end of the world if things don't go perfectly. What matters is you showed up and gave your best. Keep moving — Infosys, Wipro, Cognizant are all hiring.</p>
+<p>If this post helped you, share it with your classmates. Let's help each other crack these exams. 💪</p>
+<p><em>— Adithya Kuppusamy, AI & Data Science Engineer, Tamil Nadu</em></p>
+    `
+  },
   // ── NEW POSTS (5 rich posts) ────────────────────────────────────────────────
   {
     slug: "tcs-nqt-coding-questions-python-solutions",
