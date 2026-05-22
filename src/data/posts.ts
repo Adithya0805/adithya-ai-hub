@@ -12,6 +12,226 @@ export interface Post {
 
 export const posts: Post[] = [
   {
+    slug: 'how-i-built-mediaguard-multi-agent-ai-system',
+    title: 'How I Built MediGuard — A Multi-Agent Clinical AI System Using LangGraph, Pinecone & AWS Bedrock',
+    date: '2026-05-22',
+    excerpt: 'MediGuard is a clinical decision support system I built to stop patients from getting wrong medication information. Here is the full architecture breakdown — LangGraph agents, Pinecone RAG, and AWS Bedrock.',
+    tags: ['LangGraph', 'RAG', 'AWS Bedrock', 'Pinecone', 'Python', 'AI', 'Project'],
+    category: 'Machine Learning',
+    readTime: '10 min read',
+    featured: true,
+    content: `
+<h2>The Problem That Started Everything</h2>
+<p>Patients in India regularly get wrong medication information. They Google their symptoms, land on unreliable websites, self-diagnose, and take the wrong medicines. In rural areas where access to doctors is limited, this is genuinely dangerous.</p>
+<p>I wanted to build something that could act like a knowledgeable medical assistant — one that pulls from verified clinical data, reasons carefully before answering, and never just makes things up. That's MediGuard.</p>
+<p>This is the full story of how I built it, what the architecture looks like, and the hardest problems I hit along the way.</p>
+
+<h2>What MediGuard Does</h2>
+<p>MediGuard is a <strong>clinical decision support system</strong> powered by multiple AI agents working together. A user asks a medication or symptom question. MediGuard:</p>
+<ul>
+  <li>Retrieves relevant clinical data from a verified knowledge base</li>
+  <li>Runs it through specialized agents that reason about the information</li>
+  <li>Returns a safe, accurate, sourced answer</li>
+  <li>Flags dangerous drug interactions or symptoms that need immediate doctor attention</li>
+</ul>
+<p>It is not a replacement for a doctor. It is a first line of defense against misinformation.</p>
+
+<h2>The Full Tech Stack</h2>
+<ul>
+  <li><strong>LangGraph</strong> — multi-agent orchestration and state management</li>
+  <li><strong>Pinecone</strong> — vector database for clinical knowledge retrieval (RAG)</li>
+  <li><strong>AWS Bedrock</strong> — LLM inference (Claude model via Bedrock API)</li>
+  <li><strong>Python</strong> — core language throughout</li>
+  <li><strong>LangChain</strong> — document loading and embedding pipeline</li>
+  <li><strong>FastAPI</strong> — backend API layer</li>
+</ul>
+
+<h2>Architecture — How It All Connects</h2>
+<p>The system has three main layers working together:</p>
+
+<pre><code>
+User Query
+    ↓
+[Intake Agent] — classifies query type
+    ↓
+[Retrieval Agent] — fetches relevant docs from Pinecone
+    ↓
+[Reasoning Agent] — analyzes retrieved data via AWS Bedrock
+    ↓
+[Safety Agent] — checks for dangerous interactions or red flags
+    ↓
+Final Response → User
+</code></pre>
+
+<p>Each agent is a node in the LangGraph state graph. They communicate by passing a shared state object — no agent works in isolation.</p>
+
+<h2>The Part I'm Most Proud Of — LangGraph Multi-Agent Pipeline</h2>
+<p>LangGraph changed how I think about AI systems. Before LangGraph, I thought of AI as a single model that takes input and gives output. LangGraph showed me that complex problems need <strong>multiple specialized agents</strong> — each doing one job well, then passing the result forward.</p>
+
+<p>Here's the simplified version of how I set up the agent graph:</p>
+
+<pre><code>
+from langgraph.graph import StateGraph, END
+from typing import TypedDict
+
+class MediGuardState(TypedDict):
+    query: str
+    query_type: str
+    retrieved_docs: list
+    reasoning: str
+    safety_flag: bool
+    final_response: str
+
+def intake_agent(state: MediGuardState):
+    # Classify the query — medication, symptom, interaction, dosage
+    query = state["query"]
+    if any(word in query.lower() for word in ["drug", "medicine", "tablet", "dose"]):
+        query_type = "medication"
+    elif any(word in query.lower() for word in ["symptom", "pain", "fever", "dizzy"]):
+        query_type = "symptom"
+    else:
+        query_type = "general"
+    return {"query_type": query_type}
+
+def retrieval_agent(state: MediGuardState):
+    # Query Pinecone for relevant clinical documents
+    results = pinecone_index.query(
+        vector=embed(state["query"]),
+        top_k=5,
+        include_metadata=True
+    )
+    docs = [r["metadata"]["text"] for r in results["matches"]]
+    return {"retrieved_docs": docs}
+
+def reasoning_agent(state: MediGuardState):
+    # Send retrieved docs + query to AWS Bedrock for analysis
+    context = "\\n".join(state["retrieved_docs"])
+    prompt = f"""
+    Clinical Context: {context}
+    Patient Question: {state["query"]}
+    Provide a safe, accurate, sourced answer based only on the context above.
+    """
+    response = bedrock_client.invoke_model(prompt)
+    return {"reasoning": response}
+
+def safety_agent(state: MediGuardState):
+    # Flag dangerous keywords
+    dangerous = ["overdose", "interaction warning", "do not combine", "fatal"]
+    flag = any(word in state["reasoning"].lower() for word in dangerous)
+    final = state["reasoning"]
+    if flag:
+        final = "⚠️ WARNING: " + final + "\\n\\nPlease consult a doctor immediately."
+    return {"safety_flag": flag, "final_response": final}
+
+# Build the graph
+graph = StateGraph(MediGuardState)
+graph.add_node("intake", intake_agent)
+graph.add_node("retrieval", retrieval_agent)
+graph.add_node("reasoning", reasoning_agent)
+graph.add_node("safety", safety_agent)
+
+graph.set_entry_point("intake")
+graph.add_edge("intake", "retrieval")
+graph.add_edge("retrieval", "reasoning")
+graph.add_edge("reasoning", "safety")
+graph.add_edge("safety", END)
+
+app = graph.compile()
+</code></pre>
+
+<p>This is the core of MediGuard. Four agents, each with a single responsibility, connected by a state graph. Clean, debuggable, and extensible.</p>
+
+<h2>The RAG System — Pinecone Knowledge Base</h2>
+<p>RAG stands for Retrieval Augmented Generation. Instead of the LLM relying on its training data alone, we give it relevant documents at query time. This is critical for medical information — you need sourced, current, verified data.</p>
+
+<p>My Pinecone setup:</p>
+<pre><code>
+import pinecone
+from langchain.embeddings import BedrockEmbeddings
+from langchain.vectorstores import Pinecone as PineconeStore
+
+# Initialize Pinecone
+pinecone.init(api_key="your-api-key", environment="us-east-1-aws")
+index_name = "mediaguard-clinical"
+
+# Embed and upload clinical documents
+embeddings = BedrockEmbeddings(
+    model_id="amazon.titan-embed-text-v1",
+    client=bedrock_client
+)
+
+vectorstore = PineconeStore.from_documents(
+    documents=clinical_docs,
+    embedding=embeddings,
+    index_name=index_name
+)
+</code></pre>
+
+<p>I uploaded clinical drug information documents, WHO medication guidelines, and common symptom reference data. Every answer MediGuard gives is grounded in this verified knowledge base — not hallucinated.</p>
+
+<h2>The Hardest Part — AWS Bedrock API Configuration</h2>
+<p>I'll be honest — AWS Bedrock nearly broke me.</p>
+<p>The documentation is good but the setup has multiple layers that all have to be right simultaneously:</p>
+<ul>
+  <li>IAM role with correct Bedrock permissions</li>
+  <li>Model access enabled in the correct AWS region</li>
+  <li>Correct model ID format in the API call</li>
+  <li>Request body structure varies by model</li>
+</ul>
+
+<p>The error that wasted most of my time:</p>
+<pre><code>
+# WRONG — this gave me AccessDeniedException for 2 hours
+response = bedrock.invoke_model(
+    modelId="claude-v2",
+    body=json.dumps({"prompt": prompt})
+)
+
+# CORRECT — model ID must be exact, body format must match model spec
+response = bedrock.invoke_model(
+    modelId="anthropic.claude-v2",
+    contentType="application/json",
+    accept="application/json",
+    body=json.dumps({
+        "prompt": f"\\n\\nHuman: {prompt}\\n\\nAssistant:",
+        "max_tokens_to_sample": 1000,
+        "temperature": 0.3
+    })
+)
+</code></pre>
+
+<p>Two things that fixed everything:</p>
+<ul>
+  <li><strong>Model access must be manually enabled</strong> in AWS Console → Bedrock → Model access → Request access. It's not on by default.</li>
+  <li><strong>Region matters</strong> — not all models are available in all regions. I used us-east-1.</li>
+</ul>
+<p>Once those two were sorted, Bedrock worked flawlessly. The latency is good and the Claude responses through Bedrock are high quality for clinical reasoning.</p>
+
+<h2>What I Learned Building MediGuard</h2>
+<ul>
+  <li><strong>Agent design is architecture design.</strong> The hard part isn't writing the agent code — it's deciding what each agent is responsible for and where the boundaries are.</li>
+  <li><strong>RAG quality depends on data quality.</strong> Garbage in, garbage out. I spent more time curating clinical documents than writing code.</li>
+  <li><strong>AWS permissions are always the first thing to check.</strong> If something doesn't work in AWS, check IAM before anything else.</li>
+  <li><strong>LangGraph state management is powerful.</strong> Being able to inspect exactly what each agent received and returned made debugging 10x easier than a monolithic chain.</li>
+</ul>
+
+<h2>What's Next for MediGuard</h2>
+<ul>
+  <li>Voice input support using Whisper — so rural patients can speak their symptoms</li>
+  <li>Tamil language support — for non-English speaking patients in Tamil Nadu</li>
+  <li>Drug interaction checker agent — dedicated node just for cross-checking medications</li>
+  <li>MLOps pipeline on AWS SageMaker for continuous knowledge base updates</li>
+</ul>
+
+<h2>The Bigger Picture</h2>
+<p>MediGuard taught me that AI systems are not just models. They are pipelines of reasoning, retrieval, and safety checks working together. Building it gave me hands-on experience with the exact stack that enterprise AI teams use — LLM orchestration, vector databases, cloud inference APIs.</p>
+<p>More importantly it reminded me why I got into AI in the first place — to build things that actually help people. A patient in a village getting accurate medication information instead of dangerous misinformation — that's worth building for.</p>
+<p>The code is on my GitHub. If you're building something similar or want to discuss the architecture, reach out on LinkedIn.</p>
+<p><em>— Adithya Kuppusamy, AI & Data Science Engineer, Tamil Nadu</em></p>
+<p><em>GitHub: github.com/Adithya0805 | LinkedIn: linkedin.com/in/adithya-kuppusamy-76baab204</em></p>
+  `
+  },
+  {
     slug: 'my-tcs-nqt-experience-2026-honest-review',
     title: 'My TCS NQT Experience 2026 — Honest Review from a Tamil Nadu Student',
     date: '2026-05-21',
