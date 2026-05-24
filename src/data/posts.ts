@@ -12,6 +12,225 @@ export interface Post {
 
 export const posts: Post[] = [
   {
+    slug: 'how-i-built-skillspeak-ai-career-platform-15-features',
+    title: 'How I Built SkillSpeak AI — A 15-Feature Career Platform for Every Indian Job Seeker',
+    date: '2026-05-24',
+    excerpt: 'SkillSpeak AI is a full-stack AI career platform with 15 core engines — ATS scanner, mock interviews, Tamil-English translator, neural brain visualizer and more. Here is the complete breakdown of how I built it.',
+    tags: ['Gemini API', 'Firebase', 'React', 'AI', 'Career', 'Project', 'Full Stack'],
+    category: 'Machine Learning',
+    readTime: '12 min read',
+    featured: true,
+    content: `
+<h2>Why I Built SkillSpeak AI</h2>
+<p>Over 60% of Indian job seekers use their mobile phones to practice interviews, edit resumes, and check career resources. Yet most career platforms are heavy, cluttered, and built only for desktop users.</p>
+<p>Beyond the device problem, there is a bigger one — language. Thousands of talented engineers from Tamil Nadu, Andhra Pradesh, and other non-Hindi states struggle not because they lack technical skills, but because they cannot confidently express those skills in a formal English interview. Their thoughts are strong. Their words let them down.</p>
+<p>SkillSpeak AI was built to fix both problems. A mobile-first, AI-powered career platform for <strong>any Indian job seeker</strong> — fresher or experienced, English-confident or not.</p>
+
+<h2>What SkillSpeak AI Does — The 15 Core Engines</h2>
+<p>I will not just list them. I will explain how each one actually works under the hood.</p>
+
+<h3>1. ATS Resume Score Scanner</h3>
+<p>Parses PDF, DOCX, or TXT resumes using pdfjs-dist or mammoth, extracts clean text, and sends it to Gemini API along with the target job description. Returns an overall fit score, ATS keyword matches, and formatting readability rating. This tells a job seeker exactly why their resume is getting rejected by automated systems before a human even sees it.</p>
+
+<h3>2. Compare and Align Keyword Workspace</h3>
+<p>Side-by-side editor — original resume on the left, editable workspace on the right. As the user types, a real-time keyword scanner automatically sorts missing keywords into green (resolved) or red (remaining) badges. No page refresh, no button click. Instant feedback as you write.</p>
+
+<h3>3. AI Auto-Optimizer</h3>
+<p>One click sends the resume text and all missing keywords to Gemini. The model rewrites sentences to naturally include the missing terms without fabricating false credentials. It gives users a highly optimized starting template they can then personalize.</p>
+
+<h3>4. Real-Time Speech Mock Interview</h3>
+<p>Uses the HTML5 Web Speech API for hands-free speech-to-text. The user speaks their answer out loud. Gemini analyzes the response against the STAR methodology — Situation, Task, Action, Result — and returns structured feedback with clear strengths and specific improvements.</p>
+
+<h3>5. Target Company Interview Prep</h3>
+<p>User enters a company name and role. Gemini returns company culture overview, fresher and experienced salary ranges, and 5 tailored interview questions specific to that company. Preparation becomes targeted, not generic.</p>
+
+<h3>6. Tamil to English Career Translator — The Feature I'm Most Proud Of</h3>
+<p>This is the heart of SkillSpeak AI and the feature I care about most.</p>
+<p>A Tamil Nadu engineer thinks in Tamil. When they try to explain their project in an interview, they mentally translate — and something gets lost. The confidence drops. The answer sounds weak even though the knowledge is strong.</p>
+<p>The Tamil to English Career Translator fixes this. The user types or speaks their career thought in conversational Tamil. The system translates it into three variants:</p>
+<ul>
+  <li><strong>Simple English</strong> — for written applications</li>
+  <li><strong>Formal English</strong> — for professional emails</li>
+  <li><strong>Interview-Ready English</strong> — polished, confident, structured</li>
+</ul>
+<p>Each translation comes with clarity notes and pronunciation tips. A student from Ambur or Madurai can now walk into a Bangalore or Chennai interview and express themselves with the same confidence as someone who grew up speaking English at home.</p>
+<p>That gap — between knowing and expressing — is what this feature closes.</p>
+
+<h3>7. 30/60/90 Day Fix-Plan Learning Roadmaps</h3>
+<p>User inputs their skill gaps and available hours per day. Gemini generates a custom day-by-day roadmap with specific learning tasks, mini-projects, and references. Checkmarks persist in Firestore so progress is saved across sessions.</p>
+
+<h3>8. Skill Fit Radar and Dual-View Cards</h3>
+<p>Two views with a toggle switch. Radar view uses Recharts with a 65% radius and 9px label size optimized for mobile — no boundary clipping. Bars view renders custom progress bars in a 2-column desktop grid. Both show skill strengths and gaps at a glance.</p>
+
+<h3>9. Interactive Neural Brain Visualizer</h3>
+<p>Reads the user's Firestore history — analyses run, interviews completed, translator usage — and dynamically unlocks 5 brain evolution stages from Awakening to Master Architect. Rendered on a canvas running at 60fps with curved axon connections and glowing synaptic nodes. Auto-scales from mobile to desktop.</p>
+
+<h3>10. Client Telemetry and Performance Monitoring</h3>
+<p>Automatically listens for unhandled errors and promise rejections. Measures First Contentful Paint and Time to First Byte. Writes secure error logs to a dedicated Firestore telemetry collection — completely separate from user data.</p>
+
+<h3>11. Achievements and Badges Grid</h3>
+<p>Glassmorphic locked and unlocked badges mapped to Firestore metric thresholds. ATS Champion, Polyglot Master, STAR Candidate. Gamification that drives users to actually use every feature.</p>
+
+<h3>12. Social Media Sharing</h3>
+<p>Custom share hooks with Web Intents for LinkedIn and X. Pre-filled text with hashtags and links. Users share their career readiness scores in one click.</p>
+
+<h3>13. Print-Friendly PDF Export</h3>
+<p>CSS @media print directives strip sidebars, navbars, and buttons during print. Clean, professional PDF output of roadmaps and ATS reviews without any external PDF library needed.</p>
+
+<h3>14. Header Notifications Bell</h3>
+<p>Glassmorphic popover triggered from the header. Delivers dynamic career tips, feature alerts, and telemetry warnings. Keeps users engaged between sessions.</p>
+
+<h3>15. Pro Max Profile Settings</h3>
+<p>5 custom role avatars, a journey path switcher, an AI Coach tone modulator with Friendly, Structured, or Strict Coach modes, and a live telemetry log viewer. Deep personalization so the platform feels like it was built for that specific user.</p>
+
+<h2>The Tech Stack</h2>
+<ul>
+  <li><strong>Frontend:</strong> React + TypeScript + Tailwind CSS</li>
+  <li><strong>AI Engine:</strong> Google Gemini API</li>
+  <li><strong>Database:</strong> Firebase Firestore (privacy-segregated per user)</li>
+  <li><strong>Speech:</strong> HTML5 Web Speech API</li>
+  <li><strong>Charts:</strong> Recharts (Radar + Bar)</li>
+  <li><strong>Canvas:</strong> Vanilla JS requestAnimationFrame at 60fps</li>
+  <li><strong>Resume Parsing:</strong> pdfjs-dist + mammoth</li>
+  <li><strong>Deployment:</strong> Vercel</li>
+</ul>
+
+<h2>Design System — Mobile First, Premium Feel</h2>
+<p>Every design decision started with a 375px mobile viewport and scaled up:</p>
+<pre><code>
+/* Core design tokens */
+--bg-primary: #030712;        /* Deep space slate */
+--accent-teal: #00d4ff;       /* High contrast glow */
+--glass-surface: backdrop-filter: blur(20px);
+--border-glow: 1px solid rgba(0, 212, 255, 0.2);
+
+/* Mobile-first breakpoints */
+.grid-cards {
+  display: grid;
+  grid-template-columns: 1fr;           /* Mobile: single column */
+}
+
+@media (min-width: 768px) {
+  .grid-cards {
+    grid-template-columns: repeat(2, 1fr); /* Tablet: 2 columns */
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-cards {
+    grid-template-columns: repeat(3, 1fr); /* Desktop: 3 columns */
+  }
+}
+</code></pre>
+
+<h2>The Hardest Part — Gemini API Integration</h2>
+<p>Gemini is powerful but getting it right across 15 different features was the hardest engineering challenge of this project.</p>
+<p>The main problems I hit:</p>
+
+<p><strong>Problem 1 — Inconsistent response structure</strong></p>
+<p>Gemini sometimes returns markdown, sometimes plain text, sometimes JSON-like strings. I needed structured data for features like the ATS scanner and skill radar. The fix was strict prompt engineering:</p>
+<pre><code>
+// WRONG — vague prompt gives unpredictable output
+const prompt = \`Analyze this resume: \${resumeText}\`
+
+// CORRECT — explicit structure forces consistent output
+const prompt = \`
+Analyze this resume against the job description below.
+Respond ONLY in this exact JSON format, no markdown, no explanation:
+{
+  "overall_score": number between 0-100,
+  "matched_keywords": ["keyword1", "keyword2"],
+  "missing_keywords": ["keyword1", "keyword2"],
+  "readability_score": number between 0-100,
+  "top_suggestion": "single most important improvement"
+}
+
+Resume: \${resumeText}
+Job Description: \${jobDescription}
+\`
+</code></pre>
+
+<p><strong>Problem 2 — Rate limiting on rapid feature usage</strong></p>
+<p>Users switching between features quickly triggered Gemini rate limits. I added a simple request queue with exponential backoff:</p>
+<pre><code>
+async function callGeminiWithRetry(prompt: string, retries = 3): Promise<string> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const result = await model.generateContent(prompt)
+      return result.response.text()
+    } catch (error: any) {
+      if (error.status === 429 && i < retries - 1) {
+        await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000))
+        continue
+      }
+      throw error
+    }
+  }
+  throw new Error('Gemini API failed after retries')
+}
+</code></pre>
+
+<p><strong>Problem 3 — Tamil translation quality</strong></p>
+<p>Generic Gemini prompts for Tamil translation gave mediocre results. The trick was giving Gemini explicit role context and examples in the prompt itself, treating it like a specialized career coach who understands Indian interview culture. Response quality improved dramatically.</p>
+
+<h2>Firebase Security — Privacy First Architecture</h2>
+<p>Every user's data is completely isolated. No user can ever read another user's resumes, interview history, or progress data:</p>
+<pre><code>
+// Firestore security rules
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users can only access their own data
+    match /users/{userId}/{document=**} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+    }
+
+    // Telemetry logs — write only, no read access to other users
+    match /telemetryLogs/{logId} {
+      allow create: if request.auth != null;
+      allow read: if false;
+    }
+  }
+}
+</code></pre>
+
+<h2>What I Learned Building 15 Features</h2>
+<ul>
+  <li><strong>Prompt engineering is a skill.</strong> The quality of Gemini's output is directly proportional to the quality of your prompt. Vague prompts give vague answers. Structured prompts give structured data.</li>
+  <li><strong>Mobile first is not a constraint — it is a discipline.</strong> Designing for 375px first forced me to make every feature simple and focused. Desktop layout came naturally after.</li>
+  <li><strong>Firestore security rules are not optional.</strong> Build them from day one. Retrofitting security into an existing database structure is painful.</li>
+  <li><strong>Canvas animation is powerful but expensive.</strong> requestAnimationFrame at 60fps on mobile needs careful optimization — clear the canvas every frame, minimize draw calls, use integer coordinates.</li>
+  <li><strong>15 features is not too many if each one has a single clear purpose.</strong> Feature bloat happens when features overlap. Every SkillSpeak AI engine solves exactly one problem.</li>
+</ul>
+
+<h2>Who Should Use SkillSpeak AI</h2>
+<p>Any Indian job seeker — fresher or experienced. But especially:</p>
+<ul>
+  <li>Engineering graduates from Tier 2 and Tier 3 colleges preparing for campus placements</li>
+  <li>Tamil Nadu, Andhra, and Kerala students who think in their native language but need to interview in English</li>
+  <li>Candidates who keep getting rejected at resume screening and don't know why</li>
+  <li>Anyone preparing for TCS, Infosys, Wipro, Cognizant, or Amazon interviews</li>
+</ul>
+<p>You do not need to be from an IIT or NIT to get hired at a good company. You need the right preparation and the right tools. SkillSpeak AI is that tool.</p>
+
+<h2>What's Next</h2>
+<ul>
+  <li>Voice input in Tamil — speak your career thoughts, get polished English output</li>
+  <li>WhatsApp integration — practice mock interviews without opening a browser</li>
+  <li>Offline mode — core features available without internet for rural users</li>
+  <li>Company-specific ATS keyword databases for TCS, Infosys, and Wipro</li>
+</ul>
+
+<h2>Final Thought</h2>
+<p>SkillSpeak AI is the platform I wish existed when I was preparing for my own campus placements. Every feature was built from a real frustration — a resume rejection, a mock interview that felt wrong, a career thought that didn't translate properly in English.</p>
+<p>If you are an Indian job seeker and this resonates, try it. If you are a developer and want to discuss the architecture, reach out on LinkedIn. And if you are a recruiter reading this — this is the kind of thing I build.</p>
+<p><em>— Adithya Kuppusamy, AI & Data Science Engineer, Tamil Nadu</em></p>
+<p><em>GitHub: github.com/Adithya0805 | LinkedIn: linkedin.com/in/adithya-kuppusamy-76baab204</em></p>
+  `
+  },
+  {
     slug: 'how-i-built-mediaguard-multi-agent-ai-system',
     title: 'How I Built MediGuard — A Multi-Agent Clinical AI System Using LangGraph, Pinecone & AWS Bedrock',
     date: '2026-05-22',
