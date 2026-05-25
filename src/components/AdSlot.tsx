@@ -14,7 +14,7 @@ declare global {
 }
 
 export function AdUnit({
-  adSlot = "auto",
+  adSlot = "2786234025",
   adFormat = "auto",
   className = "",
   style,
