@@ -23,10 +23,10 @@ export function NewsletterForm({ compact = false }: NewsletterFormProps) {
     setStatus("loading");
 
     try {
-      const res = await fetch("https://formspree.io/f/mqejeokj", {
+      const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ email, _subject: "New newsletter subscriber — Adithya AI Hub" }),
+        body: JSON.stringify({ email }),
       });
 
       if (res.ok) {
