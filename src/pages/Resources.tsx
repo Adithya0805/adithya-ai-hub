@@ -31,12 +31,16 @@ const Resources = () => {
           name="description"
           content="Curated free AI and Machine Learning learning resources for 2026. From beginner Python to advanced LLMs and RAG systems. Handpicked by an AI engineer."
         />
-        <meta property="og:title" content="Free AI/ML Learning Resources 2026" />
+        <link rel="canonical" href="https://adithya-ai-hub.vercel.app/resources" />
+        <meta property="og:title" content="Free AI/ML Learning Resources 2026 | Adithya AI Hub" />
         <meta
           property="og:description"
           content="Curated free AI/ML resources from beginner to advanced — handpicked by an AI engineer who used them."
         />
+        <meta property="og:url" content="https://adithya-ai-hub.vercel.app/resources" />
         <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Adithya AI Hub" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       <div className="container py-20">

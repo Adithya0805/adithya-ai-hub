@@ -13,11 +13,16 @@ const Projects = () => {
           name="description"
           content="Portfolio of AI/ML projects by Adithya Kuppusamy — MediGuard (LangGraph + RAG), TownRise AI, Health Sense Nexus, Trading Bot, and more."
         />
+        <link rel="canonical" href="https://adithya-ai-hub.vercel.app/projects" />
         <meta property="og:title" content="AI Projects Portfolio | Adithya AI Hub" />
         <meta
           property="og:description"
           content="Multi-agent AI systems, real estate intelligence, health monitoring, and trading automation built by Adithya from Tamil Nadu."
         />
+        <meta property="og:url" content="https://adithya-ai-hub.vercel.app/projects" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Adithya AI Hub" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       <section className="container py-20">

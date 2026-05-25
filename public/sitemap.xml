@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
+  <!-- Core Pages -->
   <url>
     <loc>https://adithya-ai-hub.vercel.app/</loc>
     <changefreq>weekly</changefreq>
@@ -14,13 +15,80 @@
   </url>
 
   <url>
+    <loc>https://adithya-ai-hub.vercel.app/projects</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/resources</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/resume</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/tools</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/privacy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/terms</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Blog Posts -->
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/how-i-built-skillspeak-ai-career-platform-15-features</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/how-i-built-mediaguard-multi-agent-ai-system</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/my-tcs-nqt-experience-2026-honest-review</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://adithya-ai-hub.vercel.app/blog/tcs-nqt-coding-questions-python-solutions</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://adithya-ai-hub.vercel.app/blog/how-i-built-mediaguard-langraph-rag</loc>
+    <loc>https://adithya-ai-hub.vercel.app/blog/how-i-built-mediaguard-langgraph-rag</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -44,27 +112,21 @@
   </url>
 
   <url>
-    <loc>https://adithya-ai-hub.vercel.app/projects</loc>
+    <loc>https://adithya-ai-hub.vercel.app/blog/getting-started-with-machine-learning</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://adithya-ai-hub.vercel.app/about</loc>
+    <loc>https://adithya-ai-hub.vercel.app/blog/aws-ec2-for-beginners</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://adithya-ai-hub.vercel.app/resources</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://adithya-ai-hub.vercel.app/privacy</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://adithya-ai-hub.vercel.app/blog/ace-your-ai-engineer-interview</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 
 </urlset>

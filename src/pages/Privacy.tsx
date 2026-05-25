@@ -9,6 +9,16 @@ const Privacy = () => (
         name="description"
         content="Privacy Policy for Adithya AI Hub — how we collect data, use cookies, and work with Google AdSense."
       />
+      <link rel="canonical" href="https://adithya-ai-hub.vercel.app/privacy" />
+      <meta property="og:title" content="Privacy Policy | Adithya AI Hub" />
+      <meta
+        property="og:description"
+        content="Privacy Policy for Adithya AI Hub — how we collect data, use cookies, and work with Google AdSense."
+      />
+      <meta property="og:url" content="https://adithya-ai-hub.vercel.app/privacy" />
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Adithya AI Hub" />
+      <meta name="twitter:card" content="summary_large_image" />
     </Helmet>
 
     <div className="container py-20 max-w-3xl">

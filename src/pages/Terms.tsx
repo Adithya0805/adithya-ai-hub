@@ -1,7 +1,26 @@
+import { Helmet } from "react-helmet-async";
 import { Layout } from "@/components/Layout";
 
 const Terms = () => (
   <Layout>
+    <Helmet>
+      <title>Terms of Service | Adithya AI Hub</title>
+      <meta
+        name="description"
+        content="Read the Terms of Service for using Adithya AI Hub. Understand standard terms of service, usage conditions, and policy disclosures for our code snippets and AI tutorials."
+      />
+      <link rel="canonical" href="https://adithya-ai-hub.vercel.app/terms" />
+      <meta property="og:title" content="Terms of Service | Adithya AI Hub" />
+      <meta
+        property="og:description"
+        content="Read the Terms of Service and usage conditions for using Adithya AI Hub's free code snippets and tutorials."
+      />
+      <meta property="og:url" content="https://adithya-ai-hub.vercel.app/terms" />
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Adithya AI Hub" />
+      <meta name="twitter:card" content="summary_large_image" />
+    </Helmet>
+
     <section className="container py-20 max-w-3xl">
       <h1 className="text-4xl font-bold">Terms of Service</h1>
       <p className="mt-2 text-sm text-muted-foreground">Last updated: {new Date().toLocaleDateString()}</p>

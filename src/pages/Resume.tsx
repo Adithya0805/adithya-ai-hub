@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Download, Mail } from "lucide-react";
@@ -21,6 +22,24 @@ const certs = ["AWS re/Start Programme (Cultus & AWS)", "Prompt Engineering for 
 
 const Resume = () => (
   <Layout>
+    <Helmet>
+      <title>Adithya Kuppusamy Resume | AI & Data Science Graduate | Adithya AI Hub</title>
+      <meta
+        name="description"
+        content="Recruiters and hiring managers can view and download Adithya Kuppusamy's professional resume. CGPA 8.5 B.Tech graduate in AI & Data Science with expertise in Python, AWS, and Machine Learning."
+      />
+      <link rel="canonical" href="https://adithya-ai-hub.vercel.app/resume" />
+      <meta property="og:title" content="Adithya Kuppusamy Resume | AI & Data Science Graduate" />
+      <meta
+        property="og:description"
+        content="Recruiters can view and download Adithya Kuppusamy's professional resume. CGPA 8.5, deep learning, AWS, and python skills matrix."
+      />
+      <meta property="og:url" content="https://adithya-ai-hub.vercel.app/resume" />
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Adithya AI Hub" />
+      <meta name="twitter:card" content="summary_large_image" />
+    </Helmet>
+
     <section className="container py-20">
       <p className="text-sm text-primary font-medium">Resume</p>
       <h1 className="mt-2 text-4xl md:text-5xl font-bold">Adithya K — AI & Data Science Engineer</h1>

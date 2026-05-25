@@ -106,7 +106,37 @@ const About = () => {
           name="description"
           content="AI & Data Science graduate from Ambur, Tamil Nadu. CGPA 8.5. Building multi-agent AI systems. AWS certified. Looking for full-time ML engineer roles."
         />
-        <meta property="og:title" content="About Adithya Kuppusamy — AI Engineer" />
+        <meta property="og:title" content="About Adithya Kuppusamy — AI Engineer | Adithya AI Hub" />
+        <meta
+          property="og:description"
+          content="AI & Data Science graduate from Ambur, Tamil Nadu. CGPA 8.5. Building multi-agent AI systems. AWS certified. Looking for full-time ML engineer roles."
+        />
+        <meta property="og:url" content="https://adithya-ai-hub.vercel.app/about" />
+        <meta property="og:type" content="profile" />
+        <meta property="og:site_name" content="Adithya AI Hub" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Adithya Kuppusamy",
+            "jobTitle": "AI & Data Science Engineer",
+            "url": "https://adithya-ai-hub.vercel.app/about",
+            "sameAs": [
+              "https://github.com/Adithya0805",
+              "https://www.linkedin.com/in/adithya-k-76baab204/"
+            ],
+            "knowsAbout": [
+              "Artificial Intelligence",
+              "Machine Learning",
+              "Python",
+              "AWS",
+              "Data Science",
+              "Multi-agent Systems",
+              "RAG"
+            ]
+          })}
+        </script>
       </Helmet>
 
       <div className="container py-20">

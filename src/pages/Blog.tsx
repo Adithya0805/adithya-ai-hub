@@ -29,9 +29,13 @@ const Blog = () => {
           name="description"
           content="Daily AI/ML tutorials, Python guides, interview prep, and career advice. Learn machine learning and get hired as an AI engineer."
         />
-        <meta property="og:title" content="AI Learning Hub — Daily Posts" />
+        <link rel="canonical" href="https://adithya-ai-hub.vercel.app/blog" />
+        <meta property="og:title" content="AI Learning Hub — Daily Posts | Adithya AI Hub" />
         <meta property="og:description" content="Daily tutorials on ML, LangChain, Python, DSA interview prep, and career growth for AI engineers." />
+        <meta property="og:url" content="https://adithya-ai-hub.vercel.app/blog" />
         <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Adithya AI Hub" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       <div className="container py-20">

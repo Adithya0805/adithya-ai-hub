@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { z } from "zod";
+import { Helmet } from "react-helmet-async";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,6 +31,24 @@ const Contact = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Contact Adithya Kuppusamy | Adithya AI Hub</title>
+        <meta
+          name="description"
+          content="Get in touch with Adithya Kuppusamy, an AI & Data Science Engineer from Tamil Nadu, India. Let's discuss AI models, collaboration, or job opportunities."
+        />
+        <link rel="canonical" href="https://adithya-ai-hub.vercel.app/contact" />
+        <meta property="og:title" content="Contact Adithya Kuppusamy | Adithya AI Hub" />
+        <meta
+          property="og:description"
+          content="Get in touch with Adithya Kuppusamy, an AI & Data Science Engineer. Let's build something amazing together."
+        />
+        <meta property="og:url" content="https://adithya-ai-hub.vercel.app/contact" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Adithya AI Hub" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
+
       <section className="container py-20 grid lg:grid-cols-2 gap-12 max-w-5xl">
         <div>
           <p className="text-sm text-primary font-medium">Contact</p>

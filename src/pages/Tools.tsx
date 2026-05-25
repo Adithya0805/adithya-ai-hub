@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import { Layout } from "@/components/Layout";
 import { Wand2, FileText, Database, Brain, Zap, Lock } from "lucide-react";
 
@@ -11,6 +12,24 @@ const tools = [
 
 const Tools = () => (
   <Layout>
+    <Helmet>
+      <title>Free AI Engineering Tools | Adithya AI Hub</title>
+      <meta
+        name="description"
+        content="Access free, interactive AI engineering tools including Prompt Generator, Resume Analyzer, SQL Helper, and ML Concept Explainer. Build and ship AI products faster."
+      />
+      <link rel="canonical" href="https://adithya-ai-hub.vercel.app/tools" />
+      <meta property="og:title" content="Free AI Engineering Tools | Adithya AI Hub" />
+      <meta
+        property="og:description"
+        content="Free interactive AI utilities, prompt generators, resume checkers, and SQL helper tools created for developers."
+      />
+      <meta property="og:url" content="https://adithya-ai-hub.vercel.app/tools" />
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Adithya AI Hub" />
+      <meta name="twitter:card" content="summary_large_image" />
+    </Helmet>
+
     <section className="container py-20">
       <p className="text-sm text-primary font-medium">AI Tools</p>
       <h1 className="mt-2 text-4xl md:text-5xl font-bold">A growing toolbox of <span className="text-gradient">AI utilities</span></h1>
