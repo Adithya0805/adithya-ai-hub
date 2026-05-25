@@ -45,7 +45,7 @@ export function AdUnit({
 export function AdLeaderboard({ className = "" }: { className?: string }) {
   return (
     <AdUnit
-      adSlot="auto"
+      adSlot="2786234025"
       adFormat="horizontal"
       className={className}
       style={{ display: "block", width: "100%", height: "90px" }}
@@ -57,7 +57,7 @@ export function AdLeaderboard({ className = "" }: { className?: string }) {
 export function AdRectangle({ className = "" }: { className?: string }) {
   return (
     <AdUnit
-      adSlot="auto"
+      adSlot="9197249617"
       adFormat="rectangle"
       className={className}
       style={{ display: "block", width: "300px", height: "250px" }}
