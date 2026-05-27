@@ -12,6 +12,63 @@ export interface Post {
 
 export const posts: Post[] = [
   {
+    slug: "honest-ai-ml-engineer-roadmap-tier-3-tamil-nadu",
+    title: "The Honest AI/ML Engineer Roadmap for Tier-3 College Students in Tamil Nadu",
+    excerpt: "No IIT tag? No campus placements? No problem. An honest, realistic roadmap for tier-3 college students in Tamil Nadu to build skills, ignore CP, and land high-paying ML roles in India.",
+    category: "Career",
+    tags: ["Roadmap", "Career", "Machine Learning", "Tamil Nadu", "College", "Fresher"],
+    readTime: "11 min read",
+    date: "2026-05-27",
+    featured: true,
+    content: `
+<h2>The Harsh Reality: The Tier-3 Dilemma</h2>
+<p>If you're studying B.Tech in an engineering college in a tier-2 or tier-3 town in Tamil Nadu (like Ranipet, Ambur, Coimbatore, or Madurai), you know the drill: campus placements mean service companies offering 3 LPA to 4 LPA. Your college professors tell you "learn Java or C++, clear the aptitude, get placed in TCS/Infosys."</p>
+
+<p>But what if you want to work on **Artificial Intelligence, Machine Learning, or Large Language Models (LLMs)**? What if you want to earn a product-company package (8 LPA to 15+ LPA) without having an IIT or NIT tag on your resume?</p>
+
+<p>This roadmap is the unfiltered, realistic guide to doing exactly that. It's the exact path I followed to go from a Ranipet district college student to building production-grade multi-agent RAG systems and getting AWS certified. No academic fluff — just what actually works.</p>
+
+<h2>Phase 1 — The Coding Foundation (Month 1)</h2>
+<p>Stop doing Competitive Programming (CP) on platforms like Codeforces unless you want to be a pure SDE. For ML, your coding needs to be practical, clean, and highly structured.</p>
+<ul>
+  <li><strong>Master Python:</strong> Learn data types, list comprehensions, lambda functions, dictionary operations, file handling, and Exception Handling. Python is the absolute king of AI.</li>
+  <li><strong>SQL is mandatory:</strong> Do not skip this! 80% of data science is fetching and cleaning data. Master <code>JOINs</code>, <code>GROUP BY</code>, <code>HAVING</code>, and subqueries.</li>
+  <li><strong>Git & GitHub:</strong> Learn how to commit, pull, push, and write a stellar README. Your GitHub is your real degree.</li>
+</ul>
+
+<h2>Phase 2 — The Machine Learning Core (Months 2–3)</h2>
+<p>Do not jump straight into Deep Learning or LLMs without understanding the foundations. If you do, you will fail your technical interviews.</p>
+<ul>
+  <li><strong>Libraries:</strong> Learn NumPy (vector math), Pandas (data cleaning), and Matplotlib/Seaborn (data visualization).</li>
+  <li><strong>Classic ML Models:</strong> Master Linear Regression, Logistic Regression, Decision Trees, Random Forests, and XGBoost using <strong>Scikit-Learn</strong>.</li>
+  <li><strong>The Math That Matters:</strong> Don't solve massive equations by hand. Just understand the core intuition behind *Gradient Descent, Statistics (Mean, Median, Std Dev), and Probability.*</li>
+  <li><strong>Build 2 Core Projects:</strong> Write data analysis notebooks on datasets from Kaggle (e.g., Housing price prediction, customer churn analysis) and post them on GitHub.</li>
+</ul>
+
+<h2>Phase 3 — The Game Changer: GenAI & RAG (Month 4)</h2>
+<p>This is where you bypass the competition. While thousands of freshers are building basic "spam classifiers", you will build production-grade **Generative AI applications**.</p>
+<ul>
+  <li><strong>RAG (Retrieval-Augmented Generation):</strong> Learn how to load documents, split them, convert them into vector embeddings, and search them in a Vector Database (like **Pinecone** or **ChromaDB**).</li>
+  <li><strong>Frameworks:</strong> Master **LangChain** and **LangGraph** (for building multi-agent systems).</li>
+  <li><strong>FastAPI & Docker:</strong> Wrap your Python logic into a secure REST API using FastAPI, and package it into a Docker container. Product companies love freshers who know how to containerize their code!</li>
+</ul>
+
+<h2>Phase 4 — Building in Public & Networking (Month 5)</h2>
+<p>If you build a project and nobody knows about it, it doesn't exist. In tier-3 colleges, recruiters aren't coming to your campus. You must force them to find you online.</p>
+<ul>
+  <li><strong>LinkedIn is Your Weapon:</strong> Don't just post "happy to announce..." certs. Write posts detailing *what you learned, the bugs you faced, and how you solved them.* Share a 30-second screen recording of your project working.</li>
+  <li><strong>Open Source & HuggingFace:</strong> Host your working machine learning apps on HuggingFace Spaces or Streamlit Community Cloud so recruiters can actually click and test them live.</li>
+  <li><strong>Join Local Communities:</strong> Join the *Tamil Nadu AI Community* and other developer WhatsApp/Discord channels. Job leads and off-campus opportunities circulate heavily in these networks.</li>
+</ul>
+
+<h2>Conclusion — Own Your Story</h2>
+<p>Not having an IIT tag is not a disadvantage; it's a story. When you sit in front of an interviewer at a product company and show them a live, deployed RAG chatbot with a complete Docker container, a perfect git history, and a structured database, your college name won't matter. Your skills will do the talking.</p>
+
+<p>Start today. Focus on one block at a time. The roadmap is clear—now execute. 💪</p>
+<p><em>— Adithya Kuppusamy, AI & Data Science Engineer, Tamil Nadu</em></p>
+    `
+  },
+  {
     slug: "cognizant-cts-wipro-coding-questions-python-solutions",
     title: "Top 10 Most Repeated Cognizant (CTS) & Wipro Coding Questions — Python Solutions",
     excerpt: "Clear the coding rounds of CTS and Wipro easily. A complete guide with Python solutions for the top 10 most repeated programming questions in their placement tests.",

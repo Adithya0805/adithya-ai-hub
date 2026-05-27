@@ -63,6 +63,12 @@
   </url>
 
   <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/honest-ai-ml-engineer-roadmap-tier-3-tamil-nadu</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://adithya-ai-hub.vercel.app/blog/cognizant-cts-wipro-coding-questions-python-solutions</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
