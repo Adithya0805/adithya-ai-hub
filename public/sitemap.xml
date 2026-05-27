@@ -62,7 +62,12 @@
     <priority>0.3</priority>
   </url>
 
-  <!-- Blog Posts -->
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/cognizant-cts-wipro-coding-questions-python-solutions</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <url>
     <loc>https://adithya-ai-hub.vercel.app/blog/how-i-built-skillspeak-ai-career-platform-15-features</loc>
     <changefreq>monthly</changefreq>

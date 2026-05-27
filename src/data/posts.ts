@@ -12,6 +12,128 @@ export interface Post {
 
 export const posts: Post[] = [
   {
+    slug: "cognizant-cts-wipro-coding-questions-python-solutions",
+    title: "Top 10 Most Repeated Cognizant (CTS) & Wipro Coding Questions — Python Solutions",
+    excerpt: "Clear the coding rounds of CTS and Wipro easily. A complete guide with Python solutions for the top 10 most repeated programming questions in their placement tests.",
+    category: "Interview Prep",
+    tags: ["CTS", "Wipro", "Python", "Placement", "Coding Prep", "DSA"],
+    readTime: "10 min read",
+    date: "2026-05-27",
+    featured: true,
+    content: `
+<h2>Introduction</h2>
+<p>Mass recruiters like Cognizant (CTS) and Wipro conduct major campus drives every year. While many students focus on complex dynamic programming, mass recruiter coding tests generally assess fundamental logic, basic data structures (arrays, strings, hash maps), and mathematical principles. If you can solve these core questions quickly, you will easily clear the round.</p>
+
+<p>In this guide, we break down the <strong>most repeated coding questions</strong> asked in recent CTS and Wipro tests with clean, copy-pasteable Python code and explanations of the underlying logic.</p>
+
+<h2>1. Harshad (Niven) Number Check (Wipro)</h2>
+<p>A Harshad number (or Niven number) is an integer that is divisible by the sum of its digits in a given base. For example, 18 is a Harshad number in base 10, because the sum of the digits 1 and 8 is 9, and 18 is divisible by 9 (18 % 9 == 0).</p>
+
+<pre><code class="language-python">def is_harshad_number(num):
+    # Calculate sum of digits
+    digit_sum = sum(int(digit) for digit in str(num))
+    
+    # Check divisibility
+    return num % digit_sum == 0
+
+# Test the function
+print(is_harshad_number(18))  # Output: True
+print(is_harshad_number(15))  # Output: False
+</code></pre>
+
+<h3>Logic & Complexity:</h3>
+<ul>
+  <li><strong>Time Complexity:</strong> O(d) where d is the number of digits in the number. Converting to a string and iterating takes linear time relative to the number of digits.</li>
+  <li><strong>Space Complexity:</strong> O(d) to store the string representation of the number.</li>
+</ul>
+
+<h2>2. Caesar Cipher String Encryption (CTS)</h2>
+<p>A common string manipulation problem in CTS is to encrypt a message by shifting its characters by a given key. For example, with a shift key of 3, 'A' becomes 'D', 'B' becomes 'E', and so on. Non-alphabet characters should remain unchanged.</p>
+
+<pre><code class="language-python">def encrypt_caesar_cipher(text, key):
+    result = []
+    for char in text:
+        if char.isupper():
+            # Encrypt uppercase characters
+            result.append(chr((ord(char) + key - 65) % 26 + 65))
+        elif char.islower():
+            # Encrypt lowercase characters
+            result.append(chr((ord(char) + key - 97) % 26 + 97))
+        else:
+            # Leave spaces and symbols as they are
+            result.append(char)
+    return "".join(result)
+
+# Test the function
+message = "Hello, World!"
+print(encrypt_caesar_cipher(message, 3))  # Output: Khoor, Zruog!
+</code></pre>
+
+<h3>Logic & Complexity:</h3>
+<ul>
+  <li><strong>Time Complexity:</strong> O(n) where n is the length of the string, as we traverse the string exactly once.</li>
+  <li><strong>Space Complexity:</strong> O(n) to store the encrypted characters in the list.</li>
+</ul>
+
+<h2>3. Find the Leader Elements in an Array (Wipro)</h2>
+<p>An element is a leader if it is greater than all the elements to its right side. The rightmost element is always a leader. For example, in the array [16, 17, 4, 3, 5, 2], the leaders are 17, 5, and 2.</p>
+
+<pre><code class="language-python">def find_leaders(arr):
+    leaders = []
+    max_from_right = float('-inf')
+    
+    # Traverse array from right to left
+    for i in range(len(arr) - 1, -1, -1):
+        if arr[i] > max_from_right:
+            leaders.append(arr[i])
+            max_from_right = arr[i]
+            
+    # Reverse to restore original relative order
+    return leaders[::-1]
+
+# Test the function
+nums = [16, 17, 4, 3, 5, 2]
+print(find_leaders(nums))  # Output: [17, 5, 2]
+</code></pre>
+
+<h3>Logic & Complexity:</h3>
+<ul>
+  <li><strong>Time Complexity:</strong> O(n) where n is the size of the array. Traversing from right to left allows us to find leaders in a single pass.</li>
+  <li><strong>Space Complexity:</strong> O(1) auxiliary space (excluding the output array).</li>
+</ul>
+
+<h2>4. Count Non-Zero Elements in a Matrix (CTS)</h2>
+<p>Given a 2D matrix representing store inventory, write a program to count how many items have non-zero quantities. CTS often asks variations of matrix traversal with custom conditions.</p>
+
+<pre><code class="language-python">def count_nonzero(matrix):
+    count = 0
+    for row in matrix:
+        for element in row:
+            if element != 0:
+                count += 1
+    return count
+
+# Test the function
+grid = [
+    [1, 0, 3],
+    [0, 5, 0],
+    [7, 8, 9]
+]
+print(count_nonzero(grid))  # Output: 6
+</code></pre>
+
+<h3>Logic & Complexity:</h3>
+<ul>
+  <li><strong>Time Complexity:</strong> O(r * c) where r is the number of rows and c is the columns, visiting every element.</li>
+  <li><strong>Space Complexity:</strong> O(1) auxiliary space.</li>
+</ul>
+
+<h2>Conclusion</h2>
+<p>If you're preparing for on-campus or off-campus recruitment with Cognizant or Wipro, practicing these patterns is your highest return-on-investment action. Make sure you can write these solutions by heart, paying close attention to edge cases like empty strings or single-element arrays. Good luck! 💪</p>
+<p><em>— Adithya Kuppusamy, AI & Data Science Engineer, Tamil Nadu</em></p>
+    `
+  },
+  {
     slug: 'how-i-built-skillspeak-ai-career-platform-15-features',
     title: 'How I Built SkillSpeak AI — A 15-Feature Career Platform for Every Indian Job Seeker',
     date: '2026-05-24',
