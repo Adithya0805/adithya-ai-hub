@@ -1,10 +1,25 @@
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Layout } from "@/components/Layout";
 import { ProjectCard } from "@/components/ProjectCard";
 import { AdRectangle } from "@/components/AdSlot";
+import { NeuralMeshBackground } from "@/components/NeuralMeshBackground";
+import { ProjectRecommender } from "@/components/ProjectRecommender";
 import { projects } from "@/data/projects";
 
 const Projects = () => {
+  const [highlightedSlug, setHighlightedSlug] = useState<string | null>(null);
+
+  const handleRecommend = (slug: string) => {
+    setHighlightedSlug(slug);
+    setTimeout(() => {
+      const el = document.getElementById(slug);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 100);
+  };
+
   return (
     <Layout>
       <Helmet>
@@ -25,7 +40,10 @@ const Projects = () => {
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
-      <section className="container py-20">
+      {/* Interactive Neural background mesh */}
+      <NeuralMeshBackground />
+
+      <section className="container relative py-20 z-10">
         <p className="text-sm text-primary font-medium">Portfolio</p>
         <h1 className="mt-2 text-4xl md:text-5xl font-bold">AI Projects</h1>
         <p className="mt-4 text-muted-foreground max-w-2xl">
@@ -33,11 +51,22 @@ const Projects = () => {
           problem and shipped to production. Click any card to see the full breakdown.
         </p>
 
+        {/* Cyber-themed AI Recommender quiz */}
+        <ProjectRecommender onRecommend={handleRecommend} />
+
         {/* Project cards */}
         <div className="mt-10 space-y-4">
-          {projects.map((p, i) => (
-            <ProjectCard key={p.slug} project={p} defaultOpen={i === 0} />
-          ))}
+          {projects.map((p, i) => {
+            const isHighlighted = p.slug === highlightedSlug;
+            return (
+              <ProjectCard
+                key={`${p.slug}-${isHighlighted}`}
+                project={p}
+                defaultOpen={i === 0 || isHighlighted}
+                isHighlighted={isHighlighted}
+              />
+            );
+          })}
         </div>
 
         {/* Ad at bottom */}

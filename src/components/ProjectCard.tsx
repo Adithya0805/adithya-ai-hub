@@ -1,19 +1,25 @@
 import { useState } from "react";
 import { Github, ExternalLink, ChevronDown, Lightbulb } from "lucide-react";
+import { TradingBotSimulator } from "./TradingBotSimulator";
 import type { Project } from "@/data/projects";
 
 interface ProjectCardProps {
   project: Project;
   defaultOpen?: boolean;
+  isHighlighted?: boolean;
 }
 
-export function ProjectCard({ project: p, defaultOpen = false }: ProjectCardProps) {
+export function ProjectCard({ project: p, defaultOpen = false, isHighlighted = false }: ProjectCardProps) {
   const [open, setOpen] = useState(defaultOpen);
 
   return (
     <article
       id={p.slug}
-      className="bg-gradient-card border border-border rounded-2xl overflow-hidden transition-smooth hover:border-primary/30"
+      className={`bg-gradient-card border rounded-2xl overflow-hidden transition-all duration-500 ${
+        isHighlighted
+          ? "border-primary shadow-[0_0_30px_rgba(6,182,212,0.35)] scale-[1.01]"
+          : "border-border hover:border-primary/30"
+      }`}
     >
       {/* Header — always visible */}
       <button
@@ -86,6 +92,8 @@ export function ProjectCard({ project: p, defaultOpen = false }: ProjectCardProp
                   </div>
                 </div>
               )}
+
+              {p.slug === "trading-bot" && <TradingBotSimulator />}
             </div>
 
             {/* Right — stack + links */}
