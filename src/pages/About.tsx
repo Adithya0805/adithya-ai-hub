@@ -19,7 +19,7 @@ const timeline = [
   {
     year: "2021",
     title: "Started B.Tech",
-    detail: "AI & Data Science — Ranipet district college, Tamil Nadu",
+    detail: "AI & Data Science — Dhanalakshmi Srinivasan College of Engineering Coimbatore",
     type: "edu",
   },
   {
