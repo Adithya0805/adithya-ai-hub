@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Menu, X, Sparkles, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Logo } from "./Logo";
 
 const links = [
   { to: "/", label: "Home" },
@@ -30,11 +31,8 @@ export const Navbar = () => {
       }`}
     >
       <nav className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 font-display font-bold text-lg">
-          <span className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center shadow-glow">
-            <Sparkles className="w-4 h-4 text-primary-foreground" />
-          </span>
-          <span className="text-gradient">Adithya AI Hub</span>
+        <Link to="/" className="flex items-center">
+          <Logo className="w-9 h-9" />
         </Link>
 
         <div className="hidden lg:flex items-center gap-1">

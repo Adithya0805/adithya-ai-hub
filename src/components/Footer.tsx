@@ -1,16 +1,14 @@
 import { Link } from "react-router-dom";
 import { Github, Linkedin, Mail, Sparkles, BookOpen, FolderGit2, Info, BookMarked } from "lucide-react";
+import { Logo } from "./Logo";
 
 export const Footer = () => (
   <footer className="border-t border-border/60 bg-card/40 mt-24">
     <div className="container py-12 grid gap-10 md:grid-cols-4">
       {/* Brand */}
       <div className="md:col-span-2">
-        <Link to="/" className="flex items-center gap-2 font-display font-bold text-lg">
-          <span className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-primary-foreground" />
-          </span>
-          <span className="text-gradient">Adithya AI Hub</span>
+        <Link to="/" className="flex items-center">
+          <Logo className="w-8 h-8" />
         </Link>
         <p className="mt-4 text-sm text-muted-foreground max-w-md">
           AI Learning &amp; Blog Platform by Adithya Kuppusamy — B.Tech AI &amp; Data Science
