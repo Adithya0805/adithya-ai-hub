@@ -1,18 +1,34 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Github, Linkedin, Mail, Loader2, CheckCircle2 } from "lucide-react";
+import { Github, Linkedin, Mail, Loader2, CheckCircle2, FileDown, Award, GraduationCap } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 
-const skills = [
-  { name: "Python", level: 92 },
-  { name: "Machine Learning", level: 88 },
-  { name: "LangGraph / Agents", level: 82 },
-  { name: "RAG & Vector DBs", level: 85 },
-  { name: "AWS Cloud", level: 78 },
-  { name: "Next.js / React", level: 80 },
-  { name: "FastAPI", level: 76 },
-  { name: "TensorFlow / Keras", level: 83 },
+const skillsMatrix = [
+  {
+    category: "Languages",
+    color: "from-cyan-400/20 to-cyan-400/5 border-cyan-400/30",
+    textColor: "text-cyan-400",
+    skills: ["Python", "SQL", "TypeScript", "JavaScript", "Bash"],
+  },
+  {
+    category: "AI / ML & NLP",
+    color: "from-violet-500/20 to-violet-500/5 border-violet-500/30",
+    textColor: "text-violet-400",
+    skills: ["LangGraph", "TensorFlow", "Keras", "Pinecone / RAG", "NLTK", "LLMs", "Scikit-learn"],
+  },
+  {
+    category: "Backend & Cloud",
+    color: "from-orange-400/20 to-orange-400/5 border-orange-400/30",
+    textColor: "text-orange-400",
+    skills: ["FastAPI", "Flask", "AWS EC2", "AWS Bedrock", "AWS S3", "Firebase", "Supabase"],
+  },
+  {
+    category: "Frontend",
+    color: "from-green-400/20 to-green-400/5 border-green-400/30",
+    textColor: "text-green-400",
+    skills: ["React", "Next.js", "Tailwind CSS", "Vite", "Recharts"],
+  },
 ];
 
 const timeline = [
@@ -55,12 +71,12 @@ const timeline = [
 ];
 
 const certs = [
-  "AWS re/Start Graduate",
-  "BCG Data Science Job Simulation (Forage)",
-  "Prompt Engineering for AI — DeepLearning.ai",
-  "Python for Everybody — University of Michigan",
-  "Machine Learning Specialization — deeplearning.ai",
-  "Data Analysis with Python — IBM",
+  { name: "AWS re/Start Graduate", issuer: "Amazon Web Services", icon: "☁️", link: "#" },
+  { name: "BCG Data Science Job Simulation", issuer: "BCG via Forage", icon: "📊", link: "#" },
+  { name: "Prompt Engineering for AI", issuer: "DeepLearning.AI", icon: "🤖", link: "#" },
+  { name: "Python for Everybody", issuer: "University of Michigan", icon: "🐍", link: "#" },
+  { name: "Machine Learning Specialization", issuer: "DeepLearning.AI / Coursera", icon: "🧠", link: "#" },
+  { name: "Data Analysis with Python", issuer: "IBM / Coursera", icon: "📈", link: "#" },
 ];
 
 const About = () => {
@@ -193,6 +209,13 @@ const About = () => {
               >
                 <Mail className="w-4 h-4" /> Email
               </a>
+              <a
+                href="/resume.pdf"
+                download="Adithya_Kuppusamy_Resume.pdf"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 text-sm font-semibold transition-smooth shadow-[0_0_15px_rgba(6,182,212,0.35)]"
+              >
+                <FileDown className="w-4 h-4" /> Download Resume
+              </a>
             </div>
           </div>
 
@@ -209,21 +232,47 @@ const About = () => {
           </div>
         </div>
 
-        {/* ── SKILLS ── */}
+        {/* ── EDUCATION ── */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+            <GraduationCap className="w-6 h-6 text-primary" /> Education
+          </h2>
+          <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/30">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <h3 className="text-xl font-semibold">B.Tech — Artificial Intelligence &amp; Data Science</h3>
+                <p className="text-muted-foreground mt-1">Dhanalakshmi Srinivasan College of Engineering, Coimbatore</p>
+                <p className="text-sm text-muted-foreground mt-0.5">Tamil Nadu, India · 2021 – 2025</p>
+              </div>
+              <div className="text-right">
+                <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">8.5</div>
+                <div className="text-xs text-muted-foreground uppercase tracking-wide">CGPA</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── SKILLS MATRIX ── */}
         <section className="mb-20">
-          <h2 className="text-2xl font-bold mb-8">Skills</h2>
-          <div className="grid md:grid-cols-2 gap-4">
-            {skills.map((s) => (
-              <div key={s.name} className="p-4 rounded-xl bg-card border border-border">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium">{s.name}</span>
-                  <span className="text-xs text-primary font-mono">{s.level}%</span>
-                </div>
-                <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-primary rounded-full transition-all duration-1000"
-                    style={{ width: `${s.level}%` }}
-                  />
+          <h2 className="text-2xl font-bold mb-8">Skills Matrix</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {skillsMatrix.map((cat) => (
+              <div
+                key={cat.category}
+                className={`p-5 rounded-2xl bg-gradient-to-b border ${cat.color}`}
+              >
+                <h3 className={`text-xs font-bold uppercase tracking-widest mb-4 ${cat.textColor}`}>
+                  {cat.category}
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {cat.skills.map((s) => (
+                    <span
+                      key={s}
+                      className="text-xs font-mono px-2.5 py-1 rounded-lg bg-background/60 border border-border/60 text-foreground"
+                    >
+                      {s}
+                    </span>
+                  ))}
                 </div>
               </div>
             ))}
@@ -250,15 +299,28 @@ const About = () => {
 
         {/* ── CERTIFICATIONS ── */}
         <section className="mb-20">
-          <h2 className="text-2xl font-bold mb-6">Certifications</h2>
-          <div className="grid md:grid-cols-2 gap-3">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+            <Award className="w-6 h-6 text-primary" /> Certifications
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {certs.map((c) => (
               <div
-                key={c}
-                className="flex items-center gap-3 p-3 rounded-xl bg-card border border-border"
+                key={c.name}
+                className="flex flex-col justify-between p-5 rounded-2xl bg-card border border-border hover:border-primary/40 transition-all duration-200 group"
               >
-                <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                <span className="text-sm">{c}</span>
+                <div>
+                  <div className="text-3xl mb-3">{c.icon}</div>
+                  <h3 className="font-semibold text-sm leading-snug">{c.name}</h3>
+                  <p className="text-xs text-muted-foreground mt-1">{c.issuer}</p>
+                </div>
+                <a
+                  href={c.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-4 inline-flex items-center gap-1.5 text-xs text-primary font-medium group-hover:underline"
+                >
+                  View Credential →
+                </a>
               </div>
             ))}
           </div>

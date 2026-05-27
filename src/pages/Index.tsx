@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, Code2, Cloud, Brain, Database, Sparkles, TrendingUp, Bot } from "lucide-react";
+import { ArrowRight, BookOpen, Code2, Cloud, Brain, Database, Sparkles, TrendingUp, Bot, FileDown } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/Layout";
@@ -7,6 +7,7 @@ import { BlogCard } from "@/components/BlogCard";
 import { ProjectCard } from "@/components/ProjectCard";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { AdLeaderboard } from "@/components/AdSlot";
+import { FlagshipProject } from "@/components/FlagshipProject";
 import { projects } from "@/data/projects";
 import { posts } from "@/data/posts";
 
@@ -27,15 +28,16 @@ const Index = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Adithya AI Hub — Learn AI, Build Real, Get Hired</title>
+        <title>Adithya AI Hub — AI/ML Engineer Roadmap for Tier-3 College Students</title>
         <meta
           name="description"
-          content="AI Learning & Blog Platform by Adithya Kuppusamy. Daily tutorials on Machine Learning, LangChain, Python, and career prep for AI engineers from Tamil Nadu."
+          content="AI Learning & Blog Platform by Adithya Kuppusamy. Honest AI/ML Engineer roadmap for Tier-3 college students in Tamil Nadu. Daily tutorials on LangChain, Python, RAG, and career prep."
         />
+        <meta name="keywords" content="AI/ML Engineer Roadmap, Tier-3 College Placements, Tamil Nadu AI student, Machine Learning for beginners, LangChain tutorial, Python AI, get hired as ML engineer" />
         <meta property="og:title" content="Adithya AI Hub — Learn AI, Build Real, Get Hired" />
         <meta
           property="og:description"
-          content="Daily AI/ML tutorials, project breakdowns, and career advice. Built for aspiring AI engineers."
+          content="Honest AI/ML roadmap for Tier-3 college students. Daily tutorials, project breakdowns, and career advice from Tamil Nadu."
         />
         <meta property="og:url" content="https://adithya-ai-hub.vercel.app/" />
         <meta property="og:type" content="website" />
@@ -83,6 +85,11 @@ const Index = () => {
                   View My Projects <ArrowRight className="w-4 h-4" />
                 </Link>
               </Button>
+              <Button asChild variant="glass" size="lg" className="border-cyan-400/40 hover:border-cyan-400 hover:text-cyan-400">
+                <a href="/resume.pdf" download="Adithya_Kuppusamy_Resume.pdf">
+                  <FileDown className="w-4 h-4" /> Download Resume
+                </a>
+              </Button>
             </div>
 
             <div className="mt-10 flex flex-wrap gap-2">
@@ -121,6 +128,15 @@ const Index = () => {
       <div className="container mt-12">
         <AdLeaderboard />
       </div>
+
+      {/* ── FLAGSHIP PROJECT ─────────────────────────────────────────────── */}
+      <section className="container py-16">
+        <div className="mb-8">
+          <p className="text-sm text-primary font-medium mb-2">Centerpiece Work</p>
+          <h2 className="text-3xl md:text-4xl font-bold">Flagship AI Project</h2>
+        </div>
+        <FlagshipProject />
+      </section>
 
       {/* ── FEATURED BLOG POSTS ──────────────────────────────────────────── */}
       <section className="container py-20">

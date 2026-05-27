@@ -33,18 +33,13 @@ export function ProjectCard({ project: p, defaultOpen = false, isHighlighted = f
           <h2 className="mt-3 text-xl md:text-2xl font-semibold">{p.title}</h2>
           <p className="mt-1 text-sm text-muted-foreground">{p.tagline}</p>
 
-          {/* Stack pills — visible even when closed */}
+          {/* Stack pills — all tags always visible */}
           <div className="mt-3 flex flex-wrap gap-1.5">
-            {p.stack.slice(0, 4).map((t) => (
+            {p.stack.map((t) => (
               <span key={t} className="text-[11px] font-mono px-2 py-0.5 rounded bg-secondary text-secondary-foreground">
                 {t}
               </span>
             ))}
-            {p.stack.length > 4 && (
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-secondary text-muted-foreground">
-                +{p.stack.length - 4} more
-              </span>
-            )}
           </div>
         </div>
         <ChevronDown
