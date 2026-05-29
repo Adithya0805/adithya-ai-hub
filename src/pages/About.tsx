@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Github, Linkedin, Mail, Loader2, CheckCircle2, FileDown, Award, GraduationCap } from "lucide-react";
+import { Github, Linkedin, Mail, Loader2, CheckCircle2, FileDown, Award, GraduationCap, Network, LayoutGrid } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
+import { SkillGraph } from "@/components/SkillGraph";
+import { BuilderJourney } from "@/components/BuilderJourney";
 
 const skillsMatrix = [
   {
@@ -83,6 +85,7 @@ const About = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errMsg, setErrMsg] = useState("");
+  const [skillsView, setSkillsView] = useState<"grid" | "graph">("graph");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
@@ -254,47 +257,71 @@ const About = () => {
 
         {/* ── SKILLS MATRIX ── */}
         <section className="mb-20">
-          <h2 className="text-2xl font-bold mb-8">Skills Matrix</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {skillsMatrix.map((cat) => (
-              <div
-                key={cat.category}
-                className={`p-5 rounded-2xl bg-gradient-to-b border ${cat.color}`}
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+            <div>
+              <h2 className="text-2xl font-bold">Skills Matrix</h2>
+              <p className="text-xs text-muted-foreground mt-1">Explore my stack visually or in list form</p>
+            </div>
+            
+            {/* View Selector Tabs */}
+            <div className="flex rounded-xl bg-secondary/80 p-1 border border-border select-none">
+              <button
+                onClick={() => setSkillsView("graph")}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-smooth ${
+                  skillsView === "graph"
+                    ? "bg-primary text-primary-foreground shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
               >
-                <h3 className={`text-xs font-bold uppercase tracking-widest mb-4 ${cat.textColor}`}>
-                  {cat.category}
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {cat.skills.map((s) => (
-                    <span
-                      key={s}
-                      className="text-xs font-mono px-2.5 py-1 rounded-lg bg-background/60 border border-border/60 text-foreground"
-                    >
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
+                <Network className="w-3.5 h-3.5" /> Neural Mesh
+              </button>
+              <button
+                onClick={() => setSkillsView("grid")}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-smooth ${
+                  skillsView === "grid"
+                    ? "bg-primary text-primary-foreground shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <LayoutGrid className="w-3.5 h-3.5" /> Grid View
+              </button>
+            </div>
           </div>
+
+          {skillsView === "graph" ? (
+            <div className="animate-fade-up animate-duration-300">
+              <SkillGraph />
+            </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-up animate-duration-300">
+              {skillsMatrix.map((cat) => (
+                <div
+                  key={cat.category}
+                  className={`p-5 rounded-2xl bg-gradient-to-b border ${cat.color}`}
+                >
+                  <h3 className={`text-xs font-bold uppercase tracking-widest mb-4 ${cat.textColor}`}>
+                    {cat.category}
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {cat.skills.map((s) => (
+                      <span
+                        key={s}
+                        className="text-xs font-mono px-2.5 py-1 rounded-lg bg-background/60 border border-border/60 text-foreground"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* ── TIMELINE ── */}
         <section className="mb-20">
-          <h2 className="text-2xl font-bold mb-8">Journey</h2>
-          <div className="relative pl-6 space-y-8">
-            <div className="absolute left-0 top-2 bottom-2 w-px bg-border" />
-            {timeline.map((item, i) => (
-              <div key={i} className="relative">
-                <div className="absolute -left-6 top-1 w-3 h-3 rounded-full bg-primary border-2 border-background" />
-                <div className="ml-2">
-                  <span className="text-xs text-primary font-mono font-semibold">{item.year}</span>
-                  <h3 className="font-semibold mt-0.5">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground mt-0.5">{item.detail}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <h2 className="text-2xl font-bold mb-8">The Builder's Journey</h2>
+          <BuilderJourney />
         </section>
 
         {/* ── CERTIFICATIONS ── */}

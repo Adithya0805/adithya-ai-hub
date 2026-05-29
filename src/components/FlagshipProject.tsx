@@ -1,4 +1,6 @@
-import { ExternalLink, Github, Mic, Target, Star, Zap, Users, Brain } from "lucide-react";
+import React, { useState } from "react";
+import { ExternalLink, Github, Mic, Target, Star, Zap, Users, Brain, Sparkles } from "lucide-react";
+import { SkillSpeakSandbox } from "./SkillSpeakSandbox";
 
 const features = [
   "AI-powered mock interviews (Technical + Behavioral)",
@@ -16,6 +18,7 @@ const features = [
 const stack = ["React", "Python", "Firebase", "Conversational AI", "Speech API", "NLP", "FastAPI", "WebRTC"];
 
 export function FlagshipProject() {
+  const [showDemo, setShowDemo] = useState(false);
   return (
     <div className="relative rounded-3xl overflow-hidden border border-primary/40 shadow-[0_0_60px_rgba(6,182,212,0.2)]">
       {/* Animated gradient background */}
@@ -76,6 +79,13 @@ export function FlagshipProject() {
               <ExternalLink className="w-4 h-4" />
               Try Live Demo
             </a>
+            <button
+              onClick={() => setShowDemo(!showDemo)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-primary/40 hover:border-primary text-primary bg-primary/5 hover:bg-primary/10 transition-all duration-200 text-sm font-semibold shadow-[0_0_15px_rgba(6,182,212,0.15)]"
+            >
+              <Sparkles className="w-4 h-4" />
+              {showDemo ? "Hide Mini Demo" : "Try Mini Demo"}
+            </button>
           </div>
         </div>
 
@@ -134,6 +144,9 @@ export function FlagshipProject() {
             </ul>
           </div>
         </div>
+        
+        {/* Expanded sandbox console tray */}
+        {showDemo && <SkillSpeakSandbox />}
       </div>
     </div>
   );
