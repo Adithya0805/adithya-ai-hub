@@ -73,9 +73,9 @@ const timeline = [
 ];
 
 const certs = [
-  { name: "AWS re/Start Graduate", issuer: "Amazon Web Services", icon: "☁️", link: "#" },
-  { name: "BCG Data Science Job Simulation", issuer: "BCG via Forage", icon: "📊", link: "#" },
-  { name: "Prompt Engineering for AI", issuer: "DeepLearning.AI", icon: "🤖", link: "#" },
+  { name: "AWS re/Start Graduate", issuer: "Amazon Web Services", icon: "☁️", link: "https://www.credly.com/badges/42cb2399-72be-4e6c-b8d6-952e7a4ce6d5/public_url" },
+  { name: "BCG Data Science Job Simulation", issuer: "BCG via Forage", icon: "📊", link: "/bcg_cert.pdf" },
+  { name: "Prompt Engineering for AI", issuer: "DeepLearning.AI", icon: "🤖", link: "/prompt_cert.pdf" },
   { name: "Python for Everybody", issuer: "University of Michigan", icon: "🐍", link: "#" },
   { name: "Machine Learning Specialization", issuer: "DeepLearning.AI / Coursera", icon: "🧠", link: "#" },
   { name: "Data Analysis with Python", issuer: "IBM / Coursera", icon: "📈", link: "#" },
