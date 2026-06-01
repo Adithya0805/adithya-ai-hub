@@ -59,16 +59,16 @@ const BlogPost = () => {
     "author": {
       "@type": "Person",
       "name": "Adithya Kuppusamy",
-      "url": "https://adithyaai.is-cool.dev/about"
+      "url": "https://adithya-ai-hub.vercel.app/about"
     },
     "publisher": {
       "@type": "Organization", 
       "name": "Adithya AI Hub",
-      "url": "https://adithyaai.is-cool.dev"
+      "url": "https://adithya-ai-hub.vercel.app"
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://adithyaai.is-cool.dev/blog/${post.slug}`
+      "@id": `https://adithya-ai-hub.vercel.app/blog/${post.slug}`
     }
   };
 
@@ -84,7 +84,7 @@ const BlogPost = () => {
         <meta property="og:type" content="article" />
         <meta
           property="og:url"
-          content={`https://adithyaai.is-cool.dev/blog/${post.slug}`}
+          content={`https://adithya-ai-hub.vercel.app/blog/${post.slug}`}
         />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
