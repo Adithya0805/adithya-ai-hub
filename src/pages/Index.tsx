@@ -327,6 +327,50 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ── WHY I WRITE HERE ─────────────────────────────────────────────── */}
+      <section className="container pb-20">
+        <div className="p-8 md:p-12 rounded-3xl bg-gradient-card border border-border/80 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />
+          
+          <div className="max-w-3xl relative z-10">
+            <p className="text-sm text-primary font-medium uppercase tracking-wider mb-2">My Mission</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Why I Write Here</h2>
+            
+            <div className="space-y-4 text-muted-foreground text-sm md:text-base leading-relaxed">
+              <p>
+                Most AI and ML content online is written for people who already have a strong 
+                foundation. When I was learning — sitting in Ambur, Tamil Nadu, with slow internet 
+                and no mentor — I struggled to find honest, practical content written for someone 
+                at my level.
+              </p>
+              <p>
+                This blog exists to fix that. Every article here is written from real experience — 
+                real exam halls, real code errors, real project failures, and real lessons. If you 
+                are an engineering student or fresher in India trying to break into AI and ML, 
+                this blog is for you.
+              </p>
+            </div>
+
+            {/* Stats row */}
+            <div className="mt-10 grid grid-cols-3 gap-4 border-t border-border/60 pt-8">
+              <div>
+                <span className="block text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-display">8+</span>
+                <span className="text-xs text-muted-foreground mt-1 block">In-depth articles</span>
+              </div>
+              <div>
+                <span className="block text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-display">5+</span>
+                <span className="text-xs text-muted-foreground mt-1 block">Real AI projects</span>
+              </div>
+              <div>
+                <span className="block text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-display">100%</span>
+                <span className="text-xs text-muted-foreground mt-1 block">Free content</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── NEWSLETTER ───────────────────────────────────────────────────── */}
       <section className="container pb-20">
         <NewsletterForm />

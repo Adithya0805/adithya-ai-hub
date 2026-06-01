@@ -172,20 +172,30 @@ const About = () => {
 
             <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                I'm a B.Tech AI &amp; Data Science graduate (CGPA 8.5) from Ambur, Tamil Nadu. I
-                build production ML systems — not just Jupyter notebooks. From multi-agent clinical
-                AI (MediGuard) to real estate intelligence (TownRise AI), I focus on systems that
-                ship and solve real problems.
+                I'm Adithya Kuppusamy — a 2025 B.Tech graduate in Artificial Intelligence and Data 
+                Science from Dhanalakshmi Srinivasan College of Engineering, Tamil Nadu. I grew up 
+                in Ambur, a small town known more for its leather industry than its software engineers.
               </p>
               <p>
-                I started this blog to document what I learn on my path from student to ML engineer,
-                and to help other Tamil Nadu engineers who don't have the IIT tag but have the skill
-                and the drive. If you're reading this from a tier-2 college in South India — this
-                blog is for you.
+                I got into AI not because it was the trending career choice, but because I genuinely 
+                wanted to build things that solve real problems for real people. MediGuard came from 
+                watching people in my community get wrong health information online. SkillSpeak AI 
+                came from struggling myself to express technical thoughts confidently in English 
+                interviews. TownRise AI came from the opacity of property markets in Tamil Nadu.
               </p>
               <p>
-                Currently open to full-time AI/ML engineer roles. I care about shipping, learning
-                fast, and making a real impact.
+                Every project I build starts with a problem I have personally seen or experienced.
+              </p>
+              <p>
+                Currently I am actively seeking ML Engineer, AI Engineer, and SDE roles at companies 
+                that are building real AI products. I bring hands-on experience with LangGraph 
+                multi-agent systems, Pinecone RAG pipelines, AWS Bedrock, and full-stack deployment 
+                on Vercel and AWS EC2.
+              </p>
+              <p>
+                When I am not building AI systems I am writing about them here — documenting what I 
+                learn so that other Tamil Nadu students can find honest, practical guidance instead 
+                of generic career advice.
               </p>
             </div>
 

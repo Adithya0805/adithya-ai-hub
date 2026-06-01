@@ -184,10 +184,20 @@
 
 /* ── AD CONTAINER ───────────────────────────────────────────────── */
 .ad-container {
-  min-height: 60px;
-  background: hsl(var(--card) / 0.4);
-  border: 1px dashed hsl(var(--border) / 0.6);
-  border-radius: 0.75rem;
+  margin: 40px auto;
+  padding: 16px 0;
+  border-top: 1px solid hsl(var(--border));
+  border-bottom: 1px solid hsl(var(--border));
+  text-align: center;
+  width: 100%;
+}
+
+.ad-label {
+  font-size: 10px;
+  color: hsl(var(--muted-foreground));
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
 }
 
 /* Glowing border animation and styles for flagship project card */

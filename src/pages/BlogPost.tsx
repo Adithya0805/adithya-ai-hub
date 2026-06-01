@@ -8,11 +8,15 @@ import { AuthorCard } from "@/components/AuthorCard";
 import { BlogCard } from "@/components/BlogCard";
 import { TagBadge } from "@/components/TagBadge";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
+import { calculateReadTime } from "@/lib/utils";
 
 const BlogPost = () => {
   const { slug } = useParams();
   const post = posts.find((p) => p.slug === slug);
   if (!post) return <Navigate to="/blog" replace />;
+
+  const wordCount = post.content.replace(/<[^>]*>/g, '').split(/\s+/).length;
+  const readTimeDynamic = calculateReadTime(post.content);
 
   // Related posts: same category, exclude current
   const related = posts
@@ -46,20 +50,26 @@ const BlogPost = () => {
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: post.title,
-    description: post.excerpt,
-    datePublished: post.date,
-    author: {
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt,
+    "datePublished": post.date,
+    "dateModified": post.date,
+    "wordCount": wordCount,
+    "author": {
       "@type": "Person",
-      name: "Adithya Kuppusamy",
-      url: "https://adithya-ai-hub.vercel.app/about",
+      "name": "Adithya Kuppusamy",
+      "url": "https://adithyaai.is-cool.dev/about"
     },
-    publisher: {
-      "@type": "Organization",
-      name: "Adithya AI Hub",
-      url: "https://adithya-ai-hub.vercel.app",
+    "publisher": {
+      "@type": "Organization", 
+      "name": "Adithya AI Hub",
+      "url": "https://adithyaai.is-cool.dev"
     },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://adithyaai.is-cool.dev/blog/${post.slug}`
+    }
   };
 
   return (
@@ -74,7 +84,7 @@ const BlogPost = () => {
         <meta property="og:type" content="article" />
         <meta
           property="og:url"
-          content={`https://adithya-ai-hub.vercel.app/blog/${post.slug}`}
+          content={`https://adithyaai.is-cool.dev/blog/${post.slug}`}
         />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
@@ -82,6 +92,15 @@ const BlogPost = () => {
 
       <article className="container py-20">
         <div className="max-w-3xl mx-auto">
+          {/* Breadcrumb Navigation */}
+          <nav className="breadcrumb text-xs text-muted-foreground mb-6 flex items-center gap-1.5 select-none" aria-label="breadcrumb">
+            <Link to="/" className="hover:text-primary transition-smooth">Home</Link>
+            <span>/</span>
+            <Link to="/blog" className="hover:text-primary transition-smooth">Blog</Link>
+            <span>/</span>
+            <span className="text-foreground/80 font-medium truncate max-w-[240px]">{post.title}</span>
+          </nav>
+
           {/* Back link */}
           <Link
             to="/blog"
@@ -96,14 +115,22 @@ const BlogPost = () => {
             {post.title}
           </h1>
 
-          <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+          <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground border-b border-border/40 pb-4">
             <span className="flex items-center gap-1.5">
-              <Clock className="w-4 h-4" />
-              {post.readTime} read
+              <Clock className="w-4 h-4 text-primary" />
+              {readTimeDynamic}
             </span>
             <span className="flex items-center gap-1.5">
-              <Calendar className="w-4 h-4" />
-              {new Date(post.date).toLocaleDateString("en-IN", {
+              <Calendar className="w-4 h-4 text-primary" />
+              Published: {new Date(post.date).toLocaleDateString("en-IN", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Calendar className="w-4 h-4 text-primary" />
+              Last updated: {new Date(post.date).toLocaleDateString("en-IN", {
                 day: "numeric",
                 month: "long",
                 year: "numeric",
@@ -129,7 +156,7 @@ const BlogPost = () => {
           </div>
 
           {/* Ad: below title */}
-          <AdUnit adFormat="horizontal" className="mt-8" />
+          {wordCount > 600 && <AdUnit adSlot="1234567890" adFormat="horizontal" className="mt-8" />}
 
           {/* Table of contents */}
           {headings.length > 0 && (
@@ -154,9 +181,11 @@ const BlogPost = () => {
           {/* Mid-article ad (after 3rd paragraph) */}
           {part2 && (
             <>
-              <div className="my-8 flex justify-center">
-                <AdRectangle />
-              </div>
+              {wordCount > 600 && (
+                <div className="my-8 flex justify-center">
+                  <AdRectangle />
+                </div>
+              )}
               <div
                 className="prose-blog"
                 dangerouslySetInnerHTML={{ __html: part2 }}
@@ -165,7 +194,7 @@ const BlogPost = () => {
           )}
 
           {/* Ad: above related posts */}
-          <AdUnit adFormat="horizontal" className="mt-10" />
+          {wordCount > 600 && <AdUnit adSlot="1234567890" adFormat="horizontal" className="mt-10" />}
 
           {/* Author card */}
           <AuthorCard />

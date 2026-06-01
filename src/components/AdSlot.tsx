@@ -28,7 +28,8 @@ export function AdUnit({
   }, []);
 
   return (
-    <div className={`ad-container my-6 flex justify-center overflow-hidden ${className}`}>
+    <div className={`ad-container flex flex-col items-center justify-center overflow-hidden ${className}`}>
+      <div className="ad-label">Advertisement</div>
       <ins
         className="adsbygoogle"
         style={style ?? { display: "block" }}

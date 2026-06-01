@@ -1453,876 +1453,714 @@ def count_vc(s):
 <p><em>— Adithya Kuppusamy, AI & Data Science Engineer, Tamil Nadu</em></p>
     `
   },
-  // ── NEW POSTS (5 rich posts) ────────────────────────────────────────────────
+
+
+  // ── COMPLIANCE POSTS (5 new rich posts) ────────────────────────────────────────────────
   {
-    slug: "tcs-nqt-coding-questions-python-solutions",
-    title: "TCS NQT Coding Questions 2026 — Python Solutions & Patterns",
-    excerpt:
-      "Complete walkthrough of the most common TCS NQT coding patterns with Python solutions. Covers arrays, strings, recursion, and greedy problems that appear every year.",
-    category: "Interview Prep",
-    tags: ["TCS", "NQT", "Python", "DSA", "Interview"],
-    readTime: "12 min",
-    date: "2026-05-19",
-    featured: true,
-    content: `
-<h2>Why TCS NQT Coding Matters</h2>
-<p>The TCS National Qualifier Test (NQT) has two coding questions in 30 minutes. They are not LeetCode Hard — they test fundamentals: loops, string manipulation, basic math, and sometimes recursion. If you know these patterns cold, you will clear the coding section even if you fail the MCQ.</p>
-
-<h2>Pattern 1 — Frequency Count (Very Common)</h2>
-<p>Almost every year, one of the two problems is a frequency/count problem — count vowels, count characters, count duplicates.</p>
-<pre><code class="language-python"># Count vowels in a string
-def count_vowels(s):
-    vowels = set('aeiouAEIOU')
-    return sum(1 for ch in s if ch in vowels)
-
-# Count frequency of each character
-def char_frequency(s):
-    freq = {}
-    for ch in s:
-        freq[ch] = freq.get(ch, 0) + 1
-    return freq
-
-# Test
-print(count_vowels("Adithya is learning AI"))   # 9
-print(char_frequency("hello"))                  # {'h':1,'e':1,'l':2,'o':1}
-</code></pre>
-
-<h2>Pattern 2 — Number Reversal and Digit Extraction</h2>
-<p>Second most common category. You'll get problems like "reverse a number", "check palindrome number", "sum of digits".</p>
-<pre><code class="language-python"># Reverse a number without converting to string
-def reverse_number(n):
-    negative = n < 0
-    n = abs(n)
-    rev = 0
-    while n > 0:
-        rev = rev * 10 + n % 10
-        n //= 10
-    return -rev if negative else rev
-
-# Sum of digits
-def digit_sum(n):
-    return sum(int(d) for d in str(abs(n)))
-
-# Armstrong number check
-def is_armstrong(n):
-    digits = str(n)
-    power = len(digits)
-    return n == sum(int(d) ** power for d in digits)
-
-print(reverse_number(12345))   # 54321
-print(digit_sum(9876))         # 30
-print(is_armstrong(153))       # True (1^3 + 5^3 + 3^3 = 153)
-</code></pre>
-
-<h2>Pattern 3 — String Manipulation</h2>
-<p>Check palindrome, remove duplicates, Caesar cipher — these appear often in TCS NQT.</p>
-<pre><code class="language-python"># Check palindrome
-def is_palindrome(s):
-    s = s.lower().replace(' ', '')
-    return s == s[::-1]
-
-# Remove consecutive duplicates
-def remove_consec_duplicates(s):
-    result = [s[0]]
-    for i in range(1, len(s)):
-        if s[i] != s[i-1]:
-            result.append(s[i])
-    return ''.join(result)
-
-# Caesar cipher
-def caesar_cipher(text, shift):
-    result = []
-    for ch in text:
-        if ch.isalpha():
-            base = ord('A') if ch.isupper() else ord('a')
-            result.append(chr((ord(ch) - base + shift) % 26 + base))
-        else:
-            result.append(ch)
-    return ''.join(result)
-
-print(is_palindrome("Race car"))          # True
-print(remove_consec_duplicates("aabbcc")) # "abc"
-print(caesar_cipher("Hello", 3))          # "Khoor"
-</code></pre>
-
-<h2>Pattern 4 — Prime and Fibonacci</h2>
-<p>Classic math problems. Know these by heart — they come up every exam cycle.</p>
-<pre><code class="language-python"># Efficient prime check
-def is_prime(n):
-    if n < 2:
-        return False
-    if n == 2:
-        return True
-    if n % 2 == 0:
-        return False
-    for i in range(3, int(n**0.5) + 1, 2):
-        if n % i == 0:
-            return False
-    return True
-
-# Nth Fibonacci (iterative — DO NOT use recursion in timed tests)
-def fibonacci(n):
-    if n <= 1:
-        return n
-    a, b = 0, 1
-    for _ in range(2, n + 1):
-        a, b = b, a + b
-    return b
-
-# Primes up to N (Sieve of Eratosthenes)
-def sieve(n):
-    is_p = [True] * (n + 1)
-    is_p[0] = is_p[1] = False
-    for i in range(2, int(n**0.5) + 1):
-        if is_p[i]:
-            for j in range(i*i, n+1, i):
-                is_p[j] = False
-    return [i for i in range(2, n+1) if is_p[i]]
-
-print(is_prime(97))      # True
-print(fibonacci(10))     # 55
-print(sieve(30))         # [2,3,5,7,11,13,17,19,23,29]
-</code></pre>
-
-<h2>Pattern 5 — Array Problems</h2>
-<p>Finding max/min, second largest, rotating arrays, missing numbers in a range.</p>
-<pre><code class="language-python"># Second largest element
-def second_largest(arr):
-    first = second = float('-inf')
-    for x in arr:
-        if x > first:
-            second = first
-            first = x
-        elif x > second and x != first:
-            second = x
-    return second if second != float('-inf') else -1
-
-# Missing number in 1..N
-def missing_number(arr, n):
-    return n * (n + 1) // 2 - sum(arr)
-
-# Rotate array left by k positions
-def rotate_left(arr, k):
-    n = len(arr)
-    k = k % n
-    return arr[k:] + arr[:k]
-
-print(second_largest([3, 1, 4, 1, 5, 9, 2, 6]))  # 6
-print(missing_number([1, 2, 4, 5, 6], 6))          # 3
-print(rotate_left([1, 2, 3, 4, 5], 2))             # [3, 4, 5, 1, 2]
-</code></pre>
-
-<h2>My Exam Day Strategy</h2>
-<ul>
-  <li>Read both problems first — pick the easier one, attempt it fully</li>
-  <li>Write edge case checks at the top (n=0, empty string, negative numbers)</li>
-  <li>Use <code>input()</code> for TCS compiler — not <code>sys.stdin</code></li>
-  <li>Submit partial code even if wrong — partial marks exist</li>
-  <li>Aim for O(n) or O(n log n) — avoid O(n²) loops inside loops</li>
-</ul>
-
-<h2>Practice Resources</h2>
-<ul>
-  <li>TCS iON Practice Portal (official, free)</li>
-  <li>PrepInsta TCS NQT section</li>
-  <li>HackerRank Python track (first 20 problems)</li>
-  <li>GeeksForGeeks TCS NQT previous year questions</li>
-</ul>
-`,
-  },
-  {
-    slug: "how-i-built-mediaguard-langgraph-rag",
-    title: "How I Built MediGuard — A Multi-Agent Clinical AI with LangGraph + RAG",
-    excerpt:
-      "Full architecture breakdown of MediGuard: a clinical decision support system using LangGraph multi-agent orchestration, Pinecone RAG, and AWS Bedrock. From concept to working system.",
-    category: "Machine Learning",
-    tags: ["LangGraph", "RAG", "AWS Bedrock", "Pinecone", "Python", "AI"],
-    readTime: "15 min",
-    date: "2026-05-18",
-    featured: true,
-    content: `
-<h2>What is MediGuard?</h2>
-<p>MediGuard is a multi-agent clinical decision support system I built to assist doctors with real-time differential diagnosis and drug interaction checks. It combines three cutting-edge technologies: <strong>LangGraph</strong> for multi-agent orchestration, <strong>Pinecone</strong> for medical RAG (Retrieval-Augmented Generation), and <strong>AWS Bedrock</strong> for HIPAA-aware inference using Claude.</p>
-<p>This project taught me more about production AI systems than any course ever did. Here's the full breakdown.</p>
-
-<h2>Why Multi-Agent Architecture?</h2>
-<p>A single LLM call cannot handle complex clinical reasoning reliably. You need specialized agents, each responsible for one task:</p>
-<ul>
-  <li><strong>Intake Agent</strong> — parses patient symptoms, age, history from unstructured text</li>
-  <li><strong>Retrieval Agent</strong> — fetches relevant medical literature from Pinecone</li>
-  <li><strong>Diagnosis Agent</strong> — generates differential diagnosis with confidence scores</li>
-  <li><strong>Drug Check Agent</strong> — validates prescriptions against known interactions</li>
-  <li><strong>Supervisor Agent</strong> — orchestrates the workflow, handles failures gracefully</li>
-</ul>
-
-<h2>LangGraph — The Orchestration Layer</h2>
-<p>LangGraph lets you build stateful multi-agent workflows as directed graphs. Each node is an agent, edges define the flow.</p>
-<pre><code class="language-python">from langgraph.graph import StateGraph, END
-from typing import TypedDict, List
-
-class ClinicalState(TypedDict):
-    patient_input: str
-    symptoms: List[str]
-    retrieved_docs: List[str]
-    diagnosis: str
-    drug_interactions: List[str]
-    final_report: str
-
-# Build the graph
-workflow = StateGraph(ClinicalState)
-
-# Add nodes
-workflow.add_node("intake", intake_agent)
-workflow.add_node("retrieval", retrieval_agent)
-workflow.add_node("diagnosis", diagnosis_agent)
-workflow.add_node("drug_check", drug_check_agent)
-workflow.add_node("supervisor", supervisor_agent)
-
-# Define edges
-workflow.set_entry_point("intake")
-workflow.add_edge("intake", "retrieval")
-workflow.add_edge("retrieval", "diagnosis")
-workflow.add_edge("diagnosis", "drug_check")
-workflow.add_edge("drug_check", "supervisor")
-workflow.add_edge("supervisor", END)
-
-app = workflow.compile()
-</code></pre>
-
-<h2>Pinecone RAG — Medical Knowledge Base</h2>
-<p>I indexed 50,000+ medical documents (clinical guidelines, drug databases, case studies) into Pinecone. The retrieval agent queries this for every patient case.</p>
-<pre><code class="language-python">import pinecone
-from sentence_transformers import SentenceTransformer
-
-# Initialize
-pc = pinecone.Pinecone(api_key="YOUR_API_KEY")
-index = pc.Index("mediaguard-medical-kb")
-embedder = SentenceTransformer("all-MiniLM-L6-v2")
-
-def retrieval_agent(state: ClinicalState) -> ClinicalState:
-    # Embed the symptoms query
-    query_embedding = embedder.encode(
-        " ".join(state["symptoms"])
-    ).tolist()
-    
-    # Fetch top-5 relevant docs
-    results = index.query(
-        vector=query_embedding,
-        top_k=5,
-        include_metadata=True
-    )
-    
-    docs = [r["metadata"]["text"] for r in results["matches"]]
-    return {**state, "retrieved_docs": docs}
-</code></pre>
-
-<h2>AWS Bedrock — Claude for Clinical Reasoning</h2>
-<p>I used AWS Bedrock to call Claude (Anthropic's model) for the diagnosis step. Bedrock keeps data within AWS infrastructure — critical for any healthcare application thinking about HIPAA.</p>
-<pre><code class="language-python">import boto3
-import json
-
-bedrock = boto3.client("bedrock-runtime", region_name="us-east-1")
-
-def diagnosis_agent(state: ClinicalState) -> ClinicalState:
-    context = "\n\n".join(state["retrieved_docs"])
-    
-    prompt = f"""You are a clinical decision support AI. 
-Based on the following medical literature:
-{context}
-
-Patient symptoms: {', '.join(state['symptoms'])}
-
-Provide a differential diagnosis with confidence scores (0-100) and 
-reasoning for each. Format as JSON.
-"""
-    
-    response = bedrock.invoke_model(
-        modelId="anthropic.claude-3-sonnet-20240229-v1:0",
-        body=json.dumps({
-            "anthropic_version": "bedrock-2023-05-31",
-            "max_tokens": 1024,
-            "messages": [{"role": "user", "content": prompt}]
-        })
-    )
-    
-    result = json.loads(response["body"].read())
-    diagnosis = result["content"][0]["text"]
-    return {**state, "diagnosis": diagnosis}
-</code></pre>
-
-<h2>Drug Interaction Check</h2>
-<p>The drug check agent queries the OpenFDA API for known interactions between prescribed medications.</p>
-<pre><code class="language-python">import requests
-
-def drug_check_agent(state: ClinicalState) -> ClinicalState:
-    # Extract drug names from diagnosis
-    drugs = extract_drug_names(state["diagnosis"])
-    interactions = []
-    
-    for drug in drugs:
-        resp = requests.get(
-            f"https://api.fda.gov/drug/event.json?search=patient.drug.medicinalproduct:{drug}&limit=5"
-        )
-        if resp.status_code == 200:
-            data = resp.json()
-            if data.get("results"):
-                interactions.append(f"{drug}: {len(data['results'])} known interactions found")
-    
-    return {**state, "drug_interactions": interactions}
-</code></pre>
-
-<h2>What I Learned Building This</h2>
-<ul>
-  <li><strong>LangGraph state management</strong> is powerful but requires careful TypedDict design — get it wrong and debugging is painful</li>
-  <li><strong>RAG quality depends on chunking strategy</strong> — I used 512-token chunks with 50-token overlap for medical docs</li>
-  <li><strong>AWS Bedrock latency</strong> is higher than direct OpenAI calls — batch where possible, or cache common queries</li>
-  <li><strong>Clinical AI needs guardrails</strong> — always include a confidence threshold below which the system defers to human review</li>
-  <li><strong>Testing multi-agent systems</strong> — mock each agent independently first, then integration test the full graph</li>
-</ul>
-
-<h2>GitHub & Next Steps</h2>
-<p>The source code is on my <a href="https://github.com/Adithya0805" target="_blank">GitHub</a>. Next steps for MediGuard: add a FastAPI layer, build a clinician UI with React, and explore FHIR integration for EHR compatibility.</p>
-`,
-  },
-  {
-    slug: "ml-engineer-roadmap-2026-tamil-student",
-    title: "ML Engineer Roadmap 2026 — A Tamil Nadu Student's Honest Guide",
-    excerpt:
-      "From CGPA to job offer: a realistic, no-fluff roadmap for AI/ML engineering careers in India. What actually matters, what's overrated, and how to stand out as a Tamil Nadu engineering student.",
-    category: "Career",
-    tags: ["Roadmap", "Career", "Machine Learning", "India", "Tamil Nadu"],
-    readTime: "10 min",
-    date: "2026-05-17",
-    featured: true,
-    content: `
-<h2>Who This Is For</h2>
-<p>You're a B.Tech student in Tamil Nadu — probably from a tier-2 or tier-3 college — and you want to become an ML/AI engineer. You've heard "get placed in TCS/Infosys OR do a startup". That's a false binary. This roadmap is the middle path: build actual skills, get hired at product companies, and earn well without an IIT tag.</p>
-
-<h2>The Honest Skill Stack (2026)</h2>
-<p>Here's what hiring managers at ML-focused companies actually look for, in order of importance:</p>
-<ul>
-  <li><strong>1. Python proficiency</strong> — not just "can write code", but clean, readable, typed code with proper error handling</li>
-  <li><strong>2. ML fundamentals</strong> — linear regression to gradient boosting. Understand bias-variance, cross-validation, metrics properly</li>
-  <li><strong>3. One deep specialization</strong> — NLP/LLMs, Computer Vision, or MLOps. Pick one and go deep</li>
-  <li><strong>4. Data skills</strong> — Pandas, SQL (at least intermediate), and basic data viz (matplotlib or Plotly)</li>
-  <li><strong>5. One cloud platform</strong> — AWS is most in demand in India. Get the AWS Cloud Practitioner cert first</li>
-  <li><strong>6. Git + GitHub</strong> — your public GitHub IS your resume at early career level</li>
-</ul>
-
-<h2>Month-by-Month Plan (Starting from Zero)</h2>
-<pre><code>Month 1-2:  Python basics + NumPy + Pandas
-            → Project: Exploratory Data Analysis on any Kaggle dataset
-
-Month 3-4:  Scikit-learn + ML fundamentals (Andrew Ng's course)
-            → Project: End-to-end classification model with deployment
-
-Month 5-6:  Deep Learning (fast.ai or PyTorch)
-            → Project: Image classifier or sentiment analyzer (deployed on Hugging Face)
-
-Month 7-8:  LLMs + LangChain/LangGraph basics
-            → Project: RAG chatbot over a domain-specific document set
-
-Month 9-10: Cloud (AWS) + MLOps basics (Docker, basic CI/CD)
-            → Project: Deploy your month 7-8 project to AWS EC2 or Lambda
-
-Month 11-12: DSA prep for interviews (150 LeetCode problems)
-             → Apply to 50+ companies with your polished portfolio
-</code></pre>
-
-<h2>What's Overrated (Honest Take)</h2>
-<ul>
-  <li><strong>Kaggle grandmaster rank</strong> — Good for signal, not for jobs. Two solid projects beat 100 Kaggle notebooks</li>
-  <li><strong>Multiple certifications</strong> — 1-2 relevant certs (AWS, TensorFlow) are enough. Cert-collecting is procrastination</li>
-  <li><strong>Knowing every framework</strong> — PyTorch OR TensorFlow, not both. LangChain OR LlamaIndex, not both</li>
-  <li><strong>CGPA above 7.5</strong> — Below 7.5 is a filter issue. Above 7.5, CGPA doesn't differentiate you</li>
-</ul>
-
-<h2>What's Underrated</h2>
-<ul>
-  <li><strong>Writing online</strong> — this blog is me doing exactly this. Write about what you build. Recruiters read it</li>
-  <li><strong>LinkedIn consistency</strong> — post once a week. One project update, one learning, one insight. Compound over 6 months</li>
-  <li><strong>GitHub README quality</strong> — most students have repos with no README. A good README makes you look senior-level</li>
-  <li><strong>Cold emailing</strong> — I emailed 30 engineers at startups in India. 6 replied. 2 led to referrals. It works</li>
-</ul>
-
-<h2>Tamil Nadu Specific Advice</h2>
-<p>The tech job market in Chennai is growing fast. Companies like Zoho, Freshworks, Chargebee, and hundreds of startups are actively hiring ML engineers. You don't need to move to Bangalore immediately.</p>
-<ul>
-  <li>Attend Chennai's <strong>GDG (Google Developer Groups)</strong> meetups — great networking</li>
-  <li>Join <strong>Tamil Nadu AI Community</strong> WhatsApp groups — job leads come through there</li>
-  <li>Target <strong>Zoho's campus hiring</strong> — they take people from any college based on skills</li>
-  <li>Use <strong>Naukri + LinkedIn both</strong> — Naukri has many Chennai/Tamil Nadu specific ML roles that LinkedIn misses</li>
-</ul>
-
-<h2>My Personal Timeline</h2>
-<p>For context: I'm Adithya from Ambur, studied at a non-IIT college, CGPA 8.5. I built 7 AI projects, got AWS certified, wrote this blog, and am now actively applying. The roadmap above is exactly what I followed. It's not theoretical — it's lived experience.</p>
-
-<h2>Final Advice</h2>
-<p>Stop waiting until you feel "ready". Ship something. Break it. Fix it. Ship again. The gap between "learning ML" and "doing ML" is a project — just one project that you deploy and show to the world. That's the whole secret.</p>
-`,
-  },
-  {
-    slug: "langchain-rag-beginners-guide",
-    title: "Build a RAG Chatbot from Scratch — LangChain Beginner's Guide",
-    excerpt:
-      "Step-by-step tutorial to build your first Retrieval-Augmented Generation (RAG) chatbot using LangChain, ChromaDB, and OpenAI. With working code you can run today.",
-    category: "Machine Learning",
-    tags: ["LangChain", "RAG", "Python", "OpenAI", "ChromaDB", "Tutorial"],
-    readTime: "14 min",
-    date: "2026-05-16",
+    slug: 'python-machine-learning-roadmap-2026-beginners',
+    title: 'Python for Machine Learning — Complete Beginner Roadmap 2026',
+    date: '2026-05-25',
+    excerpt: 'A complete, honest roadmap for learning Python and Machine Learning from scratch in 2026. Written for Indian engineering students with zero prior ML experience.',
+    tags: ['Python', 'Machine Learning', 'Roadmap', 'Beginners', 'Career'],
+    category: 'Machine Learning',
+    readTime: '9 min read',
     featured: false,
     content: `
-<h2>What is RAG and Why Does It Matter?</h2>
-<p>RAG (Retrieval-Augmented Generation) solves the biggest problem with LLMs: they don't know about your private data, and they hallucinate when they don't know something. RAG fixes this by retrieving relevant documents from your own knowledge base before generating a response.</p>
-<p>Think of it like giving the LLM an open-book exam instead of asking it to recall from memory.</p>
+<h2>Why Most ML Roadmaps Fail You</h2>
+<p>Most Python and ML roadmaps online are written for people who already know programming. They assume you understand functions, classes, and data structures before explaining what a neural network is. This roadmap is different — it starts from zero and builds up logically.</p>
+<p>I followed a version of this roadmap myself during my final year at Dhanalakshmi Srinivasan College of Engineering, Tamil Nadu. This is what actually worked.</p>
 
-<h2>What We're Building</h2>
-<p>A chatbot that can answer questions about any PDF you give it — in under 100 lines of Python. We'll use:</p>
+<h2>Phase 1 — Python Foundations (Weeks 1–3)</h2>
+<p>Before touching any ML library, you must be comfortable with core Python. Not expert-level — comfortable. You need to write basic programs without Googling syntax every line.</p>
+<p>What to learn:</p>
 <ul>
-  <li><strong>LangChain</strong> — orchestration framework</li>
-  <li><strong>ChromaDB</strong> — local vector database (free, no API needed)</li>
-  <li><strong>OpenAI</strong> — embeddings + GPT-4o-mini for generation</li>
+  <li>Variables, data types, conditionals, loops</li>
+  <li>Functions — defining, calling, return values</li>
+  <li>Lists, dictionaries, tuples, sets</li>
+  <li>File reading and writing</li>
+  <li>Basic OOP — classes and objects</li>
+</ul>
+<p>How to practice:</p>
+<pre><code>
+# Week 1 target — write this from scratch without help
+def celsius_to_fahrenheit(celsius):
+    return (celsius * 9/5) + 32
+
+temperatures = [0, 20, 37, 100]
+converted = [celsius_to_fahrenheit(t) for t in temperatures]
+print(converted)  # [32.0, 68.0, 98.6, 212.0]
+</code></pre>
+<p>If you can write that comfortably, you are ready for Phase 2.</p>
+<p><strong>Resources:</strong> Python.org tutorial (free), CS50P on edX (free), HackerRank Python track (free)</p>
+
+<h2>Phase 2 — Data Handling (Weeks 4–5)</h2>
+<p>Machine learning runs on data. Before building models, you need to load, clean, and understand data.</p>
+<p>Libraries to learn:</p>
+<ul>
+  <li><strong>NumPy</strong> — numerical arrays and math operations</li>
+  <li><strong>Pandas</strong> — loading CSV files, dataframes, data cleaning</li>
+  <li><strong>Matplotlib / Seaborn</strong> — visualizing data</li>
+</ul>
+<pre><code>
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load a dataset
+df = pd.read_csv('data.csv')
+
+# Basic exploration every data scientist does first
+print(df.shape)          # rows and columns
+print(df.head())         # first 5 rows
+print(df.isnull().sum()) # missing values per column
+print(df.describe())     # statistics
+
+# Simple visualization
+df['salary'].hist(bins=20)
+plt.title('Salary Distribution')
+plt.show()
+</code></pre>
+<p><strong>Practice dataset:</strong> Download the Titanic dataset from Kaggle. Explore it using the code above. Answer these questions from the data: What is the average age? How many passengers survived? Which class had the highest survival rate?</p>
+
+<h2>Phase 3 — Machine Learning Basics (Weeks 6–8)</h2>
+<p>Now you are ready for actual ML. Start with scikit-learn — the most practical ML library for beginners.</p>
+<p>Learn these algorithms in order:</p>
+<ul>
+  <li>Linear Regression — predicting continuous values</li>
+  <li>Logistic Regression — binary classification</li>
+  <li>Decision Trees — intuitive, easy to visualize</li>
+  <li>Random Forest — better accuracy, same concept</li>
+</ul>
+<pre><code>
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+import pandas as pd
+
+# Load and prepare data
+df = pd.read_csv('titanic.csv')
+features = ['Pclass', 'Age', 'SibSp', 'Fare']
+df = df[features + ['Survived']].dropna()
+
+X = df[features]
+y = df['Survived']
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train model
+model = RandomForestClassifier(n_estimators=100)
+model.fit(X_train, y_train)
+
+# Evaluate
+predictions = model.predict(X_test)
+print(f"Accuracy: {accuracy_score(y_test, predictions):.2f}")
+</code></pre>
+
+<h2>Phase 4 — Deep Learning Introduction (Weeks 9–11)</h2>
+<p>Once you understand classical ML, move to deep learning with TensorFlow or PyTorch.</p>
+<p>Start with TensorFlow/Keras because the syntax is more beginner-friendly:</p>
+<pre><code>
+import tensorflow as tf
+from tensorflow import keras
+
+# Simple neural network for classification
+model = keras.Sequential([
+    keras.layers.Dense(64, activation='relu', input_shape=(4,)),
+    keras.layers.Dense(32, activation='relu'),
+    keras.layers.Dense(1, activation='sigmoid')
+])
+
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+model.summary()
+</code></pre>
+
+<h2>Phase 5 — Specialization (Weeks 12+)</h2>
+<p>After the basics, choose one area to go deep:</p>
+<ul>
+  <li><strong>NLP and LLMs</strong> — if you want to work with language models, chatbots, RAG systems</li>
+  <li><strong>Computer Vision</strong> — if you want to work with images, medical imaging, object detection</li>
+  <li><strong>MLOps</strong> — if you want to deploy and maintain ML systems in production</li>
+</ul>
+<p>My recommendation for freshers in 2026: <strong>Go deep on NLP and LLMs.</strong> Every company is hiring for this. LangChain, LangGraph, RAG systems, and prompt engineering are the most in-demand skills right now.</p>
+
+<h2>Common Mistakes to Avoid</h2>
+<ul>
+  <li><strong>Tutorial hell</strong> — watching videos without writing code. Write every line yourself.</li>
+  <li><strong>Skipping mathematics</strong> — you don't need a PhD in math, but understand what mean, variance, and gradient descent are conceptually.</li>
+  <li><strong>Building complex projects too early</strong> — master the basics on standard datasets before attempting original projects.</li>
+  <li><strong>Not tracking your learning</strong> — keep a simple notebook of what you learned each week.</li>
 </ul>
 
-<h2>Step 1 — Install Dependencies</h2>
-<pre><code class="language-bash">pip install langchain langchain-openai langchain-community chromadb pypdf python-dotenv
+<h2>Estimated Timeline</h2>
+<p>If you study 2 hours per day consistently:</p>
+<ul>
+  <li>3 months — solid Python + basic ML skills</li>
+  <li>6 months — first ML project on GitHub</li>
+  <li>9 months — ready for ML Engineer fresher roles</li>
+  <li>12 months — portfolio strong enough for product companies</li>
+</ul>
+<p>The key word is consistently. Two hours every day beats ten hours every weekend.</p>
+<p><em>— Adithya Kuppusamy, AI & Data Science Engineer, Tamil Nadu</em></p>
+  `
+  },
+  {
+    slug: 'langchain-rag-complete-tutorial-2026',
+    title: 'LangChain RAG Tutorial — Build an AI Q&A Bot Over Your Own Documents (2026)',
+    date: '2026-05-26',
+    excerpt: 'Step by step tutorial to build a Retrieval Augmented Generation system using LangChain, FAISS vector store, and OpenAI. Complete working code included.',
+    tags: ['LangChain', 'RAG', 'Python', 'Tutorial', 'Vector Database', 'OpenAI'],
+    category: 'Machine Learning',
+    readTime: '11 min read',
+    featured: false,
+    content: `
+<h2>What is RAG and Why Does It Matter</h2>
+<p>Large Language Models like GPT-4 and Claude are trained on data up to a specific cutoff date. They cannot answer questions about your private documents, your company's internal knowledge base, or recent events. This is where RAG — Retrieval Augmented Generation — solves a real problem.</p>
+<p>Instead of relying on the model's training data alone, RAG retrieves relevant documents from your own knowledge base and gives them to the model as context before generating an answer. The result is accurate, sourced, up-to-date responses grounded in your actual data.</p>
+<p>This is the architecture behind most enterprise AI chatbots, customer support bots, and document Q&A systems being built today.</p>
+
+<h2>How RAG Works — The 3 Step Pipeline</h2>
+<pre><code>
+Your Documents (PDF, TXT, CSV)
+         ↓
+[Step 1: Chunking] — split into small passages
+         ↓
+[Step 2: Embedding] — convert text to vectors
+         ↓
+[Step 3: Store] — save vectors in FAISS or Pinecone
+         ↓
+User asks a question
+         ↓
+[Step 4: Retrieve] — find most similar chunks
+         ↓
+[Step 5: Generate] — LLM answers using retrieved chunks
 </code></pre>
 
-<h2>Step 2 — Load and Split Your PDF</h2>
-<pre><code class="language-python">from langchain_community.document_loaders import PyPDFLoader
+<h2>Setup — Install Required Libraries</h2>
+<pre><code>
+pip install langchain langchain-openai faiss-cpu python-dotenv pypdf
+</code></pre>
+
+<h2>Step 1 — Load and Chunk Your Documents</h2>
+<pre><code>
+from langchain.document_loaders import PyPDFLoader, TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-# Load PDF
+# Load a PDF document
 loader = PyPDFLoader("your_document.pdf")
-pages = loader.load()
+documents = loader.load()
 
 # Split into chunks
-splitter = RecursiveCharacterTextSplitter(
-    chunk_size=500,      # 500 tokens per chunk
-    chunk_overlap=50,    # 50 token overlap to preserve context
-    separators=["\n\n", "\n", ".", " "]
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,      # characters per chunk
+    chunk_overlap=200,    # overlap between chunks to maintain context
+    length_function=len
 )
-chunks = splitter.split_documents(pages)
-print(f"Split into {len(chunks)} chunks")
+
+chunks = text_splitter.split_documents(documents)
+print(f"Total chunks: {len(chunks)}")
+print(f"Sample chunk: {chunks[0].page_content[:200]}")
 </code></pre>
 
-<h2>Step 3 — Create Vector Embeddings and Store in ChromaDB</h2>
-<pre><code class="language-python">from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import Chroma
+<h2>Step 2 — Create Embeddings and Vector Store</h2>
+<pre><code>
+from langchain_openai import OpenAIEmbeddings
+from langchain.vectorstores import FAISS
 import os
+from dotenv import load_dotenv
 
-os.environ["OPENAI_API_KEY"] = "your-api-key"
+load_dotenv()
 
-# Create embeddings and store locally
-embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
-
-vectorstore = Chroma.from_documents(
-    documents=chunks,
-    embedding=embeddings,
-    persist_directory="./chroma_db"  # saves locally
+# Initialize embeddings
+embeddings = OpenAIEmbeddings(
+    openai_api_key=os.getenv("OPENAI_API_KEY")
 )
 
-print("Vector store created and saved!")
+# Create FAISS vector store from chunks
+vectorstore = FAISS.from_documents(
+    documents=chunks,
+    embedding=embeddings
+)
+
+# Save locally so you don't re-embed every time
+vectorstore.save_local("faiss_index")
+print("Vector store created and saved")
 </code></pre>
 
-<h2>Step 4 — Build the RAG Chain</h2>
-<pre><code class="language-python">from langchain_openai import ChatOpenAI
+<h2>Step 3 — Build the Q&A Chain</h2>
+<pre><code>
+from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
-from langchain.prompts import PromptTemplate
+from langchain.vectorstores import FAISS
+from langchain_openai import OpenAIEmbeddings
 
-# Load existing vectorstore
-vectorstore = Chroma(
-    persist_directory="./chroma_db",
-    embedding_function=OpenAIEmbeddings(model="text-embedding-3-small")
-)
+# Load saved vector store
+embeddings = OpenAIEmbeddings()
+vectorstore = FAISS.load_local("faiss_index", embeddings)
 
 # Create retriever
 retriever = vectorstore.as_retriever(
     search_type="similarity",
-    search_kwargs={"k": 4}  # retrieve top-4 most similar chunks
+    search_kwargs={"k": 4}  # retrieve top 4 most relevant chunks
 )
 
-# Custom prompt
-prompt_template = """You are a helpful assistant. Use ONLY the following context 
-to answer the question. If the answer is not in the context, say 
-"I don't have enough information about that."
-
-Context:
-{context}
-
-Question: {question}
-
-Answer:"""
-
-prompt = PromptTemplate(
-    template=prompt_template,
-    input_variables=["context", "question"]
+# Initialize LLM
+llm = ChatOpenAI(
+    model_name="gpt-3.5-turbo",
+    temperature=0
 )
 
-# Create the RAG chain
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-
-rag_chain = RetrievalQA.from_chain_type(
+# Build the chain
+qa_chain = RetrievalQA.from_chain_type(
     llm=llm,
     chain_type="stuff",
     retriever=retriever,
-    chain_type_kwargs={"prompt": prompt},
     return_source_documents=True
 )
 </code></pre>
 
-<h2>Step 5 — Chat with Your Document</h2>
-<pre><code class="language-python">def chat(question: str) -> str:
-    result = rag_chain.invoke({"query": question})
-    answer = result["result"]
-    sources = result["source_documents"]
+<h2>Step 4 — Ask Questions</h2>
+<pre><code>
+def ask_question(question: str):
+    result = qa_chain({"query": question})
     
-    print(f"\nAnswer: {answer}")
-    print(f"\nSources: {len(sources)} chunks retrieved")
-    for i, doc in enumerate(sources):
-        print(f"  [{i+1}] Page {doc.metadata.get('page', '?')}: {doc.page_content[:100]}...")
+    print(f"Question: {question}")
+    print(f"Answer: {result['result']}")
+    print(f"\nSources used:")
+    for doc in result['source_documents']:
+        print(f"  - Page {doc.metadata.get('page', 'N/A')}: {doc.page_content[:100]}...")
     
-    return answer
+    return result['result']
 
 # Test it
-chat("What is the main topic of this document?")
-chat("Summarize the key findings")
-chat("What are the recommendations?")
+ask_question("What are the main topics covered in this document?")
+ask_question("Summarize the key findings")
 </code></pre>
 
-<h2>Step 6 — Add a Simple CLI Interface</h2>
-<pre><code class="language-python">if __name__ == "__main__":
-    print("RAG Chatbot ready! Ask questions about your PDF.")
-    print("Type 'quit' to exit.\n")
-    
-    while True:
-        question = input("You: ").strip()
-        if question.lower() in ["quit", "exit", "q"]:
-            print("Goodbye!")
-            break
-        if question:
-            chat(question)
-        print()
+<h2>Common Errors and Fixes</h2>
+<ul>
+  <li><strong>RateLimitError</strong> — too many embedding requests. Add time.sleep(1) between batches.</li>
+  <li><strong>Context length exceeded</strong> — reduce chunk_size from 1000 to 500.</li>
+  <li><strong>Poor answer quality</strong> — increase k from 4 to 6 in the retriever to fetch more context.</li>
+  <li><strong>FAISS index not found</strong> — make sure you run the embedding step before the Q&A step.</li>
+</ul>
+
+<h2>Free Alternatives to OpenAI</h2>
+<p>If you want to build this without API costs:</p>
+<ul>
+  <li><strong>Embeddings:</strong> Use HuggingFace sentence-transformers — completely free</li>
+  <li><strong>LLM:</strong> Use Google Gemini API free tier or Ollama for local models</li>
+  <li><strong>Vector Store:</strong> FAISS is already free and local</li>
+</ul>
+<pre><code>
+# Free embedding alternative
+from langchain.embeddings import HuggingFaceEmbeddings
+
+embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
+)
 </code></pre>
 
-<h2>Understanding What's Happening</h2>
+<h2>What to Build Next</h2>
+<p>Once your basic RAG pipeline works, extend it:</p>
 <ul>
-  <li><strong>Chunking</strong>: We split the PDF into small pieces so the LLM can focus on relevant sections</li>
-  <li><strong>Embedding</strong>: Each chunk is converted to a vector (list of numbers) that captures semantic meaning</li>
-  <li><strong>Retrieval</strong>: When you ask a question, it's also embedded, then we find the chunks with the closest vectors (cosine similarity)</li>
-  <li><strong>Generation</strong>: The retrieved chunks are injected into the prompt as context, and the LLM generates a grounded answer</li>
+  <li>Add a Gradio or Streamlit UI so non-technical users can use it</li>
+  <li>Support multiple document types — PDF, Word, CSV, web pages</li>
+  <li>Add conversation memory so users can ask follow-up questions</li>
+  <li>Deploy it on Hugging Face Spaces for free</li>
 </ul>
-
-<h2>Common Mistakes to Avoid</h2>
-<ul>
-  <li>Chunk size too large → retrieval is less precise (aim for 300-600 tokens)</li>
-  <li>No overlap → context breaks at chunk boundaries (use 10-15% overlap)</li>
-  <li>Asking the LLM to answer from memory → defeats the purpose; always use the "only use context" instruction</li>
-  <li>Not filtering irrelevant retrievals → add a similarity score threshold</li>
-</ul>
-
-<h2>Where to Go Next</h2>
-<ul>
-  <li>Upgrade to <strong>LangGraph</strong> for multi-turn conversation with memory</li>
-  <li>Replace ChromaDB with <strong>Pinecone</strong> for production-scale storage</li>
-  <li>Add <strong>HyDE</strong> (Hypothetical Document Embeddings) for better retrieval</li>
-  <li>Build a <strong>FastAPI endpoint</strong> to expose your RAG bot as an API</li>
-</ul>
-`,
+<p>RAG is one of the most practical and in-demand skills in AI right now. Every company building an internal AI tool is using some version of this pipeline. Build it, understand it deeply, and put it on your resume.</p>
+<p><em>— Adithya Kuppusamy, AI & Data Science Engineer, Tamil Nadu</em></p>
+  `
   },
   {
-    slug: "amazon-sde-interview-prep-dsa-guide",
-    title: "Amazon SDE Interview Prep — Complete DSA Guide with Python",
-    excerpt:
-      "Everything you need to crack the Amazon SDE coding rounds: the exact topics they test, problem patterns with solutions, LP (Leadership Principles) tips, and a 8-week study plan.",
-    category: "Interview Prep",
-    tags: ["Amazon", "SDE", "DSA", "Interview", "Python", "LeetCode"],
-    readTime: "18 min",
-    date: "2026-05-15",
+    slug: 'infosys-interview-experience-2026-fresher',
+    title: 'Infosys SP & DSE Interview Experience 2026 — What Actually Happens',
+    date: '2026-05-27',
+    excerpt: 'Complete breakdown of the Infosys System Engineer and Digital Specialist Engineer recruitment process in 2026. Online assessment, technical interview, and HR round — all covered honestly.',
+    tags: ['Infosys', 'Interview', 'Campus Placement', 'Career', 'Fresher'],
+    category: 'Interview Prep',
+    readTime: '8 min read',
     featured: false,
     content: `
-<h2>Amazon Interview Structure (2026)</h2>
-<p>Amazon's SDE-1 interview process for freshers typically has:</p>
+<h2>Infosys Hiring in 2026 — What's Changed</h2>
+<p>Infosys runs two main fresher hiring tracks — System Engineer (SE) and Digital Specialist Engineer (DSE). DSE is the premium track with higher pay and more technical work. Both go through similar stages but with different difficulty levels in the assessment.</p>
+<p>I prepared for the Infosys virtual assessment in April 2026. Here is exactly what the process looks like from the inside.</p>
+
+<h2>Stage 1 — Online Assessment</h2>
+<p>The Infosys online assessment has 4 sections:</p>
+
+<h3>Section 1 — Reasoning Ability (15 questions, 25 minutes)</h3>
+<p>Logical reasoning, number series, syllogisms, blood relations, and data interpretation. Medium difficulty. The tricky ones are the data sufficiency questions — they require you to determine if the given information is enough to answer the question, not actually solve it.</p>
+
+<h3>Section 2 — Mathematical Ability (10 questions, 35 minutes)</h3>
+<p>Time and work, percentages, profit and loss, geometry, and probability. More time is given here because the questions require multi-step solving. Don't spend more than 3 minutes on any single question.</p>
+
+<h3>Section 3 — Verbal Ability (20 questions, 20 minutes)</h3>
+<p>Reading comprehension, sentence correction, error spotting, and vocabulary. This is where most students lose marks — 20 questions in 20 minutes means 1 minute per question. Speed matters more than perfection here.</p>
+
+<h3>Section 4 — Coding (2 questions, 30 minutes) — DSE Only</h3>
+<p>Array and string manipulation problems. The questions are Easy to Medium difficulty on LeetCode scale. Python is the fastest language to use here.</p>
+<pre><code>
+# Common Infosys coding pattern — find second largest in array
+def second_largest(arr):
+    unique = list(set(arr))
+    if len(unique) < 2:
+        return -1
+    unique.sort(reverse=True)
+    return unique[1]
+
+# Test
+print(second_largest([3, 1, 4, 1, 5, 9, 2, 6]))  # 6
+print(second_largest([5, 5, 5]))  # -1
+</code></pre>
+
+<h2>Stage 2 — Technical Interview</h2>
+<p>If you clear the online assessment, you get a technical interview. Duration is 30–45 minutes. The interviewer is typically a senior engineer, not HR.</p>
+<p>Topics that came up most in 2026 technical interviews:</p>
 <ul>
-  <li><strong>OA (Online Assessment)</strong>: 2 coding problems + work simulation (90 mins)</li>
-  <li><strong>Technical Phone Screen</strong>: 1-2 coding problems + debugging (45-60 mins)</li>
-  <li><strong>Virtual On-site</strong>: 4-5 rounds — 2-3 coding, 1 system design (simplified), 1-2 LP behavioral</li>
+  <li>OOP concepts — inheritance, polymorphism, encapsulation with real examples</li>
+  <li>DBMS — SQL queries, joins, normalization, indexing</li>
+  <li>Data Structures — arrays, linked lists, stacks, queues</li>
+  <li>Computer Networks basics — TCP/IP, HTTP vs HTTPS, DNS</li>
+  <li>Your projects — be ready to explain every line of your project</li>
 </ul>
-<p>The coding rounds are LeetCode medium difficulty. The LP rounds are what trips most Indian candidates up. We'll cover both.</p>
+<p>The most important thing about the technical interview — your projects. Every interviewer will ask you to explain your final year project in detail. Know your own work inside out. Don't add anything to your resume that you cannot explain clearly.</p>
 
-<h2>DSA Topics Amazon Tests (Frequency Order)</h2>
+<h2>Stage 3 — HR Interview</h2>
+<p>The HR round is not a formality. Infosys HR interviewers are trained to check cultural fit and communication. Common questions:</p>
 <ul>
-  <li>Arrays &amp; Strings — 30% of problems</li>
-  <li>Trees &amp; Graphs (BFS/DFS) — 25%</li>
-  <li>Dynamic Programming — 20%</li>
-  <li>Linked Lists — 10%</li>
-  <li>Stacks, Queues, Heaps — 10%</li>
-  <li>Recursion &amp; Backtracking — 5%</li>
-</ul>
-
-<h2>Pattern 1 — Two Pointers (Must Know)</h2>
-<pre><code class="language-python"># Two Sum II (sorted array) — O(n) instead of O(n²)
-def two_sum_sorted(numbers, target):
-    left, right = 0, len(numbers) - 1
-    while left < right:
-        current = numbers[left] + numbers[right]
-        if current == target:
-            return [left + 1, right + 1]
-        elif current < target:
-            left += 1
-        else:
-            right -= 1
-    return []
-
-# Container With Most Water
-def max_water(height):
-    left, right = 0, len(height) - 1
-    max_area = 0
-    while left < right:
-        area = min(height[left], height[right]) * (right - left)
-        max_area = max(max_area, area)
-        if height[left] < height[right]:
-            left += 1
-        else:
-            right -= 1
-    return max_area
-
-# 3Sum
-def three_sum(nums):
-    nums.sort()
-    result = []
-    for i in range(len(nums) - 2):
-        if i > 0 and nums[i] == nums[i-1]:
-            continue  # skip duplicates
-        left, right = i + 1, len(nums) - 1
-        while left < right:
-            s = nums[i] + nums[left] + nums[right]
-            if s == 0:
-                result.append([nums[i], nums[left], nums[right]])
-                while left < right and nums[left] == nums[left+1]: left += 1
-                while left < right and nums[right] == nums[right-1]: right -= 1
-                left += 1; right -= 1
-            elif s < 0:
-                left += 1
-            else:
-                right -= 1
-    return result
-</code></pre>
-
-<h2>Pattern 2 — Sliding Window</h2>
-<pre><code class="language-python"># Longest substring without repeating characters
-def length_of_longest_substring(s):
-    char_index = {}
-    max_len = 0
-    left = 0
-    
-    for right, ch in enumerate(s):
-        if ch in char_index and char_index[ch] >= left:
-            left = char_index[ch] + 1
-        char_index[ch] = right
-        max_len = max(max_len, right - left + 1)
-    
-    return max_len
-
-# Maximum sum subarray of size k
-def max_sum_subarray(arr, k):
-    window_sum = sum(arr[:k])
-    max_sum = window_sum
-    
-    for i in range(k, len(arr)):
-        window_sum += arr[i] - arr[i - k]
-        max_sum = max(max_sum, window_sum)
-    
-    return max_sum
-
-print(length_of_longest_substring("abcabcbb"))  # 3
-print(max_sum_subarray([2, 1, 5, 1, 3, 2], 3)) # 9
-</code></pre>
-
-<h2>Pattern 3 — Trees (BFS + DFS)</h2>
-<pre><code class="language-python">class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-# Level Order Traversal (BFS)
-from collections import deque
-
-def level_order(root):
-    if not root:
-        return []
-    result = []
-    queue = deque([root])
-    while queue:
-        level = []
-        for _ in range(len(queue)):
-            node = queue.popleft()
-            level.append(node.val)
-            if node.left: queue.append(node.left)
-            if node.right: queue.append(node.right)
-        result.append(level)
-    return result
-
-# Maximum Depth
-def max_depth(root):
-    if not root:
-        return 0
-    return 1 + max(max_depth(root.left), max_depth(root.right))
-
-# Lowest Common Ancestor
-def lca(root, p, q):
-    if not root or root == p or root == q:
-        return root
-    left = lca(root.left, p, q)
-    right = lca(root.right, p, q)
-    return root if left and right else left or right
-</code></pre>
-
-<h2>Pattern 4 — Dynamic Programming</h2>
-<pre><code class="language-python"># Classic: Longest Common Subsequence
-def lcs(text1, text2):
-    m, n = len(text1), len(text2)
-    dp = [[0] * (n + 1) for _ in range(m + 1)]
-    
-    for i in range(1, m + 1):
-        for j in range(1, n + 1):
-            if text1[i-1] == text2[j-1]:
-                dp[i][j] = dp[i-1][j-1] + 1
-            else:
-                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
-    
-    return dp[m][n]
-
-# Coin Change (minimum coins)
-def coin_change(coins, amount):
-    dp = [float('inf')] * (amount + 1)
-    dp[0] = 0
-    
-    for coin in coins:
-        for x in range(coin, amount + 1):
-            dp[x] = min(dp[x], dp[x - coin] + 1)
-    
-    return dp[amount] if dp[amount] != float('inf') else -1
-
-print(lcs("abcde", "ace"))             # 3
-print(coin_change([1, 5, 11], 15))     # 3 (5+5+5)
-</code></pre>
-
-<h2>Amazon Leadership Principles — Interview Tips</h2>
-<p>Amazon is unique in how much weight they give to LP rounds. Every behavioral question maps to one or more of their 16 LPs. Prepare 3-4 STAR stories that cover:</p>
-<ul>
-  <li><strong>Customer Obsession</strong> — "Tell me about a time you went above and beyond for a user/customer"</li>
-  <li><strong>Bias for Action</strong> — "Tell me about a time you made a decision with incomplete information"</li>
-  <li><strong>Dive Deep</strong> — "Tell me about a time you found the root cause of a problem others had missed"</li>
-  <li><strong>Deliver Results</strong> — "Tell me about your most significant achievement" (use metrics!)</li>
+  <li>"Tell me about yourself" — prepare a 90-second answer</li>
+  <li>"Why Infosys?" — research the company before this round</li>
+  <li>"Where do you see yourself in 5 years?"</li>
+  <li>"Are you willing to relocate?"</li>
+  <li>"Do you have any bond concerns?" — Infosys has a service bond, be prepared</li>
 </ul>
 
-<h2>My 8-Week Study Plan</h2>
-<pre><code>Week 1: Arrays + Strings (30 problems)
-Week 2: Two Pointers + Sliding Window (20 problems)
-Week 3: Linked Lists + Stacks/Queues (25 problems)
-Week 4: Trees + Graphs BFS/DFS (30 problems)
-Week 5: Dynamic Programming Part 1 — 1D (20 problems)
-Week 6: Dynamic Programming Part 2 — 2D (15 problems)
-Week 7: Mock interviews (2 per day) + LP story writing
-Week 8: Revision + Amazon-specific problem list (Leetcode "Amazon" tag)
-</code></pre>
-
-<h2>Resources I Actually Used</h2>
+<h2>My Preparation Strategy</h2>
+<p>I spent 8 days preparing for the Infosys assessment. Here is what I focused on:</p>
 <ul>
-  <li>Neetcode.io — best structured roadmap, free videos</li>
-  <li>LeetCode Premium — Amazon question bank worth it for 2 weeks before interview</li>
-  <li>"Cracking the Coding Interview" — Chapter 1-5 for fundamentals</li>
-  <li>Amazon SDE interview experiences on Glassdoor (read 20+)</li>
+  <li>Days 1–2: Reasoning — IndiaBix + PrepInsta, 40 questions daily</li>
+  <li>Days 3–4: Maths — Percentages, time-work, profit-loss, probability</li>
+  <li>Days 5–6: Verbal — RC passages, sentence correction, vocabulary</li>
+  <li>Days 7–8: Coding — 2 easy problems daily on HackerRank in Python</li>
 </ul>
-`,
-  },
 
-  // ── ORIGINAL POSTS (kept, with featured flag) ──────────────────────────────
-  {
-    slug: "getting-started-with-machine-learning",
-    title: "Getting Started With Machine Learning in 2026",
-    excerpt:
-      "A practical roadmap for absolute beginners — math, Python, frameworks, and the projects that actually build skill.",
-    category: "Machine Learning",
-    tags: ["ML", "Beginner", "Roadmap"],
-    readTime: "8 min",
-    date: "2026-05-10",
-    featured: false,
-    content: `
-<h2>Why machine learning still matters</h2>
-<p>Machine learning is no longer optional for technical roles. In 2026, almost every product team touches an ML-powered feature.</p>
+<h2>Key Tips</h2>
+<ul>
+  <li>Attempt all questions — no negative marking</li>
+  <li>Verbal section is time-critical — practice speed</li>
+  <li>For coding — solve Q1 completely before touching Q2</li>
+  <li>Technical interview — be honest if you don't know something. Say "I don't know this but here is how I would approach finding the answer"</li>
+  <li>HR round — smile, make eye contact, speak slowly and clearly</li>
+</ul>
 
-<h2>The foundations you actually need</h2>
-<p>You don't need a PhD. You need: linear algebra intuition, probability basics, and confident Python.</p>
-<pre><code class="language-python">import numpy as np
-from sklearn.linear_model import LogisticRegression
-
-model = LogisticRegression().fit(X_train, y_train)
-print(model.score(X_test, y_test))
-</code></pre>
-
-<h2>Build, don't just watch</h2>
-<p>Three projects beat thirty tutorials. Pick a dataset that excites you and ship.</p>
-
-<h2>Where to go next</h2>
-<p>Move to deep learning with PyTorch, then start shipping end-to-end systems.</p>
-`,
+<h2>Final Thought</h2>
+<p>Infosys is a good company to start your IT career. The DSE track especially gives you exposure to real projects and better growth opportunities. Three weeks of serious preparation is all it takes to clear the process.</p>
+<p>If you found this helpful, share it with your batch mates who are preparing for Infosys. And check my other posts for TCS NQT preparation and ML career roadmaps.</p>
+<p><em>— Adithya Kuppusamy, AI & Data Science Engineer, Tamil Nadu</em></p>
+  `
   },
   {
-    slug: "aws-ec2-for-beginners",
-    title: "AWS EC2 for Beginners: From Zero to First Deploy",
-    excerpt:
-      "Spin up your first EC2 instance, SSH in, and host a real app — no prior cloud experience required.",
-    category: "Machine Learning",
-    tags: ["AWS", "EC2", "Cloud"],
-    readTime: "10 min",
-    date: "2026-04-22",
+    slug: 'aws-bedrock-beginners-guide-2026',
+    title: 'AWS Bedrock for Beginners — How to Use Claude and Titan APIs in Python (2026)',
+    date: '2026-05-28',
+    excerpt: 'Complete beginner guide to AWS Bedrock — setting up IAM, enabling model access, and calling Claude and Titan models from Python. Includes the exact errors you will hit and how to fix them.',
+    tags: ['AWS Bedrock', 'Python', 'Claude API', 'Cloud', 'Tutorial', 'AI'],
+    category: 'Machine Learning',
+    readTime: '10 min read',
     featured: false,
     content: `
-<h2>What is EC2?</h2>
-<p>EC2 is AWS's virtual server product — rent compute by the hour.</p>
+<h2>What is AWS Bedrock</h2>
+<p>AWS Bedrock is Amazon's fully managed service for accessing foundation models from leading AI companies — Anthropic's Claude, Amazon's Titan, Meta's Llama, Mistral, and others — all through a single unified API.</p>
+<p>Instead of signing up for multiple AI provider accounts and managing different SDKs, Bedrock gives you one API endpoint, one billing system, and enterprise-grade security through AWS IAM.</p>
+<p>For developers building production AI applications — especially in companies that already use AWS — Bedrock is the standard choice.</p>
 
-<h2>Launching your first instance</h2>
-<p>Pick an Ubuntu AMI, choose t2.micro (free tier), create a key pair, launch.</p>
-<pre><code class="language-bash">ssh -i key.pem ubuntu@&lt;public-ip&gt;
-sudo apt update && sudo apt install nginx -y
+<h2>Step 1 — Set Up AWS Account and IAM</h2>
+<p>This is where most beginners get stuck. Follow these steps exactly:</p>
+<ol>
+  <li>Create an AWS account at aws.amazon.com (free tier available)</li>
+  <li>Go to IAM → Users → Create User</li>
+  <li>Attach this policy: AmazonBedrockFullAccess</li>
+  <li>Create Access Key for programmatic access</li>
+  <li>Save your Access Key ID and Secret Access Key securely</li>
+</ol>
+<p><strong>Never hardcode credentials in your code.</strong> Use environment variables:</p>
+<pre><code>
+# .env file
+AWS_ACCESS_KEY_ID=your_access_key_here
+AWS_SECRET_ACCESS_KEY=your_secret_key_here
+AWS_DEFAULT_REGION=us-east-1
 </code></pre>
 
-<h2>Security groups matter</h2>
-<p>Open only the ports you need. 22 for SSH, 80/443 for web.</p>
+<h2>Step 2 — Enable Model Access (Critical Step Most Tutorials Skip)</h2>
+<p>This is the step nobody tells you about. By default, NO models are enabled in your Bedrock account. You must manually request access:</p>
+<ol>
+  <li>Go to AWS Console → Bedrock → Model access</li>
+  <li>Click "Manage model access"</li>
+  <li>Check: Anthropic Claude, Amazon Titan</li>
+  <li>Click "Request model access"</li>
+  <li>Wait 2–5 minutes for approval</li>
+</ol>
+<p>If you skip this step, you will get AccessDeniedException every single time, no matter how correct your code is.</p>
 
-<h2>Wrap up</h2>
-<p>You now have a real Linux box on the internet. Next: deploy a Flask app.</p>
-`,
-  },
-  {
-    slug: "ace-your-ai-engineer-interview",
-    title: "How to Ace Your AI Engineer Interview",
-    excerpt:
-      "What recruiters actually look for, the questions you'll get, and how to talk about projects with impact.",
-    category: "Career",
-    tags: ["Interview", "Career", "AI"],
-    readTime: "7 min",
-    date: "2026-03-15",
-    featured: false,
-    content: `
-<h2>The interview loop</h2>
-<p>Expect a screen, a technical deep-dive, a system design round, and a behavioral.</p>
+<h2>Step 3 — Install and Configure Boto3</h2>
+<pre><code>
+pip install boto3 python-dotenv
+</code></pre>
+<pre><code>
+import boto3
+import json
+import os
+from dotenv import load_dotenv
 
-<h2>Talk about projects with the STAR method</h2>
-<p>Situation, Task, Action, Result. Always quantify the result.</p>
+load_dotenv()
 
-<h2>Common technical questions</h2>
+# Initialize Bedrock client
+bedrock = boto3.client(
+    service_name='bedrock-runtime',
+    region_name='us-east-1',
+    aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+    aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY')
+)
+
+print("Bedrock client initialized successfully")
+</code></pre>
+
+<h2>Step 4 — Call Claude via Bedrock</h2>
+<pre><code>
+def call_claude(prompt: str, max_tokens: int = 1000) -> str:
+    body = json.dumps({
+        "prompt": f"\n\nHuman: {prompt}\n\nAssistant:",
+        "max_tokens_to_sample": max_tokens,
+        "temperature": 0.3,
+        "top_p": 0.9,
+    })
+    
+    response = bedrock.invoke_model(
+        modelId="anthropic.claude-v2",
+        contentType="application/json",
+        accept="application/json",
+        body=body
+    )
+    
+    response_body = json.loads(response['body'].read())
+    return response_body['completion']
+
+# Test
+result = call_claude("Explain what RAG is in 3 sentences")
+print(result)
+</code></pre>
+
+<h2>Step 5 — Call Amazon Titan for Embeddings</h2>
+<pre><code>
+def get_embedding(text: str) -> list:
+    body = json.dumps({
+        "inputText": text
+    })
+    
+    response = bedrock.invoke_model(
+        modelId="amazon.titan-embed-text-v1",
+        contentType="application/json",
+        accept="application/json",
+        body=body
+    )
+    
+    response_body = json.loads(response['body'].read())
+    return response_body['embedding']
+
+# Test
+embedding = get_embedding("Machine learning is transforming healthcare")
+print(f"Embedding dimensions: {len(embedding)}")  # 1536
+</code></pre>
+
+<h2>Common Errors and Exact Fixes</h2>
 <ul>
-  <li>Explain bias vs variance</li>
-  <li>How would you deploy a model to production?</li>
-  <li>Walk me through a Transformer</li>
+  <li><strong>AccessDeniedException</strong> — model access not enabled. Go to Bedrock console → Model access → Enable the model.</li>
+  <li><strong>ValidationException: model not found</strong> — wrong model ID format. Use full ID like anthropic.claude-v2 not claude-v2.</li>
+  <li><strong>EndpointResolutionError</strong> — wrong region. Not all models available in all regions. Use us-east-1.</li>
+  <li><strong>ThrottlingException</strong> — too many requests. Add time.sleep(1) between calls.</li>
 </ul>
 
-<h2>Mindset</h2>
-<p>Be curious, be honest about what you don't know, and show how you learn fast.</p>
-`,
+<h2>Bedrock vs Direct OpenAI API — When to Use Which</h2>
+<ul>
+  <li><strong>Use Bedrock</strong> — if your company uses AWS, needs enterprise security, wants one bill for all AI usage, or needs compliance features</li>
+  <li><strong>Use OpenAI directly</strong> — if you are building a personal project, want the latest GPT-4o features, or need simple quick setup</li>
+</ul>
+<p>For production enterprise applications in India, most companies standardize on AWS — which makes Bedrock knowledge extremely valuable for your career.</p>
+<p><em>— Adithya Kuppusamy, AI & Data Science Engineer, Tamil Nadu</em></p>
+  `
   },
+  {
+    slug: 'how-i-built-townrise-ai-real-estate-platform',
+    title: 'How I Built TownRise AI — A Real Estate Intelligence Platform for Tamil Nadu',
+    date: '2026-05-29',
+    excerpt: 'TownRise AI is a zero-cost real estate intelligence platform built for Tamil Nadu with Next.js, Supabase, Google Gemini API, and real property data. Full architecture breakdown.',
+    tags: ['Next.js', 'Supabase', 'Gemini API', 'Real Estate', 'Tamil Nadu', 'Project'],
+    category: 'Machine Learning',
+    readTime: '9 min read',
+    featured: false,
+    content: `
+<h2>The Problem TownRise AI Solves</h2>
+<p>Real estate in Tamil Nadu is opaque. Property buyers in cities like Chennai, Coimbatore, Madurai, and Ambur rely on brokers who have information asymmetry — they know more than the buyer, and they use that knowledge to their advantage.</p>
+<p>TownRise AI flips that dynamic. It gives property buyers access to AI-powered market analysis, locality insights, price trends, and investment recommendations — completely free, directly in their browser.</p>
+
+<h2>The Zero-Cost Architecture Challenge</h2>
+<p>The constraint that made this project interesting was building it with zero infrastructure cost. No paid APIs, no paid hosting, no paid database. Everything had to be free tier.</p>
+<p>Here is how I solved it:</p>
+<ul>
+  <li><strong>Frontend:</strong> Next.js on Vercel free tier</li>
+  <li><strong>Database:</strong> Supabase free tier (PostgreSQL)</li>
+  <li><strong>AI:</strong> Google Gemini API free tier</li>
+  <li><strong>Property Data:</strong> OpenStreetMap + Overpass API (completely free)</li>
+  <li><strong>News:</strong> Google News RSS feeds (free)</li>
+  <li><strong>Automation:</strong> GitHub Actions nightly cron jobs (free)</li>
+</ul>
+
+<h2>System Architecture</h2>
+<pre><code>
+[OpenStreetMap / Overpass API]
+           ↓ property data
+[GitHub Actions nightly cron]
+           ↓ processes and stores
+[Supabase PostgreSQL]
+           ↓ queried by
+[Next.js API Routes]
+           ↓ enriched with AI
+[Google Gemini API]
+           ↓ served to
+[Next.js Frontend on Vercel]
+</code></pre>
+
+<h2>Fetching Real Property Data from OpenStreetMap</h2>
+<pre><code>
+// lib/propertyData.ts
+export async function fetchPropertiesInArea(city: string) {
+  const query = \`
+    [out:json][timeout:25];
+    area[name="\${city}"]->.searchArea;
+    (
+      node["building"="residential"](area.searchArea);
+      way["building"="residential"](area.searchArea);
+      node["amenity"="real_estate_agent"](area.searchArea);
+    );
+    out body;
+    >;
+    out skel qt;
+  \`
+  
+  const response = await fetch('https://overpass-api.de/api/interpreter', {
+    method: 'POST',
+    body: query
+  })
+  
+  const data = await response.json()
+  return data.elements
+}
+</code></pre>
+
+<h2>AI-Powered Market Analysis with Gemini</h2>
+<pre><code>
+// lib/geminiAnalysis.ts
+import { GoogleGenerativeAI } from '@google/generative-ai'
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+
+export async function analyzeLocality(localityData: object) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+  
+  const prompt = \`
+    You are a real estate market analyst specializing in Tamil Nadu, India.
+    
+    Analyze this locality data and provide:
+    1. Investment potential score (1-10)
+    2. Key advantages of this area
+    3. Potential concerns or risks
+    4. Best property types for this locality
+    5. Price trend prediction for next 12 months
+    
+    Locality data: \${JSON.stringify(localityData)}
+    
+    Respond in JSON format only.
+  \`
+  
+  const result = await model.generateContent(prompt)
+  const text = result.response.text()
+  
+  try {
+    return JSON.parse(text.replace(/\\\`\\\`\\\`json|\\\`\\\`\\\`/g, '').trim())
+  } catch {
+    return { error: 'Analysis failed', raw: text }
+  }
+}
+</code></pre>
+
+<h2>Supabase Database Schema</h2>
+<pre><code>
+-- Properties table
+create table properties (
+  id uuid default gen_random_uuid() primary key,
+  city text not null,
+  locality text not null,
+  lat decimal,
+  lng decimal,
+  property_type text,
+  amenities jsonb,
+  created_at timestamp default now()
+);
+
+-- Market analysis table
+create table market_analysis (
+  id uuid default gen_random_uuid() primary key,
+  locality text not null,
+  investment_score integer,
+  advantages text[],
+  risks text[],
+  price_trend text,
+  generated_at timestamp default now()
+);
+
+-- Row Level Security
+alter table properties enable row level security;
+create policy "Public read access" on properties for select using (true);
+</code></pre>
+
+<h2>GitHub Actions Nightly Data Refresh</h2>
+<pre><code>
+# .github/workflows/nightly-refresh.yml
+name: Nightly Property Data Refresh
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # runs at midnight every day
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm install
+      - run: node scripts/refreshPropertyData.js
+        env:
+          SUPABASE_URL: \${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: \${{ secrets.SUPABASE_KEY }}
+</code></pre>
+
+<h2>What I Learned</h2>
+<ul>
+  <li><strong>Free tier constraints force creative architecture.</strong> Working within zero-cost limits made me understand each technology deeply instead of just throwing paid services at problems.</li>
+  <li><strong>OpenStreetMap is underrated.</strong> Most developers default to Google Maps API. OpenStreetMap has rich data, a powerful query language, and zero cost.</li>
+  <li><strong>Gemini 1.5 Flash is fast and free enough for production.</strong> For most analysis tasks, Flash model is more than sufficient and the free tier is generous.</li>
+  <li><strong>GitHub Actions as a backend cron job is genius.</strong> Free compute on a schedule, no server to maintain, logs automatically stored.</li>
+</ul>
+
+<h2>Final Thought</h2>
+<p>TownRise AI proved that you can build a genuinely useful, production-quality application with zero infrastructure cost. The constraint was not a limitation — it was a design challenge that made the final architecture more elegant.</p>
+<p>The full project is on my GitHub. If you are building something similar for real estate, agriculture, or any location-intelligence use case in India, the architecture patterns here transfer directly.</p>
+<p><em>— Adithya Kuppusamy, AI & Data Science Engineer, Tamil Nadu</em></p>
+  `
+  }
 ];
