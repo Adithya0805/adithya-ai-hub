@@ -95,6 +95,7 @@ export const projects: Project[] = [
     github: "https://github.com/Adithya0805",
     demo: "https://skillsspeak-1a3ac.web.app/",
     category: "AI Applications",
+    flagship: true,
   },
   {
     slug: "linkedin-automation",

@@ -154,7 +154,7 @@ const Index = () => {
         <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
           <div>
             <p className="text-sm text-[#00d4ff] font-semibold mb-1 uppercase tracking-wider">Flagship Highlight</p>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white">Featured Project</h2>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white">Featured Projects</h2>
           </div>
           <Button asChild variant="glass">
             <Link to="/projects">
@@ -163,74 +163,153 @@ const Index = () => {
           </Button>
         </div>
 
-        {/* Premium Flagship Card */}
-        <div className="flagship-card relative rounded-3xl p-8 md:p-12 overflow-hidden mb-16 group transition-all duration-300">
-          {/* Ambient Background Details */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#00d4ff]/10 via-transparent to-[#2563eb]/5 pointer-events-none" />
-          <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
-          <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#00d4ff]/10 blur-3xl pointer-events-none group-hover:bg-[#00d4ff]/15 transition-all duration-500" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
+        {/* 2-Column Flagship Grid */}
+        <div className="flagship-grid items-stretch mb-16">
+          {/* Card 1: MediGuard */}
+          <div className="flagship-card relative rounded-3xl p-8 md:p-10 overflow-hidden group transition-all duration-300 flex flex-col justify-between">
+            {/* Ambient Background Details */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#00d4ff]/10 via-transparent to-[#2563eb]/5 pointer-events-none" />
+            <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
+            <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#00d4ff]/10 blur-3xl pointer-events-none group-hover:bg-[#00d4ff]/15 transition-all duration-500" />
+            <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
 
-          <div className="relative z-10 flex flex-col gap-6">
-            {/* Badges and tags */}
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <span className="flagship-badge inline-flex items-center gap-1.5 shadow-lg select-none">
-                  🏆 Flagship Project
-                </span>
-                <span className="inline-flex items-center px-3 py-1 rounded-full bg-cyan-500/10 border border-[#00d4ff]/40 text-[#00d4ff] text-xs font-bold uppercase tracking-wider">
-                  FEATURED
-                </span>
+            <div className="relative z-10 flex flex-col gap-6 h-full justify-between">
+              <div className="space-y-6">
+                {/* Badges and tags */}
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <span className="flagship-badge inline-flex items-center gap-1.5 shadow-lg select-none">
+                      🏆 Flagship Project
+                    </span>
+                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-cyan-500/10 border border-[#00d4ff]/40 text-[#00d4ff] text-xs font-bold uppercase tracking-wider">
+                      FEATURED
+                    </span>
+                  </div>
+                  <a
+                    href="https://mediguard-v2.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#00d4ff] hover:underline"
+                  >
+                    mediguard-v2.vercel.app <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+
+                {/* Title & Tagline */}
+                <div className="space-y-3">
+                  <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
+                    MediGuard — Clinical AI Decision Support System
+                  </h3>
+                  <p className="text-base md:text-lg font-medium text-cyan-400">
+                    Stopping patients from getting wrong medication information using Multi-Agent AI
+                  </p>
+                </div>
+
+                {/* Tech Stack Badges */}
+                <div className="flex flex-wrap gap-2">
+                  {["LangGraph", "Pinecone RAG", "AWS Bedrock", "FastAPI", "React", "Docker"].map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-3 py-1 rounded-lg bg-cyan-950/40 border border-[#00d4ff]/30 text-cyan-300 text-xs font-mono"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Description */}
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  A multi-agent clinical decision support system with a LangGraph supervisor orchestrating 3 specialized agents — Triage, Drug Interaction, and Report. Powered by Pinecone RAG over WHO/ICD-10/OpenFDA data and AWS Bedrock for LLM inference.
+                </p>
               </div>
-              <a
-                href="https://mediguard-v2.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#00d4ff] hover:underline"
-              >
-                mediguard-v2.vercel.app <ExternalLink className="w-3.5 h-3.5" />
-              </a>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-4 pt-4 border-t border-border/30 mt-auto">
+                <Button asChild variant="hero" size="default" className="shadow-[0_0_20px_rgba(0,212,255,0.35)] border-[#00d4ff] bg-[#00d4ff] text-black hover:bg-cyan-400 text-xs font-bold">
+                  <a href="https://github.com/Adithya0805" target="_blank" rel="noopener noreferrer">
+                    <Github className="w-4 h-4 mr-1.5" /> View on GitHub
+                  </a>
+                </Button>
+                <Button asChild variant="glass" size="default" className="border-[#00d4ff]/40 hover:border-[#00d4ff] hover:text-[#00d4ff] text-xs font-bold">
+                  <Link to="/blog/how-i-built-mediaguard-multi-agent-ai-system">
+                    <BookOpen className="w-4 h-4 mr-1.5" /> Read Case Study
+                  </Link>
+                </Button>
+              </div>
             </div>
+          </div>
 
-            {/* Title & Tagline */}
-            <div className="space-y-3">
-              <h3 className="text-2xl md:text-4xl font-extrabold tracking-tight text-white">
-                MediGuard — Clinical AI Decision Support System
-              </h3>
-              <p className="text-lg md:text-xl font-medium text-cyan-400">
-                Stopping patients from getting wrong medication information using Multi-Agent AI
-              </p>
-            </div>
+          {/* Card 2: SkillSpeak AI */}
+          <div className="flagship-card-purple relative rounded-3xl p-8 md:p-10 overflow-hidden group transition-all duration-300 flex flex-col justify-between">
+            {/* Ambient Background Details */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#7c3aed]/10 via-transparent to-[#d946ef]/5 pointer-events-none" />
+            <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
+            <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#7c3aed]/10 blur-3xl pointer-events-none group-hover:bg-[#7c3aed]/15 transition-all duration-500" />
+            <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
 
-            {/* Tech Stack Badges */}
-            <div className="flex flex-wrap gap-2">
-              {["LangGraph", "Pinecone RAG", "AWS Bedrock", "FastAPI", "React", "Docker"].map((tech) => (
-                <span
-                  key={tech}
-                  className="px-3 py-1 rounded-lg bg-cyan-950/40 border border-[#00d4ff]/30 text-cyan-300 text-xs font-mono"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
+            <div className="relative z-10 flex flex-col gap-6 h-full justify-between">
+              <div className="space-y-6">
+                {/* Badges and tags */}
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <span className="flagship-badge-purple inline-flex items-center gap-1.5 shadow-lg select-none">
+                      🚀 Flagship Project
+                    </span>
+                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-purple-500/10 border border-[#7c3aed]/40 text-[#a78bfa] text-xs font-bold uppercase tracking-wider">
+                      FEATURED
+                    </span>
+                  </div>
+                  <a
+                    href="https://adithya-ai-hub.vercel.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#a78bfa] hover:underline"
+                  >
+                    adithya-ai-hub.vercel.app <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
 
-            {/* Description */}
-            <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-4xl">
-              A multi-agent clinical decision support system with a LangGraph supervisor orchestrating 3 specialized agents — Triage, Drug Interaction, and Report. Powered by Pinecone RAG over WHO/ICD-10/OpenFDA data and AWS Bedrock for LLM inference.
-            </p>
+                {/* Title & Tagline */}
+                <div className="space-y-3">
+                  <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
+                    SkillSpeak AI — Career Platform for Indian Job Seekers
+                  </h3>
+                  <p className="text-base md:text-lg font-medium text-purple-400">
+                    15-feature AI career platform helping any Indian job seeker get hired
+                  </p>
+                </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap gap-4 pt-2">
-              <Button asChild variant="hero" size="lg" className="shadow-[0_0_20px_rgba(0,212,255,0.35)] border-[#00d4ff] bg-[#00d4ff] text-black hover:bg-cyan-400">
-                <a href="https://github.com/Adithya0805" target="_blank" rel="noopener noreferrer">
-                  <Github className="w-5 h-5 mr-2" /> View on GitHub
-                </a>
-              </Button>
-              <Button asChild variant="glass" size="lg" className="border-[#00d4ff]/40 hover:border-[#00d4ff] hover:text-[#00d4ff]">
-                <Link to="/blog/how-i-built-mediaguard-multi-agent-ai-system">
-                  <BookOpen className="w-5 h-5 mr-2" /> Read Case Study
-                </Link>
-              </Button>
+                {/* Tech Stack Badges */}
+                <div className="flex flex-wrap gap-2">
+                  {["Gemini API", "Firebase", "React", "TypeScript", "Web Speech API", "Recharts"].map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-3 py-1 rounded-lg bg-purple-950/40 border border-[#7c3aed]/30 text-purple-300 text-xs font-mono"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Description */}
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  A mobile-first AI career platform with 15 core engines — ATS resume scanner, real-time speech mock interviews, Tamil-English career translator, neural brain visualizer, and 30/60/90 day learning roadmaps.
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-4 pt-4 border-t border-border/30 mt-auto">
+                <Button asChild variant="hero" size="default" className="shadow-[0_0_20px_rgba(124,58,237,0.35)] border-[#7c3aed] bg-[#7c3aed] text-white hover:bg-purple-500 text-xs font-bold">
+                  <a href="https://github.com/Adithya0805" target="_blank" rel="noopener noreferrer">
+                    <Github className="w-4 h-4 mr-1.5" /> View on GitHub
+                  </a>
+                </Button>
+                <Button asChild variant="glass" size="default" className="border-[#7c3aed]/40 hover:border-[#7c3aed] hover:text-[#a78bfa] text-xs font-bold">
+                  <Link to="/blog/how-i-built-skillspeak-ai-career-platform-15-features">
+                    <BookOpen className="w-4 h-4 mr-1.5" /> Read Case Study
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>

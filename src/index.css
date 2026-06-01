@@ -211,3 +211,38 @@
   border-radius: 20px;
   font-size: 12px;
 }
+
+/* 2-column grid layout for flagship projects */
+.flagship-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 1024px) {
+  .flagship-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Purple glowing border animation and styles for SkillSpeak */
+@keyframes skillspeakGlow {
+  0% { box-shadow: 0 0 10px rgba(124, 58, 237, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(124, 58, 237, 0.7), 0 0 60px rgba(124, 58, 237, 0.3); }
+  100% { box-shadow: 0 0 10px rgba(124, 58, 237, 0.3); }
+}
+
+.flagship-card-purple {
+  animation: skillspeakGlow 2s ease-in-out infinite;
+  border: 1px solid rgba(124, 58, 237, 0.6);
+  background: linear-gradient(135deg, #0d1117 0%, #130a28 50%, #0d1117 100%);
+}
+
+.flagship-badge-purple {
+  background: linear-gradient(90deg, #7c3aed, #6d28d9);
+  color: #fff;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
