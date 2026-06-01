@@ -15,18 +15,19 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: "mediaguard",
-    title: "MediGuard",
-    tagline: "Multi-Agent Clinical Decision Support System.",
+    title: "MediGuard V2",
+    tagline: "Enterprise Multi-Agent Clinical Decision Support System (CDSS).",
     problem:
-      "Doctors need real-time assistance with differential diagnosis and drug interaction checks — current systems are siloed and slow.",
+      "Clinicians need real-time, multi-disciplinary decision support—spanning patient triage, symptom severity tracking, RAG-driven differential diagnosis, and allergy-to-drug safety cross-referencing—all within a unified, secure flow.",
     solution:
-      "Enterprise-grade clinical AI using LangGraph multi-agent orchestration, Pinecone vector search for medical RAG, and AWS Bedrock (Claude) for HIPAA-aware inference. A supervisor agent coordinates intake, retrieval, diagnosis, and drug-check agents in a stateful workflow.",
+      "An enterprise-grade stateful Multi-Agent clinical helper designed via LangGraph. Under a clinical supervisor orchestrator, five dedicated agents (Intake, Symptom/Red-Flag, RAG Diagnosis over 50k+ papers, Drug Specialist, and Transcription Report) process patient records, compiling high-fidelity medical PDFs and HL7 FHIR R4 standard composition bundles.",
     impact:
-      "Capable of processing a clinical case end-to-end in under 8 seconds. Retrieves from 50,000+ indexed medical documents with >90% relevance accuracy.",
+      "Processes full patient records end-to-end in <8s. Operates live with complete Vercel edge reverse-proxies bypassing regional CORS blocks and JioFiber DNS limits.",
     learned:
-      "LangGraph StateGraph design patterns, RAG chunking strategies for domain-specific text, AWS Bedrock latency optimization, and the importance of confidence thresholds in high-stakes AI systems.",
-    stack: ["LangGraph", "Pinecone", "AWS Bedrock", "Python", "FastAPI", "Claude 3"],
-    github: "https://github.com/Adithya0805",
+      "LangGraph StateGraph patterns, production-ready JWT authorization mapping over HTTP edge rewrites, Zustand store localStorage synchronization, and dynamic PDF filtering to eliminate physiological vitals N/A clutter.",
+    stack: ["LangGraph", "FastAPI", "Next.js 14", "AWS Bedrock", "Pinecone", "Supabase", "Vercel", "Railway"],
+    github: "https://github.com/adithya-kuppusamy/mediguard-v2",
+    demo: "https://mediguard-v2.vercel.app",
     category: "AI Systems",
   },
   {
