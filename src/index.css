@@ -189,3 +189,25 @@
   border: 1px dashed hsl(var(--border) / 0.6);
   border-radius: 0.75rem;
 }
+
+/* Glowing border animation and styles for flagship project card */
+@keyframes flagshipGlow {
+  0% { box-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(0, 212, 255, 0.7), 0 0 60px rgba(0, 212, 255, 0.3); }
+  100% { box-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
+}
+
+.flagship-card {
+  animation: flagshipGlow 2s ease-in-out infinite;
+  border: 1px solid rgba(0, 212, 255, 0.6);
+  background: linear-gradient(135deg, #0d1117 0%, #0a1628 50%, #0d1117 100%);
+}
+
+.flagship-badge {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+  color: #000;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}

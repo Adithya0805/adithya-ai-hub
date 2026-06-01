@@ -10,6 +10,7 @@ export interface Project {
   category: string;
   impact?: string;
   learned?: string;
+  flagship?: boolean;
 }
 
 export const projects: Project[] = [
@@ -29,6 +30,7 @@ export const projects: Project[] = [
     github: "https://github.com/adithya-kuppusamy/mediguard-v2",
     demo: "https://mediguard-v2.vercel.app",
     category: "AI Systems",
+    flagship: true,
   },
   {
     slug: "townrise-ai",
