@@ -1,12 +1,4 @@
 {
-  "functions": {
-    "api/subscribe.ts": {
-      "runtime": "@vercel/node@3"
-    },
-    "api/send-newsletter.ts": {
-      "runtime": "@vercel/node@3"
-    }
-  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
