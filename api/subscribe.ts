@@ -1,6 +1,46 @@
 // api/subscribe.ts — Vercel Serverless Function
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
+// Helper to get or create the Audience list automatically
+async function getOrCreateAudience(apiKey: string): Promise<string> {
+  // 1. List existing audiences
+  const listRes = await fetch('https://api.resend.com/audiences', {
+    headers: {
+      'Authorization': `Bearer ${apiKey}`
+    }
+  })
+
+  if (!listRes.ok) {
+    const err = await listRes.json()
+    throw new Error(`Resend list audiences failed: ${err.message || JSON.stringify(err)}`)
+  }
+
+  const listData = await listRes.json()
+  const existing = listData.data?.find((aud: any) => aud.name === 'AI Hub Subscribers')
+
+  if (existing) {
+    return existing.id
+  }
+
+  // 2. Create audience if it doesn't exist
+  const createRes = await fetch('https://api.resend.com/audiences', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ name: 'AI Hub Subscribers' })
+  })
+
+  if (!createRes.ok) {
+    const err = await createRes.json()
+    throw new Error(`Resend create audience failed: ${err.message || JSON.stringify(err)}`)
+  }
+
+  const createData = await createRes.json()
+  return createData.id
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Only allow POST
   if (req.method !== 'POST') {
@@ -14,65 +54,62 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Valid email required' })
   }
 
-  const BREVO_API_KEY = process.env.BREVO_API_KEY
-  const BREVO_LIST_ID = process.env.BREVO_LIST_ID ? parseInt(process.env.BREVO_LIST_ID) : null
+  const RESEND_API_KEY = process.env.RESEND_API_KEY
   const VITE_SITE_URL = process.env.VITE_SITE_URL || 'https://adithyaai.is-cool.dev'
   const PDF_DOWNLOAD_URL = process.env.PDF_DOWNLOAD_URL || `${VITE_SITE_URL}/top-10-python-questions.md`
+  const SENDER_EMAIL = process.env.SENDER_EMAIL || 'Adithya | AI Hub <onboarding@resend.dev>'
 
-  if (!BREVO_API_KEY) {
-    console.error('Missing BREVO_API_KEY environment variable')
-    return res.status(500).json({ error: 'Mail server misconfiguration: BREVO_API_KEY environment variable is missing on Vercel/Local environment.' })
-  }
-
-  if (!BREVO_LIST_ID) {
-    console.error('Missing BREVO_LIST_ID environment variable')
-    return res.status(500).json({ error: 'Mail server misconfiguration: BREVO_LIST_ID environment variable is missing or invalid on Vercel/Local environment.' })
+  if (!RESEND_API_KEY) {
+    console.error('Missing RESEND_API_KEY environment variable')
+    return res.status(500).json({ 
+      error: 'Mail server misconfiguration: RESEND_API_KEY is missing on your Vercel Dashboard or Local environment.' 
+    })
   }
 
   try {
-    // Step 1 — Add contact to Brevo list
-    const contactResponse = await fetch('https://api.brevo.com/v3/contacts', {
+    // Step 1 — Get or Programmatically Create the Audience
+    const audienceId = await getOrCreateAudience(RESEND_API_KEY)
+
+    // Step 2 — Add Contact to the Resend Audience
+    const contactResponse = await fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'api-key': BREVO_API_KEY
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         email: email,
-        attributes: {
-          FIRSTNAME: name,
-          SOURCE: 'AI Hub Lead Magnet'
-        },
-        listIds: [BREVO_LIST_ID],
-        updateEnabled: true
+        first_name: name,
+        unsubscribed: false
       })
     })
 
     if (!contactResponse.ok) {
       const contactError = await contactResponse.json()
-      console.error('Brevo Contact API error:', contactError)
+      console.error('Resend Contacts API error:', contactError)
       
-      // If list id is wrong or API key is wrong, fail immediately to inform user
-      return res.status(500).json({ 
-        error: `Brevo Contact Error: ${contactError.message || JSON.stringify(contactError)} (Code: ${contactError.code || 'unknown'})` 
-      })
+      // If contact already exists in audience, Resend returns a conflict, which we can ignore
+      if (contactError.message && contactError.message.includes('already exists')) {
+        console.log('Subscriber already exists in audience. Proceeding to send welcome email.')
+      } else {
+        return res.status(500).json({ 
+          error: `Resend contact list error: ${contactError.message || JSON.stringify(contactError)}` 
+        })
+      }
     }
 
-    // Step 2 — Send welcome email with PDF link
-    const emailResponse = await fetch('https://api.brevo.com/v3/smtp/email', {
+    // Step 3 — Send transactional HTML welcome email using Resend
+    const emailResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'api-key': BREVO_API_KEY
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        sender: {
-          name: 'Adithya | AI Hub',
-          email: 'adithyaadhi0805@gmail.com'
-        },
-        to: [{ email: email, name: name }],
+        from: SENDER_EMAIL,
+        to: email,
         subject: '🎯 Your Free PDF is Here — Top 10 CTS/Wipro Python Questions',
-        htmlContent: `
+        html: `
 <!DOCTYPE html>
 <html>
 <head>
@@ -203,8 +240,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 · <a href="https://www.linkedin.com/in/adithya-kuppusamy-76baab204/" style="color:#00d4ff;text-decoration:none;">LinkedIn</a>
               </p>
               <p style="color:#555566;font-size:12px;margin:0;">
-                You received this because you subscribed at adithyaai.is-cool.dev<br>
-                <a href="{{unsubscribeUrl}}" style="color:#555566;">Unsubscribe</a>
+                You received this because you subscribed at adithyaai.is-cool.dev
               </p>
             </td>
           </tr>
@@ -221,20 +257,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     })
 
     if (!emailResponse.ok) {
-      const error = await emailResponse.json()
-      console.error('Brevo SMTP error:', error)
+      const emailError = await emailResponse.json()
+      console.error('Resend SMTP error:', emailError)
       return res.status(500).json({ 
-        error: `Brevo Welcome Email Failed: ${error.message || JSON.stringify(error)}. Please check if sender email adithyaadhi0805@gmail.com is verified in Brevo Dashboard under Senders.`
+        error: `Resend Welcome Email Failed: ${emailError.message || JSON.stringify(emailError)}. Note: If sending externally for the first time, you must verify your custom domain in Resend Dashboard.` 
       })
     }
 
     return res.status(200).json({
       success: true,
-      message: 'Subscribed successfully. Check your email for the free PDF.'
+      message: 'Subscribed successfully! Your free PDF is on its way.'
     })
 
   } catch (error: any) {
-    console.error('Subscribe catch error:', error)
+    console.error('Resend subscribe catch error:', error)
     return res.status(500).json({ error: `Connection / Server Error: ${error.message || error}` })
   }
 }
