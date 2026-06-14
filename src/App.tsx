@@ -18,6 +18,7 @@ const Privacy = lazy(() => import("./pages/Privacy.tsx"));
 const Terms = lazy(() => import("./pages/Terms.tsx"));
 const Resources = lazy(() => import("./pages/Resources.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
+const AdminNewsletter = lazy(() => import("./pages/AdminNewsletter.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,7 @@ const App = () => (
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/resources" element={<Resources />} />
+              <Route path="/admin/newsletter" element={<AdminNewsletter />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
