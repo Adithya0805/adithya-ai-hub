@@ -55,10 +55,11 @@ const AdminNewsletter = () => {
 
       toast.success(data.message || "Campaign launched successfully!");
       setSecretKey(""); // Clear secret for safety
-    } catch (err: any) {
-      toast.error(err.message || "Something went wrong.");
+    } catch (err: unknown) {
+      const error = err as Error;
+      toast.error(error.message || "Something went wrong.");
       // Check for JSON parse issues if local dev server returns HTML
-      if (err.message.includes("Unexpected token '<'")) {
+      if (error.message.includes("Unexpected token '<'")) {
         toast.error("Local dev error: Make sure to run 'vercel dev' instead of 'npm run dev' to test APIs locally.");
       }
     } finally {

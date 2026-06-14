@@ -203,7 +203,7 @@ export function SkillGraph() {
 
               // Color based on node category
               let nodeColor = "fill-cyan-400";
-              let glowColor = "shadow-glow";
+              const glowColor = "shadow-glow";
               if (node.category === "AI/ML & NLP") {
                 nodeColor = "fill-violet-400";
               } else if (node.category === "Backend & Cloud") {

@@ -14,7 +14,7 @@ async function getAudienceId(apiKey: string): Promise<string | null> {
   }
 
   const listData = await listRes.json()
-  const existing = listData.data?.find((aud: any) => aud.name === 'AI Hub Subscribers')
+  const existing = listData.data?.find((aud: { name: string; id: string }) => aud.name === 'AI Hub Subscribers')
   return existing ? existing.id : null
 }
 
@@ -69,7 +69,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const contactsData = await contactsRes.json()
-    const activeSubscribers = contactsData.data?.filter((c: any) => !c.unsubscribed) || []
+    const activeSubscribers = contactsData.data?.filter((c: { unsubscribed: boolean }) => !c.unsubscribed) || []
 
     if (activeSubscribers.length === 0) {
       return res.status(200).json({
@@ -79,7 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // Extract all emails
-    const bccEmails = activeSubscribers.map((c: any) => c.email)
+    const bccEmails = activeSubscribers.map((c: { email: string }) => c.email)
 
     // Step 3 — Send the Newsletter Email to all subscribers in BCC
     const campaignRes = await fetch('https://api.resend.com/emails', {
@@ -125,8 +125,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       message: `Newsletter successfully sent to ${bccEmails.length} subscriber(s).`
     })
 
-  } catch (error: any) {
-    console.error('Resend newsletter catch error:', error)
-    return res.status(500).json({ error: `Failed to process newsletter campaign: ${error.message || error}` })
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error('Resend newsletter catch error:', err)
+    return res.status(500).json({ error: `Failed to process newsletter campaign: ${err.message || err}` })
   }
 }

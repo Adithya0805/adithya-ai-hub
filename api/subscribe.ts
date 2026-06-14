@@ -16,7 +16,7 @@ async function getOrCreateAudience(apiKey: string): Promise<string> {
   }
 
   const listData = await listRes.json()
-  const existing = listData.data?.find((aud: any) => aud.name === 'AI Hub Subscribers')
+  const existing = listData.data?.find((aud: { name: string; id: string }) => aud.name === 'AI Hub Subscribers')
 
   if (existing) {
     return existing.id
@@ -269,8 +269,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       message: 'Subscribed successfully! Your free PDF is on its way.'
     })
 
-  } catch (error: any) {
-    console.error('Resend subscribe catch error:', error)
-    return res.status(500).json({ error: `Connection / Server Error: ${error.message || error}` })
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error('Resend subscribe catch error:', err)
+    return res.status(500).json({ error: `Connection / Server Error: ${err.message || err}` })
   }
 }

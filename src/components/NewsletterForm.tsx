@@ -49,9 +49,10 @@ export function NewsletterForm({ compact = false }: NewsletterFormProps) {
         setStatus("error");
         setErrorMsg(data.error || "Server responded with an error. Please check your credentials.");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const error = err as Error;
       setStatus("error");
-      setErrorMsg(err.message || "Network error. Please check your connection and try again.");
+      setErrorMsg(error.message || "Network error. Please check your connection and try again.");
     }
   };
 
