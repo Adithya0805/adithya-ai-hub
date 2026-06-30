@@ -260,12 +260,12 @@ const Index = () => {
                     </span>
                   </div>
                   <a
-                    href="https://adithya-ai-hub.vercel.app"
+                    href="https://skillsspeak-1a3ac.web.app/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#a78bfa] hover:underline"
                   >
-                    adithya-ai-hub.vercel.app <ExternalLink className="w-3.5 h-3.5" />
+                    skillsspeak-1a3ac.web.app <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </div>
 
