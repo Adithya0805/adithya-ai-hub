@@ -128,4 +128,20 @@ export const projects: Project[] = [
     demo: "https://health-planner-cc8a8.web.app/",
     category: "AI Applications",
   },
+  {
+    slug: "job-mail-ai-agent",
+    title: "Job Mail AI Agent",
+    tagline: "Autonomous email agent drafts and schedules recruiter outreach.",
+    problem:
+      "Writing personalized follow-up emails and application letters to recruiters takes hours of manual work every day.",
+    solution:
+      "Built an autonomous Node.js/JavaScript email workflow that generates custom, highly targeted recruiter emails matching the job description using OpenAI API, integrating Resend and Brevo APIs for automated delivery.",
+    impact:
+      "Automates email generation, scheduling welcome sequences, and tracking responses for outreach campaigns.",
+    learned:
+      "Integrating third-party transactional mail services (Resend/Brevo), configuring async worker queues, and designing system prompts for context-rich cover letters.",
+    stack: ["JavaScript", "Node.js", "Resend API", "Brevo API", "OpenAI API", "GitHub Actions"],
+    github: "https://github.com/Adithya0805/Job_Mail_AI_Agent",
+    category: "Automation",
+  },
 ];
