@@ -12,6 +12,380 @@ export interface Post {
 
 export const posts: Post[] = [
   {
+    slug: "aws-bedrock-document-intelligence-claim-processor",
+    title: "Beyond the Tutorial: Building a Production-Ready AWS Bedrock Document Intelligence Pipeline",
+    excerpt: "How I migrated a local Python document intelligence pipeline to a fully serverless, event-driven AWS architecture, and the engineering tradeoffs I defended along the way.",
+    category: "Machine Learning",
+    tags: ["AWS Bedrock", "RAG", "Serverless", "AWS SAM", "Python", "awsexamprep"],
+    readTime: "7 min read",
+    date: "2026-07-06",
+    featured: true,
+    content: `
+<h2>Beyond the Tutorial: Building a Production-Ready AWS Bedrock Document Intelligence Pipeline</h2>
+<p>For the AWS Exam Prep bonus assignment, I was tasked with automating insurance claim document processing using AWS Bedrock. I built a serverless pipeline that extracts structured facts from incoming claim files, runs a local retrieval-augmented generation (RAG) check against policy terms, and writes the structured results and generated adjuster summaries to DynamoDB. The final system is triggered automatically on S3 file uploads via EventBridge and AWS Step Functions, keeping the entire execution loop within AWS's serverless infrastructure.</p>
+
+<h2>The Gap Between a Tutorial and a Real System</h2>
+<p>Most AWS Bedrock tutorials online rely on the older, model-specific text completion APIs (such as invoking <code>anthropic.claude-v2</code> directly with raw text formatting prompts). In a real production system, hardcoding specific payload formats for individual models creates technical debt and breaks when model IDs are deprecated or updated. To avoid this, I bypassed the legacy APIs and used the <strong>AWS Bedrock Converse API</strong> (<code>converse</code> method). The Converse API provides a unified, model-agnostic interface that accepts a structured message history and system prompts. This means that if we need to switch from Claude 3 Haiku to Llama 3 or Claude 3.5 Sonnet, we only have to change a single model ID string in our environment variables, without refactoring the payload schema or parsing logic.</p>
+
+<h2>Three Engineering Decisions I'd Defend in an Interview</h2>
+
+<h3>1. In-Memory RAG vs. Persistent Vector Database (Pinecone)</h3>
+<p>While I have built vector-store-backed architectures using Pinecone for larger-scale projects like <em>TownRise</em> and <em>MediGuard</em>, I chose a simple, in-memory numpy-based vector search for this pipeline. The policy corpus consisted of exactly three documents: <code>auto_policy.txt</code>, <code>property_policy.txt</code>, and <code>health_policy.txt</code>. Provisioning and maintaining an external vector database for three documents is an unnecessary infrastructure overhead and introduces external network latency. By processing and embedding these documents in-memory during execution, I minimized the system's runtime complexity and eliminated external dependency costs, matching the exact resource footprint needed for the task.</p>
+
+<h3>2. Dynamic Model Discovery vs. Hardcoded Identifiers</h3>
+<p>Instead of copy-pasting Claude model IDs from online guides, I wrote and executed a standalone helper script, <code>discover_models.py</code>. Model IDs on AWS Bedrock vary depending on the AWS region, and models are constantly updated or retired by providers. Running <code>discover_models.py</code> programmatically queried the Bedrock client's <code>list_foundation_models</code> API to verify which models were active and supported in the <code>us-east-1</code> region before setting up our <code>.env</code> configuration. This approach prevented silent configuration failures and ensured we targeted the correct active ARNs (<code>anthropic.claude-3-haiku-20240307-v1:0</code> and <code>anthropic.claude-3-sonnet-20240229-v1:0</code>).</p>
+
+<h3>3. AWS-Managed vs. Customer-Managed KMS Keys</h3>
+<p>During the infrastructure design phase, I caught a hidden cost driver in the encryption requirements. Standard security practices suggest using Customer-Managed Keys (CMK) in AWS KMS for encrypting S3 buckets and DynamoDB tables. However, a customer-managed KMS key incurs a flat fee of $1/month plus request charges, which would have quietly violated the strict \"AWS Free Tier Only\" constraint for this assignment. I corrected the design to use the default AWS-Managed Keys (<code>aws/s3</code> and <code>aws/dynamodb</code>), which are completely free of charge. This small check saved recurring monthly costs while still ensuring all stored claim data remains encrypted at rest.</p>
+
+<h2>Where I Took It Further</h2>
+<p>Although the assignment focused on a basic insurance adjuster tool, I mapped out an extension of this system toward a customer-facing \"document intelligence\" assistant. In this expanded vision, the pipeline translates results between English and Tamil to assist local policyholders and delivers claim status updates via WhatsApp. On the infrastructure side, I designed a production-readiness framework: a human-in-the-loop review queue for low-confidence extractions, structured audit logging, and a serverless backend.</p>
+
+<p>To verify serverless feasibility, I migrated the local runner to AWS SAM (Serverless Application Model). During packaging, I resolved a significant directory bloat issue: the initial build captured the virtual environment binaries, resulting in a <strong>1.25 GB</strong> deployment package. By isolating the code inside a clean <code>backend/</code> directory, removing the heavy <code>numpy</code> dependency from the RAG engine in favor of pure Python calculations, and relying on the Lambda-native <code>boto3</code> library, I reduced the deployment package size to just <strong>10 MB</strong>—a 99.2% reduction. This serverless migration is successfully deployed and running on AWS, although the WhatsApp delivery and translation layers remain in-progress roadmap items.</p>
+
+<p>During local testing and evaluation, Claude 3 Haiku achieved an average extraction latency of 0.95s consuming 499 input and 118 output tokens (costing ~$0.04 per 1,000 documents), while Claude 3 Sonnet handled the complex summary generation and policy grounding with 2.37s latency and 145 output tokens (~$0.44 per 1,000 documents), showing the value of a split-model workflow.</p>
+
+<h2>What I'd Do Differently Next Time</h2>
+<p>If I were to rebuild this pipeline for a high-volume production environment, the biggest trade-off I would revise is the in-memory RAG index. Rebuilding the embeddings and vector index from the policy text files on every single state machine execution is highly inefficient. While it works perfectly for three policies, it will cause performance bottlenecks and CPU-bound latency spikes once the policy library grows beyond a few dozen files. For a production scale-up, I would move the policy embeddings to a persistent local vector database (like ChromaDB or Qdrant) hosted alongside the services, or use AWS Bedrock's Knowledge Bases to offload the retrieval logic entirely to a managed service.</p>
+
+<h2>Closing</h2>
+<p>The source code, SAM templates, and local verification tests are available on GitHub: <a href="https://github.com/Adithya0805/insurance-claims-bedrock-poc" target="_blank" rel="noopener noreferrer">insurance-claims-bedrock-poc</a>.</p>
+
+<p>#awsexamprep</p>
+
+<p>I would appreciate any feedback or suggestions on the serverless orchestration design.</p>
+
+<p><em>— Adithya Kuppusamy, AI & Data Science Engineer, Tamil Nadu</em></p>
+    `
+  },
+  {
+    slug: "claude-sonnet-5-adaptive-thinking-routing-tutorial",
+    title: "Claude Sonnet 5: Inside Anthropic's New 'Adaptive Thinking' Architecture and How to Build an AI Reasoning Router in Python",
+    excerpt: "Anthropic has launched Claude Sonnet 5, introducing a game-changing 'Adaptive Thinking' mechanism that adjusts reasoning depth dynamically. Learn the theory of compute budgets, how dynamic token allocation works, and build a local Adaptive Reasoning Router in Python to cut inference costs!",
+    category: "Machine Learning",
+    tags: ["Anthropic", "Claude Sonnet 5", "Adaptive Thinking", "Reasoning Models", "Cost Optimization", "Python", "Tutorial"],
+    readTime: "12 min read",
+    date: "2026-07-02",
+    featured: true,
+    content: `
+<h2>The Era of Reasoning Models: Anthropic Drops Claude Sonnet 5</h2>
+<p>Just when we thought the LLM performance curve was flattening, Anthropic shook the developer ecosystem by launching <strong>Claude Sonnet 5</strong> on <strong>June 30, 2026</strong>. Positioned as their most agentic Sonnet model to date, it bridges the gap between mid-weight models and the massive, expensive Opus 4.8. But the release introduces something far more revolutionary than standard speed boosts: <strong>Adaptive Thinking enabled by default</strong>.</p>
+
+<p>For B.Tech students, freshers, and aspiring AI engineers, here is the raw reality: <strong>the days of building simple wrappers around APIs and calling it an \"AI application\" are over.</strong> Companies trying to build enterprise-grade software aren't looking for developers who can just write five lines of code to call Claude. They need engineers who understand <strong>runtime cost control, latency budget management, and systems engineering</strong>. When reasoning models like Claude think before they answer, they use more tokens. If you run maximum reasoning effort on a simple prompt like \"write a hello world,\" you are burning client API budget for no reason.</p>
+
+<p>In this post, we will dissect the architecture of Claude Sonnet 5's Adaptive Thinking, understand the mathematics of reasoning compute budgets, and build our own <strong>local Adaptive Reasoning Router in Python</strong> to selectively scale thinking effort and slash model serving costs by over 30%!</p>
+
+<h2>The Science of Effort: What is Adaptive Thinking?</h2>
+<p>In standard reasoning models (like OpenAI's early o1 or Claude 3.7 Sonnet), developers had to configure a fixed thinking budget. You either turned thinking off completely, or set a hard maximum limit on how many tokens the model could consume during its reasoning phase:
+<code>\"thinking\": {\"type\": \"enabled\", \"budget_tokens\": 4000}</code></p>
+
+<p>The problem? A fixed token budget is highly inefficient. If a query is incredibly simple, the model still wastes seconds and tokens going through its internal checklist. If a query is extremely complex, a low fixed budget cuts off the reasoning mid-thought, leading to errors. </p>
+
+<p><strong>Claude Sonnet 5's Adaptive Thinking solves this by making the reasoning effort dynamic.</strong> Instead of the developer predicting the token budget, the model itself dynamically evaluates the complexity of the user's prompt at runtime. It decides whether to think at all, and how many reasoning tokens ($T$) to allocate before generating the final text response. Developers can still steer this using the new <code>effort</code> parameter (with values like <code>low</code>, <code>medium</code>, <code>high</code>, <code>max</code>, or <code>x-high</code>) to set boundaries, but the exact allocation is handled adaptively by the model.</p>
+
+<h2>The Mathematical Cost-Benefit of Reasoning</h2>
+<p>To understand why this is a game-changer for cost control, let us look at the math. In Claude Sonnet 5, thinking tokens are billed at the standard output rate ($10/M tokens), which is 5x more expensive than input tokens ($2/M tokens).</p>
+
+<p>The total cost $C$ of a single model request can be represented as:</p>
+
+$$C = (N_{\\text{input}} \\times 2 + (N_{\\text{output}} + N_{\\text{thinking}}) \\times 10) \\times 10^{-6} \\text{ USD}$$
+
+<p>Where:
+<ul>
+  <li>$N_{\\text{input}}$ is the number of input tokens.</li>
+  <li>$N_{\\text{output}}$ is the number of final answer tokens.</li>
+  <li>$N_{\\text{thinking}}$ is the number of reasoning tokens generated inside the <code>&lt;thinking&gt;</code> block.</li>
+</ul>
+</p>
+
+<p>If we always query the model with maximum thinking effort (e.g. $N_{\\text{thinking}} \\approx 4000$ tokens), a simple conversation of 5 turns will cost significant money, and add several seconds of execution latency. By applying an <strong>Adaptive Reasoning Router</strong>, we analyze the user's prompt before it reaches the model and assign the target effort. Trivial queries get routed with low effort (reducing $N_{\\text{thinking}}$ to near-zero), saving massive compute, while complex logical reasoning problems scale up to high effort to ensure accuracy.</p>
+
+<h2>Hands-On: Build an Adaptive Reasoning Router in Python</h2>
+<p>Let's build a local python simulator that implements a complexity evaluation gateway. The router uses regular expressions and syntax heuristics to analyze user queries. It determines the optimal effort level (low, medium, or high) and maps it to a simulated Claude Sonnet 5 API call, demonstrating the exact latency and dollar savings you'll see in production.</p>
+
+<p>Create a file named <code>adaptive_thinking_router.py</code> and run this code locally:</p>
+
+<pre><code class="language-python">import re
+import time
+import math
+from typing import Dict, Any, List
+
+class AdaptiveReasoningRouter:
+    def __init__(self, threshold_high: float = 0.65, threshold_medium: float = 0.3):
+        self.threshold_high = threshold_high
+        self.threshold_medium = threshold_medium
+        
+        # Heuristics: trigger words for different complexity levels
+        self.complexity_patterns = {
+            'math_logic': re.compile(
+                r'\\b(solve|calculate|equation|probability|theorem|proof|integral|matrix|derivative|combinatorics|induction|factorial|fibonacci)\\b', 
+                re.IGNORECASE
+            ),
+            'coding_dsa': re.compile(
+                r'\\b(dsa|complexity|algorithm|recursion|tree|graph|binary search|sorting|dp|dynamic programming|memoization|refactor|optimize runtime|memory leak|deadlock|concurrency|mutex|thread)\\b', 
+                re.IGNORECASE
+            ),
+            'system_design': re.compile(
+                r'\\b(architecture|microservices|scalability|sharding|load balancer|latency|database schema|idempotency|cap theorem|caching|redis)\\b', 
+                re.IGNORECASE
+            ),
+            'explain_depth': re.compile(
+                r'\\b(deep dive|explain step[- ]by[- ]step|compare and contrast|pros and cons|under the hood|inner workings|trade-offs|bottleneck)\\b', 
+                re.IGNORECASE
+            )
+        }
+
+    def evaluate_complexity(self, prompt: str) -> float:
+        \"\"\"
+        Heuristically scores prompt complexity from 0.0 to 1.0.
+        Factors: prompt length, density of technical terms, explicit requests for code or proofs.
+        \"\"\"
+        score = 0.0
+        
+        # 1. Length Factor (longer prompts are often more complex)
+        words = prompt.split()
+        length_score = min(len(words) / 80.0, 0.3)  # Max 0.3 contribution from length
+        score += length_score
+        
+        # 2. Heuristic Pattern Matching
+        matches = 0
+        for category, pattern in self.complexity_patterns.items():
+            found = pattern.findall(prompt)
+            if found:
+                matches += len(found)
+                
+        # Scored at 0.15 per matched complex concept, capped at 0.5
+        pattern_score = min(matches * 0.15, 0.5)
+        score += pattern_score
+        
+        # 3. Explicit Code Blocks or instructions
+        if '\`\`\`' in prompt or 'write code' in prompt.lower() or 'implement' in prompt.lower() or 'design' in prompt.lower():
+            score += 0.2
+            
+        return min(score, 1.0)
+
+    def route_request(self, prompt: str) -> Dict[str, Any]:
+        \"\"\"
+        Maps complexity score to Claude Sonnet 5 effort levels: 'low', 'medium', or 'high'.
+        \"\"\"
+        complexity = self.evaluate_complexity(prompt)
+        
+        if complexity >= self.threshold_high:
+            effort = 'high'
+        elif complexity >= self.threshold_medium:
+            effort = 'medium'
+        else:
+            effort = 'low'
+            
+        return {
+            'complexity_score': round(complexity, 2),
+            'routed_effort': effort
+        }
+
+class MockClaudeSonnet5:
+    \"\"\"
+    Simulates Claude Sonnet 5's Adaptive Thinking API.
+    Returns realistic thinking traces, output responses, token counts, and cost details.
+    \"\"\"
+    # Pricing per million tokens: $2.00 input / $10.00 output
+    PRICE_INPUT_PER_M = 2.0
+    PRICE_OUTPUT_PER_M = 10.0
+
+    @staticmethod
+    def _estimate_tokens(text: str) -> int:
+        # Quick token count estimate (~4 chars per token)
+        return math.ceil(len(text) / 4.0)
+
+    def generate(self, prompt: str, effort: str) -> Dict[str, Any]:
+        input_tokens = self._estimate_tokens(prompt)
+        
+        # Determine thinking trace and output based on effort
+        if effort == 'low':
+            thinking_trace = '&lt;thinking&gt;Simple query. Resolving directly without heavy reasoning.&lt;/thinking&gt;'
+            response = f'Here is the quick response to your query. Since it is straightforward, we resolved it instantly using low-effort execution.'
+            thinking_tokens = self._estimate_tokens(thinking_trace)
+            output_tokens = self._estimate_tokens(response)
+            sim_latency = 0.4
+        elif effort == 'medium':
+            thinking_trace = (
+                '&lt;thinking&gt;\\n'
+                '- Analyzing prompt requirements...\\n'
+                '- Identifying key concepts: differences, properties, and core structures.\\n'
+                '- Drafting concise summary of the items requested.\\n'
+                '- Reviewing clarity of the explanation.\\n'
+                '&lt;/thinking&gt;'
+            )
+            response = (
+                f'Based on your request, here is a detailed summary:\\n\\n'
+                f'1. Core concept definition.\\n'
+                f'2. Practical comparison of the options.\\n'
+                f'3. Key recommendation for implementation.\\n\\n'
+                f'This explanation is structured to give you a clear, intermediate-level breakdown without unnecessary detail.'
+            )
+            thinking_tokens = self._estimate_tokens(thinking_trace)
+            output_tokens = self._estimate_tokens(response)
+            sim_latency = 1.8
+        else:  # high
+            thinking_trace = (
+                '&lt;thinking&gt;\\n'
+                '- Complex request detected. Performing deep system-level analysis.\\n'
+                '- Breaking down architectural components &amp; edge cases.\\n'
+                '- Checking for potential bottlenecks (e.g., concurrency, memory limits).\\n'
+                '- Formulating algorithm logic/system architecture design.\\n'
+                '- Writing clean, optimized pseudocode.\\n'
+                '- Self-correction: ensure standard error handling and edge cases are included.\\n'
+                '- Verifying memory and time complexity requirements.\\n'
+                '&lt;/thinking&gt;'
+            )
+            response = (
+                f'Here is a professional-grade, optimized solution to your complex request:\\n\\n'
+                f'\`\`\`python\\n'
+                f'# Optimized implementation\\n'
+                f'def solve_complex_task(data, constraints):\\n'
+                f'    # Step 1: Pre-process data\\n'
+                f'    # Step 2: Apply dynamic programming / system caching\\n'
+                f'    # Step 3: Handle concurrency and return results\\n'
+                f'    pass\\n'
+                f'\`\`\`\\n\\n'
+                f'### Architectural Details &amp; Optimizations:\\n'
+                f'- **Time Complexity:** O(N log N)\\n'
+                f'- **Memory Management:** Highly efficient\\n'
+                f'- **Concurrency Safety:** Mutex lock / atomic operations implemented to prevent race conditions.'
+            )
+            thinking_tokens = self._estimate_tokens(thinking_trace)
+            output_tokens = self._estimate_tokens(response)
+            sim_latency = 7.2
+
+        total_output_tokens = output_tokens + thinking_tokens
+        
+        # Calculate cost
+        cost = (input_tokens * (self.PRICE_INPUT_PER_M / 1_000_000.0)) + (total_output_tokens * (self.PRICE_OUTPUT_PER_M / 1_000_000.0))
+        
+        return {
+            'thinking': thinking_trace,
+            'response': response,
+            'tokens': {
+                'input': input_tokens,
+                'thinking': thinking_tokens,
+                'output': output_tokens,
+                'total_output': total_output_tokens
+            },
+            'cost_usd': cost,
+            'latency_seconds': sim_latency
+        }
+
+if __name__ == '__main__':
+    router = AdaptiveReasoningRouter()
+    model = MockClaudeSonnet5()
+    
+    # ── SIMULATE USER TRAFFIC BLEND ──
+    traffic_blend = [
+        'Hey! What is the capital of Tamil Nadu? Write a quick hello world in Python.',
+        'Explain the difference between a process and a thread in operating systems.',
+        'Design a distributed rate limiter for a high-traffic API. Explain the database schema, handle concurrency, and outline the CAP theorem trade-offs.',
+        'What is the time complexity of binary search? Explain why it is O(log N).',
+        'Implement a thread-safe caching system in Python. It must use an LRU eviction policy, handle concurrency with mutex locks, and support a TTL eviction threshold.'
+    ]
+    
+    print('======================================================================')
+    print('CLAUDE SONNET 5: ADAPTIVE REASONING ROUTER SIMULATOR')
+    print('======================================================================\\n')
+    
+    # --- ROUTE 1: ADAPTIVE ROUTING ---
+    print('[RUN 1] Processing Traffic Blend with ADAPTIVE ROUTING...')
+    adaptive_results = []
+    for idx, prompt in enumerate(traffic_blend):
+        route_decision = router.route_request(prompt)
+        effort = route_decision['routed_effort']
+        score = route_decision['complexity_score']
+        
+        res = model.generate(prompt, effort)
+        adaptive_results.append((prompt, score, effort, res))
+        
+        print(f'Prompt {idx+1}: \'{prompt[:50]}...\'')
+        print(f'  |- Complexity Score: {score} -> Routed Effort: {effort.upper()}')
+        print(f'  |- Tokens: Input={res[\'tokens\'][\'input\']}, Thinking={res[\'tokens\'][\'thinking\']}, Output={res[\'tokens\'][\'output\']}')
+        print(f'  |- Cost: \$` + `{res[\'cost_usd\']:.6f}` + ` | Latency: {res[\'latency_seconds\']}s')
+        print(f'  |- Status: ALLOWED (Optimal Allocation)\\n')
+        
+    # --- ROUTE 2: NAIVE ROUTING (ALWAYS HIGH EFFORT) ---
+    print('[RUN 2] Processing Traffic Blend with NAIVE ROUTING (Always High Effort)...')
+    naive_results = []
+    for idx, prompt in enumerate(traffic_blend):
+        res = model.generate(prompt, 'high')
+        naive_results.append(res)
+        
+    # --- CALCULATE AGGREGATE PERFORMANCE METRICS ---
+    total_adaptive_cost = sum(x[3]['cost_usd'] for x in adaptive_results)
+    total_adaptive_latency = sum(x[3]['latency_seconds'] for x in adaptive_results)
+    total_adaptive_thinking = sum(x[3]['tokens']['thinking'] for x in adaptive_results)
+    
+    total_naive_cost = sum(x['cost_usd'] for x in naive_results)
+    total_naive_latency = sum(x['latency_seconds'] for x in naive_results)
+    total_naive_thinking = sum(x['tokens']['thinking'] for x in naive_results)
+    
+    cost_savings = (1.0 - (total_adaptive_cost / total_naive_cost)) * 100
+    latency_savings = (1.0 - (total_adaptive_latency / total_naive_latency)) * 100
+    thinking_token_savings = (1.0 - (total_adaptive_thinking / total_naive_thinking)) * 100
+    
+    print('======================================================================')
+    print('ADAPTIVE REASONING ROUTER: PERFORMANCE & COST REPORT')
+    print('======================================================================')
+    print(f'Total Requests Processed:     {len(traffic_blend)}')
+    print('----------------------------------------------------------------------')
+    print('NAIVE ROUTER (Always High Effort):')
+    print(f' |- Total Cost (USD):         \$` + `{total_naive_cost:.6f}` + `')
+    print(f" |- Total Thinking Tokens:    {total_naive_thinking}")
+    print(f' |- Cumulative Latency:       {total_naive_latency:.1f}s')
+    print('----------------------------------------------------------------------')
+    print('ADAPTIVE ROUTER (Dynamic Allocation):')
+    print(f' |- Total Cost (USD):         \$` + `{total_adaptive_cost:.6f}` + `')
+    print(f" |- Total Thinking Tokens:    {total_adaptive_thinking}")
+    print(f' |- Cumulative Latency:       {total_adaptive_latency:.1f}s')
+    print('======================================================================')
+    print(f'Cost Saved:                   {cost_savings:.1f}%')
+    print(f'Latency Reduced:              {latency_savings:.1f}%')
+    print(f'Thinking Tokens Cut:          {thinking_token_savings:.1f}%')
+    print('======================================================================\\n')
+    print('Key Takeaway for Aspiring Engineers:')
+    print('Adaptive reasoning isn\'t just about speed. By analyzing prompt characteristics')
+    print('before calling the frontier models, we prevent expensive reasoning loops on')
+    print('trivial requests, making production LLM deployments commercially viable!')
+    print('======================================================================')
+</pre>
+
+<h3>Why this script is a game-changer:</h3>
+<p>When you run the script, look at the final performance report. In the naive run (always high effort), simple prompts like asking for a hello world or a basic definition are routed to the highest effort reasoning track, wasting valuable budget and generating high latency. By implementing a complexity gateway, the <strong>Adaptive Router</strong> automatically intercepts incoming traffic, routing simple queries to low effort, saving <strong>over 34% of API costs</strong> and reducing cumulative latency by <strong>nearly 49%</strong>, while still maintaining high reasoning power for the complex algorithms and system designs!</p>
+
+<h2>The Off-Campus Playbook: How Indian B.Tech Students Can Stand Out</h2>
+<p>If you are a B.Tech or BE engineering student in a tier-3 college in Tamil Nadu (whether in Coimbatore, Salem, Madurai, Trichy, or Chennai) trying to land a high-paying product company job (10+ LPA package) off-campus, listen to me closely:</p>
+<p>Every second resume on a recruiter's desk has the exact same projects: \"Spam Email Classifier\", \"Weather App\", or a standard \"Chat with your PDF\" wrapper built in five lines of LangChain. Recruiters know exactly which standard YouTube tutorials these come from and they skip them instantly. If you want to make them freeze and read your resume, show them you understand <strong>Production AI Systems Design and Cost Control</strong>.</p>
+<p>Spend your next two weekends building a <strong>Real-Time LLM Reasoning Gateway with Adaptive Cost Allocation</strong>:</p>
+<ol>
+    <li><strong>Build a Web UI:</strong> Create a clean, dark-mode React dashboard where users can submit coding and logic questions.</li>
+    <li><strong>Create the FastAPI Gateway:</strong> Write a FastAPI reverse proxy that sits between your frontend and the actual Anthropic API. It intercepts all incoming requests.</li>
+    <li><strong>Implement the Adaptive Router:</strong> Integrate the complexity scoring system (using the Regex heuristics above or a lightweight classifier).</li>
+    <li><strong>Connect to Claude Sonnet 5:</strong> Send the routed request to the Claude API, configuring the <code>thinking={\"type\": \"adaptive\"}</code> parameter and setting the <code>effort</code> to <code>low</code>, <code>medium</code>, or <code>high</code> dynamically based on the complexity score.</li>
+    <li><strong>Visualize the Telemetry:</strong> Build live charts on the dashboard displaying:
+        <ul>
+            <li>Cumulative API Dollars Saved.</li>
+            <li>Latency Distribution (Adaptive vs. Naive).</li>
+            <li>Ratio of Thinking Tokens to Output Tokens.</li>
+        </ul>
+    </li>
+</ol>
+<p>When you sit in an off-campus interview and explain the exact math of reasoning token budgets, how you designed an asynchronous token counter, and demo a live-running gateway hosted on Vercel/Render with structured logs, recruiters will know you are ready for a real engineering team. You are showing them you think like a software architect, not a tutorial-copying fresher.</p>
+
+<h2>Final Thoughts</h2>
+<p>Claude Sonnet 5's release confirms that the AI industry is shifting from pure model size to <strong>operational efficiency</strong>. As developers, we must adapt. Understanding how to manage reasoning budgets and routing queries dynamically is the ultimate engineering superpower for the next phase of agentic software.</p>
+
+<p>Copy the router script, test it, host it, and keep shipping!</p>
+
+<p><em>— Adithya Kuppusamy, AI & Data Science Engineer, Tamil Nadu</em></p>
+<p><em>GitHub: github.com/Adithya0805 | LinkedIn: linkedin.com/in/adithya-kuppusamy-76baab204</em></p>
+    `
+  },
+  {
     slug: "anthropic-qwen-model-extraction-attack-prevention-tutorial",
     title: "Anthropic vs. Qwen: Inside the 28.8 Million Message Model Extraction Scandal and How to Build an API Guardrail in Python",
     excerpt: "Anthropic has accused Qwen operators of using 25,000 fake accounts to execute a massive 28.8 million message model extraction attack. Learn the math behind adversarial model distillation, how companies detect model stealing, and build your own real-time security guardrail in Python!",
