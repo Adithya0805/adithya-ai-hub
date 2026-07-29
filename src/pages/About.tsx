@@ -1,74 +1,24 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Github, Linkedin, Mail, Loader2, CheckCircle2, FileDown, Award, GraduationCap, Network, LayoutGrid } from "lucide-react";
+import { Github, Linkedin, Mail, Loader2, CheckCircle2, FileDown, Award, GraduationCap } from "lucide-react";
 import { Layout } from "@/components/Layout";
-import { Button } from "@/components/ui/button";
-import { SkillGraph } from "@/components/SkillGraph";
-import { BuilderJourney } from "@/components/BuilderJourney";
 
 const skillsMatrix = [
   {
     category: "Languages",
-    color: "from-cyan-400/20 to-cyan-400/5 border-cyan-400/30",
-    textColor: "text-cyan-400",
     skills: ["Python", "SQL", "TypeScript", "JavaScript", "Bash"],
   },
   {
     category: "AI / ML & NLP",
-    color: "from-violet-500/20 to-violet-500/5 border-violet-500/30",
-    textColor: "text-violet-400",
     skills: ["LangGraph", "TensorFlow", "Keras", "Pinecone / RAG", "NLTK", "LLMs", "Scikit-learn"],
   },
   {
     category: "Backend & Cloud",
-    color: "from-orange-400/20 to-orange-400/5 border-orange-400/30",
-    textColor: "text-orange-400",
     skills: ["FastAPI", "Flask", "AWS EC2", "AWS Bedrock", "AWS S3", "Firebase", "Supabase"],
   },
   {
     category: "Frontend",
-    color: "from-green-400/20 to-green-400/5 border-green-400/30",
-    textColor: "text-green-400",
     skills: ["React", "Next.js", "Tailwind CSS", "Vite", "Recharts"],
-  },
-];
-
-const timeline = [
-  {
-    year: "2021",
-    title: "Started B.Tech",
-    detail: "AI & Data Science — Dhanalakshmi Srinivasan College of Engineering Coimbatore",
-    type: "edu",
-  },
-  {
-    year: "2023",
-    title: "First ML Project",
-    detail: "Built Health Sense Nexus — LSTM anomaly detection on AWS EC2",
-    type: "project",
-  },
-  {
-    year: "2024",
-    title: "AWS re/Start Certified",
-    detail: "Completed AWS re/Start program, earned Cloud Practitioner cert",
-    type: "cert",
-  },
-  {
-    year: "2024",
-    title: "Built MediGuard",
-    detail: "Multi-agent clinical AI using LangGraph + Pinecone + AWS Bedrock",
-    type: "project",
-  },
-  {
-    year: "2025",
-    title: "B.Tech Graduation",
-    detail: "CGPA 8.5 — AI & Data Science",
-    type: "edu",
-  },
-  {
-    year: "2026",
-    title: "Launched Adithya AI Hub",
-    detail: "This blog — documenting the journey to full-time ML engineer",
-    type: "project",
   },
 ];
 
@@ -81,11 +31,10 @@ const certs = [
   { name: "Data Analysis with Python", issuer: "IBM / Coursera", icon: "📈", link: "#" },
 ];
 
-const About = () => {
+export default function About() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errMsg, setErrMsg] = useState("");
-  const [skillsView, setSkillsView] = useState<"grid" | "graph">("graph");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
@@ -123,330 +72,175 @@ const About = () => {
         <title>About Adithya Kuppusamy — AI Engineer | Adithya AI Hub</title>
         <meta
           name="description"
-          content="AI & Data Science graduate from Ambur, Tamil Nadu. CGPA 8.5. Building multi-agent AI systems. AWS certified. Looking for full-time ML engineer roles."
+          content="AI & Data Science graduate from Ambur, Tamil Nadu. Building real AI systems with LangGraph, RAG, and AWS Bedrock."
         />
-        <meta property="og:title" content="About Adithya Kuppusamy — AI Engineer | Adithya AI Hub" />
-        <meta
-          property="og:description"
-          content="AI & Data Science graduate from Ambur, Tamil Nadu. CGPA 8.5. Building multi-agent AI systems. AWS certified. Looking for full-time ML engineer roles."
-        />
-        <meta property="og:url" content="https://adithya-ai-hub.vercel.app/about" />
-        <meta property="og:type" content="profile" />
-        <meta property="og:site_name" content="Adithya AI Hub" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            "name": "Adithya Kuppusamy",
-            "jobTitle": "AI & Data Science Engineer",
-            "url": "https://adithya-ai-hub.vercel.app/about",
-            "sameAs": [
-              "https://github.com/Adithya0805",
-              "https://www.linkedin.com/in/adithya-k-76baab204/"
-            ],
-            "knowsAbout": [
-              "Artificial Intelligence",
-              "Machine Learning",
-              "Python",
-              "AWS",
-              "Data Science",
-              "Multi-agent Systems",
-              "RAG"
-            ]
-          })}
-        </script>
       </Helmet>
 
-      <div className="container py-20">
-        {/* ── BIO SECTION ── */}
-        <div className="grid md:grid-cols-3 gap-12 items-start mb-20">
-          <div className="md:col-span-2">
-            <p className="text-sm text-primary font-medium">About Me</p>
-            <h1 className="mt-2 text-4xl md:text-5xl font-bold">
-              Adithya Kuppusamy
-            </h1>
-            <p className="mt-1 text-lg text-muted-foreground">
-              AI &amp; Data Science Engineer · Tamil Nadu, India
+      <div style={{ maxWidth: 'var(--content-width)', margin: '0 auto', padding: '64px 24px' }}>
+        {/* Bio Section */}
+        <div style={{ marginBottom: '64px', borderBottom: '1px solid var(--border)', paddingBottom: '48px' }}>
+          <p style={{
+            fontSize: '12px',
+            fontWeight: '600',
+            letterSpacing: '3px',
+            textTransform: 'uppercase',
+            color: 'var(--text-muted)',
+            marginBottom: '16px'
+          }}>
+            ABOUT ME
+          </p>
+
+          <h1 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '48px',
+            fontWeight: '700',
+            color: 'var(--text-primary)',
+            lineHeight: '1.1',
+            marginBottom: '8px',
+            letterSpacing: '-1px'
+          }}>
+            Adithya Kuppusamy
+          </h1>
+          <p style={{ fontSize: '16px', color: 'var(--text-secondary)', marginBottom: '32px' }}>
+            AI & Data Science Engineer · Tamil Nadu, India
+          </p>
+
+          <div style={{ fontSize: '16px', lineHeight: '1.8', color: '#2d2d2d', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <p>
+              I'm Adithya Kuppusamy — a B.Tech graduate in Artificial Intelligence and Data Science from Dhanalakshmi Srinivasan College of Engineering, Tamil Nadu. I grew up in Ambur, a town known for its leather industry.
             </p>
-
-            <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
-              <p>
-                I'm Adithya Kuppusamy — a 2025 B.Tech graduate in Artificial Intelligence and Data 
-                Science from Dhanalakshmi Srinivasan College of Engineering, Tamil Nadu. I grew up 
-                in Ambur, a small town known more for its leather industry than its software engineers.
-              </p>
-              <p>
-                I got into AI not because it was the trending career choice, but because I genuinely 
-                wanted to build things that solve real problems for real people. MediGuard came from 
-                watching people in my community get wrong health information online. SkillSpeak AI 
-                came from struggling myself to express technical thoughts confidently in English 
-                interviews. TownRise AI came from the opacity of property markets in Tamil Nadu.
-              </p>
-              <p>
-                Every project I build starts with a problem I have personally seen or experienced.
-              </p>
-              <p>
-                Currently I am actively seeking ML Engineer, AI Engineer, and SDE roles at companies 
-                that are building real AI products. I bring hands-on experience with LangGraph 
-                multi-agent systems, Pinecone RAG pipelines, AWS Bedrock, and full-stack deployment 
-                on Vercel and AWS EC2.
-              </p>
-              <p>
-                When I am not building AI systems I am writing about them here — documenting what I 
-                learn so that other Tamil Nadu students can find honest, practical guidance instead 
-                of generic career advice.
-              </p>
-            </div>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="https://github.com/Adithya0805"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:border-primary hover:text-primary text-sm transition-smooth"
-              >
-                <Github className="w-4 h-4" /> GitHub @Adithya0805
-              </a>
-              <a
-                href="https://www.linkedin.com/in/adithya-kuppusamy-76baab204/"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:border-primary hover:text-primary text-sm transition-smooth"
-              >
-                <Linkedin className="w-4 h-4" /> LinkedIn
-              </a>
-              <a
-                href="mailto:adithyaadhi0805@gmail.com"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:border-primary hover:text-primary text-sm transition-smooth"
-              >
-                <Mail className="w-4 h-4" /> Email
-              </a>
-              <a
-                href="/resume.pdf"
-                download="Adithya_Kuppusamy_Resume.pdf"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 text-sm font-semibold transition-smooth shadow-[0_0_15px_rgba(6,182,212,0.35)]"
-              >
-                <FileDown className="w-4 h-4" /> Download Resume
-              </a>
-            </div>
+            <p>
+              I got into AI to build software that solves real physical and informational challenges. My work spans multi-agent clinical decision tools (MediGuard), regional spoken communication helpers (SkillSpeak AI), and market intelligence platforms (TownRise AI).
+            </p>
+            <p>
+              Currently, I focus on building stateful agentic pipelines (LangGraph), retrieval augmented generation (Pinecone RAG), cloud AI services (AWS Bedrock), and performant web applications.
+            </p>
           </div>
 
-          {/* Avatar */}
-          <div className="flex flex-col items-center gap-5">
-            <div className="w-40 h-40 rounded-3xl bg-gradient-primary flex items-center justify-center shadow-glow text-5xl font-bold text-primary-foreground select-none">
-              AK
-            </div>
-            <div className="text-center">
-              <p className="font-semibold">Adithya Kuppusamy</p>
-              <p className="text-sm text-muted-foreground">Ambur, Tamil Nadu 🇮🇳</p>
-              <p className="text-sm text-muted-foreground">CGPA 8.5 · AI &amp; DS</p>
-            </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '32px' }}>
+            <a href="https://github.com/Adithya0805" target="_blank" rel="noreferrer" style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: '600', textDecoration: 'none', border: '1px solid var(--border)', padding: '8px 16px', borderRadius: '4px' }}>
+              GitHub →
+            </a>
+            <a href="https://www.linkedin.com/in/adithya-kuppusamy-76baab204/" target="_blank" rel="noreferrer" style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: '600', textDecoration: 'none', border: '1px solid var(--border)', padding: '8px 16px', borderRadius: '4px' }}>
+              LinkedIn →
+            </a>
+            <a href="mailto:adithyaadhi0805@gmail.com" style={{ fontSize: '14px', color: 'var(--bg-primary)', backgroundColor: 'var(--text-primary)', fontWeight: '600', textDecoration: 'none', padding: '8px 16px', borderRadius: '4px' }}>
+              Email Me →
+            </a>
           </div>
         </div>
 
-        {/* ── EDUCATION ── */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <GraduationCap className="w-6 h-6 text-primary" /> Education
+        {/* Education */}
+        <section style={{ marginBottom: '64px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '28px', fontWeight: '700', marginBottom: '24px' }}>
+            Education
           </h2>
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/30">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <h3 className="text-xl font-semibold">B.Tech — Artificial Intelligence &amp; Data Science</h3>
-                <p className="text-muted-foreground mt-1">Dhanalakshmi Srinivasan College of Engineering, Coimbatore</p>
-                <p className="text-sm text-muted-foreground mt-0.5">Tamil Nadu, India · 2021 – 2025</p>
-              </div>
-              <div className="text-right">
-                <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">8.5</div>
-                <div className="text-xs text-muted-foreground uppercase tracking-wide">CGPA</div>
-              </div>
-            </div>
+          <div style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border)', padding: '24px', borderRadius: '8px' }}>
+            <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '20px', fontWeight: '600', marginBottom: '4px' }}>
+              B.Tech in Artificial Intelligence & Data Science
+            </h3>
+            <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '8px' }}>
+              Dhanalakshmi Srinivasan College of Engineering, Coimbatore · CGPA: 8.5
+            </p>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
+              2021 – 2025
+            </p>
           </div>
         </section>
 
-        {/* ── SKILLS MATRIX ── */}
-        <section className="mb-20">
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-            <div>
-              <h2 className="text-2xl font-bold">Skills Matrix</h2>
-              <p className="text-xs text-muted-foreground mt-1">Explore my stack visually or in list form</p>
-            </div>
-            
-            {/* View Selector Tabs */}
-            <div className="flex rounded-xl bg-secondary/80 p-1 border border-border select-none">
-              <button
-                onClick={() => setSkillsView("graph")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-smooth ${
-                  skillsView === "graph"
-                    ? "bg-primary text-primary-foreground shadow-[0_0_15px_rgba(6,182,212,0.3)]"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <Network className="w-3.5 h-3.5" /> Neural Mesh
-              </button>
-              <button
-                onClick={() => setSkillsView("grid")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-smooth ${
-                  skillsView === "grid"
-                    ? "bg-primary text-primary-foreground shadow-[0_0_15px_rgba(6,182,212,0.3)]"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <LayoutGrid className="w-3.5 h-3.5" /> Grid View
-              </button>
-            </div>
-          </div>
-
-          {skillsView === "graph" ? (
-            <div className="animate-fade-up animate-duration-300">
-              <SkillGraph />
-            </div>
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-up animate-duration-300">
-              {skillsMatrix.map((cat) => (
-                <div
-                  key={cat.category}
-                  className={`p-5 rounded-2xl bg-gradient-to-b border ${cat.color}`}
-                >
-                  <h3 className={`text-xs font-bold uppercase tracking-widest mb-4 ${cat.textColor}`}>
-                    {cat.category}
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {cat.skills.map((s) => (
-                      <span
-                        key={s}
-                        className="text-xs font-mono px-2.5 py-1 rounded-lg bg-background/60 border border-border/60 text-foreground"
-                      >
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* ── TIMELINE ── */}
-        <section className="mb-20">
-          <h2 className="text-2xl font-bold mb-8">The Builder's Journey</h2>
-          <BuilderJourney />
-        </section>
-
-        {/* ── CERTIFICATIONS ── */}
-        <section className="mb-20">
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <Award className="w-6 h-6 text-primary" /> Certifications
+        {/* Skills Matrix */}
+        <section style={{ marginBottom: '64px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '28px', fontWeight: '700', marginBottom: '24px' }}>
+            Skills Matrix
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {certs.map((c) => (
-              <div
-                key={c.name}
-                className="flex flex-col justify-between p-5 rounded-2xl bg-card border border-border hover:border-primary/40 transition-all duration-200 group"
-              >
-                <div>
-                  <div className="text-3xl mb-3">{c.icon}</div>
-                  <h3 className="font-semibold text-sm leading-snug">{c.name}</h3>
-                  <p className="text-xs text-muted-foreground mt-1">{c.issuer}</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '24px' }}>
+            {skillsMatrix.map((cat) => (
+              <div key={cat.category} style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border)', padding: '20px', borderRadius: '8px' }}>
+                <h3 style={{ fontSize: '12px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '12px' }}>
+                  {cat.category}
+                </h3>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                  {cat.skills.map((s) => (
+                    <span key={s} style={{ fontSize: '13px', backgroundColor: 'var(--border-light)', color: 'var(--text-primary)', padding: '4px 10px', borderRadius: '4px', fontFamily: 'var(--font-mono)' }}>
+                      {s}
+                    </span>
+                  ))}
                 </div>
-                <a
-                  href={c.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-4 inline-flex items-center gap-1.5 text-xs text-primary font-medium group-hover:underline"
-                >
-                  View Credential →
-                </a>
               </div>
             ))}
           </div>
         </section>
 
-        {/* ── CONTACT FORM ── */}
+        {/* Certifications */}
+        <section style={{ marginBottom: '64px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '28px', fontWeight: '700', marginBottom: '24px' }}>
+            Certifications
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
+            {certs.map((c) => (
+              <div key={c.name} style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border)', padding: '20px', borderRadius: '8px' }}>
+                <div style={{ fontSize: '24px', marginBottom: '8px' }}>{c.icon}</div>
+                <h3 style={{ fontSize: '15px', fontWeight: '600', marginBottom: '4px' }}>{c.name}</h3>
+                <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{c.issuer}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Contact */}
         <section>
-          <h2 className="text-2xl font-bold mb-2">Get in Touch</h2>
-          <p className="text-muted-foreground mb-8">
-            Open to opportunities, collaborations, and interesting conversations about AI.
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '28px', fontWeight: '700', marginBottom: '12px' }}>
+            Get in Touch
+          </h2>
+          <p style={{ fontSize: '15px', color: 'var(--text-secondary)', marginBottom: '24px' }}>
+            Open to opportunities, collaborations, and discussions about AI engineering.
           </p>
 
           {status === "success" ? (
-            <div className="flex flex-col items-center gap-3 text-center py-12">
-              <CheckCircle2 className="w-12 h-12 text-primary" />
-              <p className="font-semibold text-lg">Message sent!</p>
-              <p className="text-muted-foreground">I'll reply within 24 hours.</p>
-            </div>
+            <p style={{ fontSize: '15px', color: '#2d7a2d' }}>
+              ✓ Message sent. I will get back to you shortly.
+            </p>
           ) : (
-            <form
-              onSubmit={handleSubmit}
-              className="max-w-xl space-y-4"
-            >
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="about-name" className="block text-sm font-medium mb-1.5">
-                    Name
-                  </label>
-                  <input
-                    id="about-name"
-                    type="text"
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    required
-                    placeholder="Your name"
-                    className="w-full px-4 py-2.5 rounded-xl bg-secondary border border-border focus:border-primary focus:outline-none text-sm transition-smooth"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="about-email" className="block text-sm font-medium mb-1.5">
-                    Email
-                  </label>
-                  <input
-                    id="about-email"
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    required
-                    placeholder="you@example.com"
-                    className="w-full px-4 py-2.5 rounded-xl bg-secondary border border-border focus:border-primary focus:outline-none text-sm transition-smooth"
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="about-message" className="block text-sm font-medium mb-1.5">
-                  Message
-                </label>
-                <textarea
-                  id="about-message"
-                  name="message"
-                  value={form.message}
-                  onChange={handleChange}
-                  required
-                  rows={5}
-                  placeholder="What would you like to discuss?"
-                  className="w-full px-4 py-2.5 rounded-xl bg-secondary border border-border focus:border-primary focus:outline-none text-sm transition-smooth resize-none"
-                />
-              </div>
-              {errMsg && <p className="text-sm text-destructive">{errMsg}</p>}
-              <Button
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '480px' }}>
+              <input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="Your Name"
+                required
+                style={{ padding: '12px 16px', fontSize: '14px', border: '1px solid var(--border)', borderRadius: '4px', backgroundColor: 'var(--bg-secondary)', outline: 'none' }}
+              />
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="your@email.com"
+                required
+                style={{ padding: '12px 16px', fontSize: '14px', border: '1px solid var(--border)', borderRadius: '4px', backgroundColor: 'var(--bg-secondary)', outline: 'none' }}
+              />
+              <textarea
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                placeholder="Your Message"
+                rows={4}
+                required
+                style={{ padding: '12px 16px', fontSize: '14px', border: '1px solid var(--border)', borderRadius: '4px', backgroundColor: 'var(--bg-secondary)', outline: 'none', resize: 'none' }}
+              />
+              {errMsg && <p style={{ fontSize: '13px', color: '#c0392b' }}>{errMsg}</p>}
+              <button
                 type="submit"
-                variant="hero"
-                size="lg"
-                disabled={status === "loading"}
+                disabled={status === 'loading'}
+                style={{ padding: '12px 24px', fontSize: '14px', fontWeight: '600', color: 'var(--bg-primary)', backgroundColor: 'var(--text-primary)', border: 'none', borderRadius: '4px', cursor: 'pointer', width: 'fit-content' }}
               >
-                {status === "loading" ? (
-                  <><Loader2 className="w-4 h-4 animate-spin" /> Sending...</>
-                ) : (
-                  "Send Message"
-                )}
-              </Button>
+                {status === 'loading' ? 'Sending...' : 'Send Message'}
+              </button>
             </form>
           )}
         </section>
       </div>
     </Layout>
   );
-};
-
-export default About;
+}

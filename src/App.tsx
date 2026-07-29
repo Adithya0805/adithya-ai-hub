@@ -23,8 +23,8 @@ const AdminNewsletter = lazy(() => import("./pages/AdminNewsletter.tsx"));
 const queryClient = new QueryClient();
 
 const LoadingFallback = () => (
-  <div className="min-h-screen bg-cyber-darker flex items-center justify-center">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyber-cyan"></div>
+  <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{ width: '48px', height: '48px', borderRadius: '50%', border: '2px solid var(--text-primary)', borderTopColor: 'transparent', animation: 'spin 1s linear infinite' }} />
   </div>
 );
 

@@ -1,104 +1,172 @@
-import { Link } from "react-router-dom";
-import { Clock, Calendar, ArrowRight } from "lucide-react";
-import { TagBadge } from "@/components/TagBadge";
 import type { Post } from "@/data/posts";
 
-interface BlogCardProps {
+export type BlogPost = Post;
+
+export interface BlogCardProps {
   post: Post;
+  size?: 'small' | 'large';
   featured?: boolean;
 }
 
-const categoryGradients: Record<string, string> = {
-  "Machine Learning": "from-cyan-500/20 to-blue-600/10",
-  "Interview Prep": "from-purple-500/20 to-indigo-600/10",
-  "Career": "from-green-500/20 to-teal-600/10",
-  "AWS": "from-orange-500/20 to-amber-600/10",
-  "Python": "from-yellow-500/20 to-orange-600/10",
-};
+// Category background colors (warm tones)
+export function getCategoryColor(category: string): string {
+  const colors: Record<string, string> = {
+    'Machine Learning': '#c4b5a0',
+    'Interview Prep': '#a0b5c4',
+    'Career': '#b5a0c4',
+    'Python': '#a0c4b5',
+    'AWS': '#d4bfa8',
+    'AI Systems': '#b8c4a0',
+    'default': '#c4bdb5'
+  };
+  return colors[category] || colors.default;
+}
 
-export function BlogCard({ post, featured = false }: BlogCardProps) {
-  const gradient = categoryGradients[post.category] ?? "from-primary/20 to-accent/10";
-
-  if (featured) {
-    return (
-      <Link
-        to={`/blog/${post.slug}`}
-        className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-elegant transition-smooth flex flex-col"
-      >
-        {/* Thumbnail */}
-        <div className={`aspect-[16/9] bg-gradient-to-br ${gradient} relative overflow-hidden`}>
-          <div className="absolute inset-0 grid-bg opacity-50" />
-          <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
-          <div className="absolute bottom-3 left-3 flex gap-2">
-            <TagBadge tag={post.category} />
-            {post.featured && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/80 text-primary-foreground font-semibold">
-                Featured
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="flex flex-col flex-1 p-5">
-          <h2 className="font-semibold text-base leading-snug group-hover:text-primary transition-smooth line-clamp-2">
-            {post.title}
-          </h2>
-          <p className="mt-2 text-sm text-muted-foreground line-clamp-2 flex-1">{post.excerpt}</p>
-
-          <div className="mt-4 flex items-center justify-between">
-            <div className="flex items-center gap-3 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1">
-                <Clock className="w-3 h-3" />
-                {post.readTime}
-              </span>
-              <span className="flex items-center gap-1">
-                <Calendar className="w-3 h-3" />
-                {new Date(post.date).toLocaleDateString("en-IN", {
-                  day: "numeric",
-                  month: "short",
-                  year: "numeric",
-                })}
-              </span>
-            </div>
-            <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-smooth" />
-          </div>
-        </div>
-      </Link>
-    );
-  }
-
+export function BlogCard({ post, size = 'small', featured }: BlogCardProps) {
+  const cardSize = featured ? 'large' : size;
   return (
-    <Link
-      to={`/blog/${post.slug}`}
-      className="group flex gap-4 p-4 rounded-xl border border-border hover:border-primary/40 hover:bg-card transition-smooth"
+    <a
+      href={`/blog/${post.slug}`}
+      style={{ textDecoration: 'none', display: 'block' }}
     >
-      {/* Mini thumbnail */}
-      <div
-        className={`w-20 h-20 rounded-lg bg-gradient-to-br ${gradient} flex-shrink-0 relative overflow-hidden`}
-      >
-        <div className="absolute inset-0 grid-bg opacity-60" />
+      {/* Thumbnail — placeholder image based on category */}
+      <div style={{
+        width: '100%',
+        aspectRatio: cardSize === 'large' ? '16/9' : '4/3',
+        backgroundColor: getCategoryColor(post.category),
+        borderRadius: '4px',
+        marginBottom: '16px',
+        overflow: 'hidden',
+        position: 'relative'
+      }}>
+        {/* Category label on image */}
+        <span style={{
+          position: 'absolute',
+          top: '12px',
+          left: '12px',
+          fontSize: '11px',
+          fontWeight: '600',
+          letterSpacing: '1.5px',
+          textTransform: 'uppercase',
+          color: '#ffffff',
+          backgroundColor: 'rgba(0,0,0,0.4)',
+          padding: '4px 10px',
+          borderRadius: '2px'
+        }}>
+          {post.category}
+        </span>
       </div>
 
-      {/* Content */}
-      <div className="flex flex-col flex-1 min-w-0">
-        <div className="flex items-center gap-2 flex-wrap">
-          <TagBadge tag={post.category} small />
-        </div>
-        <h3 className="mt-1 text-sm font-semibold line-clamp-2 group-hover:text-primary transition-smooth">
-          {post.title}
-        </h3>
-        <div className="mt-1 flex items-center gap-3 text-[11px] text-muted-foreground">
-          <span>{post.readTime} read</span>
-          <span>·</span>
-          <span>
-            {new Date(post.date).toLocaleDateString("en-IN", {
-              day: "numeric",
-              month: "short",
-            })}
-          </span>
-        </div>
+      {/* Title */}
+      <h3 style={{
+        fontFamily: 'var(--font-serif)',
+        fontSize: cardSize === 'large' ? '24px' : '18px',
+        fontWeight: '600',
+        color: 'var(--text-primary)',
+        lineHeight: '1.3',
+        marginBottom: '8px',
+        letterSpacing: '-0.3px'
+      }}>
+        {post.title}
+      </h3>
+
+      {/* Excerpt — small cards only */}
+      {cardSize === 'small' && (
+        <p style={{
+          fontSize: '14px',
+          color: 'var(--text-secondary)',
+          lineHeight: '1.5',
+          marginBottom: '12px',
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden'
+        }}>
+          {post.excerpt}
+        </p>
+      )}
+
+      {/* Meta */}
+      <p style={{
+        fontSize: '12px',
+        color: 'var(--text-muted)',
+        letterSpacing: '0.5px',
+        textTransform: 'uppercase'
+      }}>
+        {new Date(post.date).toLocaleDateString('en-US', {
+          month: 'short', day: 'numeric'
+        })} · {post.readTime} · ADITHYA
+      </p>
+
+    </a>
+  );
+}
+
+export function FeaturedCard({ post }: { post: Post }) {
+  if (!post) return null;
+  return (
+    <a href={`/blog/${post.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
+
+      {/* Large image */}
+      <div style={{
+        width: '100%',
+        aspectRatio: '16/9',
+        backgroundColor: getCategoryColor(post.category),
+        borderRadius: '4px',
+        marginBottom: '24px',
+        overflow: 'hidden',
+        position: 'relative'
+      }}>
+        <span style={{
+          position: 'absolute',
+          top: '12px',
+          left: '12px',
+          fontSize: '11px',
+          fontWeight: '600',
+          letterSpacing: '1.5px',
+          textTransform: 'uppercase',
+          color: '#ffffff',
+          backgroundColor: 'rgba(0,0,0,0.4)',
+          padding: '4px 10px',
+          borderRadius: '2px'
+        }}>
+          {post.category}
+        </span>
       </div>
-    </Link>
+
+      {/* Large serif title */}
+      <h2 style={{
+        fontFamily: 'var(--font-serif)',
+        fontSize: '28px',
+        fontWeight: '700',
+        color: 'var(--text-primary)',
+        lineHeight: '1.2',
+        marginBottom: '12px',
+        letterSpacing: '-0.5px'
+      }}>
+        {post.title}
+      </h2>
+
+      <p style={{
+        fontSize: '15px',
+        color: 'var(--text-secondary)',
+        lineHeight: '1.6',
+        marginBottom: '16px'
+      }}>
+        {post.excerpt}
+      </p>
+
+      <p style={{
+        fontSize: '12px',
+        color: 'var(--text-muted)',
+        textTransform: 'uppercase',
+        letterSpacing: '1px'
+      }}>
+        {new Date(post.date).toLocaleDateString('en-US', {
+          month: 'short', day: 'numeric'
+        })} · {post.readTime} · ADITHYA
+      </p>
+
+    </a>
   );
 }

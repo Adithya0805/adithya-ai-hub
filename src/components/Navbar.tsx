@@ -1,101 +1,85 @@
-import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Menu, X, Sparkles, Github } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Logo } from "./Logo";
-
-const links = [
-  { to: "/", label: "Home" },
-  { to: "/about", label: "About" },
-  { to: "/projects", label: "Projects" },
-  { to: "/blog", label: "Blog" },
-  { to: "/resources", label: "Resources" },
-  { to: "/contact", label: "Contact" },
-];
-
-export const Navbar = () => {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
+// Clean minimal top navbar — exactly like Codesmith
+export function Navbar() {
   return (
-    <header
-      className={`fixed top-0 inset-x-0 z-50 transition-smooth ${
-        scrolled ? "glass border-b border-border/60" : "bg-transparent"
-      }`}
-    >
-      <nav className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center">
-          <Logo className="w-9 h-9" />
-        </Link>
+    <nav style={{
+      borderBottom: '1px solid var(--border)',
+      backgroundColor: 'var(--bg-primary)',
+      position: 'sticky',
+      top: 0,
+      zIndex: 100,
+      backdropFilter: 'blur(8px)'
+    }}>
+      <div style={{
+        maxWidth: 'var(--max-width)',
+        margin: '0 auto',
+        padding: '0 24px',
+        height: '56px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
 
-        <div className="hidden lg:flex items-center gap-1">
-          {links.map((l) => (
-            <NavLink
-              key={l.to}
-              to={l.to}
-              end={l.to === "/"}
-              className={({ isActive }) =>
-                `px-3 py-2 text-sm rounded-md transition-smooth ${
-                  isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
-                }`
-              }
+        {/* Logo — left */}
+        <a href="/" style={{
+          fontFamily: 'var(--font-serif)',
+          fontSize: '20px',
+          fontWeight: '700',
+          color: 'var(--text-primary)',
+          textDecoration: 'none',
+          letterSpacing: '-0.5px'
+        }}>
+          Adithya
+        </a>
+
+        {/* Nav links — center */}
+        <div className="nav-links" style={{ display: 'flex', gap: '32px' }}>
+          {['Home', 'Blog', 'Projects', 'About'].map(link => (
+            <a
+              key={link}
+              href={link === 'Home' ? '/' : `/${link.toLowerCase()}`}
+              style={{
+                fontSize: '14px',
+                fontWeight: '500',
+                color: 'var(--text-secondary)',
+                textDecoration: 'none',
+                letterSpacing: '0.2px',
+                borderBottom: '2px solid transparent',
+                paddingBottom: '2px',
+                transition: 'color 0.2s, border-color 0.2s'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.color = 'var(--text-primary)'
+                e.currentTarget.style.borderColor = 'var(--text-primary)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.color = 'var(--text-secondary)'
+                e.currentTarget.style.borderColor = 'transparent'
+              }}
             >
-              {l.label}
-            </NavLink>
+              {link}
+            </a>
           ))}
         </div>
 
-        <div className="hidden lg:flex items-center gap-3">
-          <a
-            href="https://github.com/Adithya0805"
-            target="_blank"
-            rel="noreferrer"
-            className="p-2 text-muted-foreground hover:text-foreground transition-smooth"
-          >
-            <Github className="w-5 h-5" />
-          </a>
-          <Button asChild variant="hero" size="sm">
-            <Link to="/contact">Hire Me</Link>
-          </Button>
-        </div>
-
-        <button
-          className="lg:hidden p-2 text-foreground"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
+        {/* Hire Me button — right */}
+        <a
+          href="/about"
+          style={{
+            fontSize: '13px',
+            fontWeight: '600',
+            color: 'var(--bg-primary)',
+            backgroundColor: 'var(--text-primary)',
+            padding: '8px 18px',
+            borderRadius: '4px',
+            textDecoration: 'none',
+            letterSpacing: '0.3px',
+            transition: 'opacity 0.2s'
+          }}
         >
-          {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </nav>
+          Hire Me
+        </a>
 
-      {open && (
-        <div className="lg:hidden glass border-t border-border/60">
-          <div className="container py-4 flex flex-col gap-1">
-            {links.map((l) => (
-              <NavLink
-                key={l.to}
-                to={l.to}
-                end={l.to === "/"}
-                onClick={() => setOpen(false)}
-                className={({ isActive }) =>
-                  `px-3 py-2 text-sm rounded-md ${
-                    isActive ? "text-primary bg-secondary" : "text-muted-foreground"
-                  }`
-                }
-              >
-                {l.label}
-              </NavLink>
-            ))}
-          </div>
-        </div>
-      )}
-    </header>
-  );
-};
+      </div>
+    </nav>
+  )
+}
