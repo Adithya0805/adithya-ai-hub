@@ -11,80 +11,92 @@ export function NewsletterForm({ compact = false }: NewsletterFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !email.includes("@")) {
-      setStatus("error");
-      setErrorMsg("Please enter a valid email address.");
+
+    if (!email || !email.includes('@')) {
+      setStatus('error');
+      setErrorMsg('Please enter a valid email address');
       return;
     }
-    setStatus("loading");
-    setErrorMsg("");
+
+    setStatus('loading');
+    setErrorMsg('');
 
     try {
-      const res = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ email }),
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim(),
+          name: 'AI Learner'
+        })
       });
 
-      const contentType = res.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        // Fallback simulated success for local preview without backend serverless function
-        setStatus("success");
-        setEmail("");
-        return;
-      }
-
       const data = await res.json();
-      if (res.ok && (data.success || data.message)) {
-        setStatus("success");
-        setEmail("");
+
+      if (res.ok && data.success) {
+        setStatus('success');
+        setEmail('');
       } else {
-        setStatus("error");
-        setErrorMsg(data.error || "Subscription failed. Please try again.");
+        setStatus('error');
+        setErrorMsg(data.error || 'Something went wrong. Please try again.');
       }
     } catch {
-      setStatus("error");
-      setErrorMsg("Network error. Please try again.");
+      setStatus('error');
+      setErrorMsg('Network error. Please check your connection.');
     }
   };
 
   if (compact) {
     return (
-      <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '8px', maxWidth: '360px' }}>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="your@email.com"
-          required
-          style={{
-            flex: 1,
-            padding: '10px 14px',
-            fontSize: '13px',
-            border: '1px solid var(--border)',
-            borderRadius: '4px',
-            backgroundColor: 'var(--bg-secondary)',
-            color: 'var(--text-primary)',
-            outline: 'none'
-          }}
-        />
-        <button
-          type="submit"
-          disabled={status === 'loading'}
-          style={{
-            padding: '10px 18px',
-            fontSize: '13px',
-            fontWeight: '600',
-            color: 'var(--bg-primary)',
-            backgroundColor: 'var(--text-primary)',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          {status === 'loading' ? '...' : 'Subscribe'}
-        </button>
-      </form>
+      <div style={{ maxWidth: '360px' }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '8px' }}>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@email.com"
+            required
+            style={{
+              flex: 1,
+              padding: '10px 14px',
+              fontSize: '13px',
+              border: '1px solid var(--border)',
+              borderRadius: '4px',
+              backgroundColor: 'var(--bg-secondary)',
+              color: 'var(--text-primary)',
+              outline: 'none'
+            }}
+          />
+          <button
+            type="submit"
+            disabled={status === 'loading'}
+            style={{
+              padding: '10px 18px',
+              fontSize: '13px',
+              fontWeight: '600',
+              color: 'var(--bg-primary)',
+              backgroundColor: 'var(--text-primary)',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            {status === 'loading' ? '...' : 'Subscribe'}
+          </button>
+        </form>
+        {status === 'success' && (
+          <div>
+            <p style={{ color: '#2d7a2d', fontSize: '13px', marginTop: '8px' }}>
+              ✓ Subscribed! Check your inbox for a welcome email.
+            </p>
+          </div>
+        )}
+        {status === 'error' && (
+          <p style={{ color: '#c0392b', fontSize: '13px', marginTop: '8px' }}>
+            {errorMsg}
+          </p>
+        )}
+      </div>
     );
   }
 
@@ -177,9 +189,11 @@ export function NewsletterForm({ compact = false }: NewsletterFormProps) {
         </form>
 
         {status === 'success' && (
-          <p style={{ marginTop: '16px', fontSize: '14px', color: '#2d7a2d' }}>
-            ✓ Subscribed. Check your inbox.
-          </p>
+          <div>
+            <p style={{ color: '#2d7a2d', fontSize: '15px', marginTop: '16px' }}>
+              ✓ Subscribed! Check your inbox for a welcome email.
+            </p>
+          </div>
         )}
 
         {status === 'error' && (
