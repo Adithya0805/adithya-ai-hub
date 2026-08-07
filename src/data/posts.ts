@@ -7,6 +7,7 @@ export interface Post {
   readTime: string;
   date: string;
   featured?: boolean;
+  coverImage?: string;
   content: string;
 }
 
@@ -20,6 +21,7 @@ export const posts: Post[] = [
     readTime: "9 min read",
     date: "2026-08-07",
     featured: true,
+    coverImage: "/blog/python_no_gil_ai.jpg",
     content: `
 <h2>The New Era of High-Performance Python in 2026</h2>
 <p>For over three decades, every Python developer learned a fundamental truth: <em>Python is single-threaded at heart because of the Global Interpreter Lock (GIL).</em> Whenever we wanted true CPU parallelism, we had to resort to <code>multiprocessing</code>, incurring massive process serialization overhead, shared memory friction, and complex IPC debugging.</p>

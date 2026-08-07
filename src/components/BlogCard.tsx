@@ -8,7 +8,7 @@ export interface BlogCardProps {
   featured?: boolean;
 }
 
-// Category background colors (warm tones)
+// Category background colors fallback
 export function getCategoryColor(category: string): string {
   const colors: Record<string, string> = {
     'Machine Learning': '#c4b5a0',
@@ -22,14 +22,30 @@ export function getCategoryColor(category: string): string {
   return colors[category] || colors.default;
 }
 
+// Category cover images
+export function getCategoryCoverImage(category: string): string {
+  const covers: Record<string, string> = {
+    'Machine Learning': '/blog/cover_machine_learning.jpg',
+    'Python': '/blog/cover_python.jpg',
+    'AWS': '/blog/cover_aws.jpg',
+    'Interview Prep': '/blog/cover_interview_prep.jpg',
+    'Career': '/blog/cover_career.jpg',
+    'AI Systems': '/blog/cover_ai_systems.jpg',
+    'default': '/blog/cover_machine_learning.jpg'
+  };
+  return covers[category] || covers.default;
+}
+
 export function BlogCard({ post, size = 'small', featured }: BlogCardProps) {
   const cardSize = featured ? 'large' : size;
+  const coverUrl = post.coverImage || getCategoryCoverImage(post.category);
+
   return (
     <a
       href={`/blog/${post.slug}`}
       style={{ textDecoration: 'none', display: 'block' }}
     >
-      {/* Thumbnail — placeholder image based on category */}
+      {/* Thumbnail — Professional cover image */}
       <div style={{
         width: '100%',
         aspectRatio: cardSize === 'large' ? '16/9' : '4/3',
@@ -39,7 +55,29 @@ export function BlogCard({ post, size = 'small', featured }: BlogCardProps) {
         overflow: 'hidden',
         position: 'relative'
       }}>
-        {/* Category label on image */}
+        <img
+          src={coverUrl}
+          alt={post.title}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+            transition: 'transform 0.4s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+        />
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.25) 100%)',
+          pointerEvents: 'none'
+        }} />
         <span style={{
           position: 'absolute',
           top: '12px',
@@ -49,9 +87,11 @@ export function BlogCard({ post, size = 'small', featured }: BlogCardProps) {
           letterSpacing: '1.5px',
           textTransform: 'uppercase',
           color: '#ffffff',
-          backgroundColor: 'rgba(0,0,0,0.4)',
+          backgroundColor: 'rgba(0,0,0,0.55)',
+          backdropFilter: 'blur(4px)',
           padding: '4px 10px',
-          borderRadius: '2px'
+          borderRadius: '2px',
+          zIndex: 2
         }}>
           {post.category}
         </span>
@@ -104,6 +144,8 @@ export function BlogCard({ post, size = 'small', featured }: BlogCardProps) {
 
 export function FeaturedCard({ post }: { post: Post }) {
   if (!post) return null;
+  const coverUrl = post.coverImage || getCategoryCoverImage(post.category);
+
   return (
     <a href={`/blog/${post.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
 
@@ -117,6 +159,29 @@ export function FeaturedCard({ post }: { post: Post }) {
         overflow: 'hidden',
         position: 'relative'
       }}>
+        <img
+          src={coverUrl}
+          alt={post.title}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+            transition: 'transform 0.4s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+        />
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.25) 100%)',
+          pointerEvents: 'none'
+        }} />
         <span style={{
           position: 'absolute',
           top: '12px',
@@ -126,9 +191,11 @@ export function FeaturedCard({ post }: { post: Post }) {
           letterSpacing: '1.5px',
           textTransform: 'uppercase',
           color: '#ffffff',
-          backgroundColor: 'rgba(0,0,0,0.4)',
+          backgroundColor: 'rgba(0,0,0,0.55)',
+          backdropFilter: 'blur(4px)',
           padding: '4px 10px',
-          borderRadius: '2px'
+          borderRadius: '2px',
+          zIndex: 2
         }}>
           {post.category}
         </span>

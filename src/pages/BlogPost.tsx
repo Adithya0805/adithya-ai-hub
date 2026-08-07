@@ -116,6 +116,25 @@ export default function BlogPost() {
           </div>
         </div>
 
+        {/* Hero Cover Image */}
+        <div style={{
+          width: '100%',
+          aspectRatio: '16/9',
+          borderRadius: '8px',
+          overflow: 'hidden',
+          marginBottom: '48px',
+          border: '1px solid var(--border)'
+        }}>
+          <img
+            src={post.coverImage || `/blog/cover_${post.category.toLowerCase().replace(/ /g, '_')}.jpg`}
+            onError={(e) => {
+              e.currentTarget.src = '/blog/cover_machine_learning.jpg';
+            }}
+            alt={post.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </div>
+
         {/* Article content */}
         <div
           className="article-prose"
