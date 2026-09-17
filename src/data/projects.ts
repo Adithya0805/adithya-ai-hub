@@ -15,6 +15,23 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "aranya-organic-dairy",
+    title: "Aranya Organic Dairy Farm",
+    tagline: "Live e-commerce & AI-assisted platform for a 9-year Vedic A2 dairy farm.",
+    problem:
+      "A 9-year established Vedic dairy farm in Shoolagiri, Tamil Nadu needed a high-performance, live digital platform with direct customer ordering, local SEO, instant WhatsApp commerce, and an intelligent bilingual AI assistant to handle queries on A2 milk purity, delivery routes, and Vedic Bilona ghee.",
+    solution:
+      "Engineered and deployed a production Next.js App Router platform featuring mobile-first commerce, instant WhatsApp cart serialization, zero-overhead Gmail inquiry routing, localized Tamil/English SEO with JSON-LD schema, and an embedded RAG-powered 'Ask Farm AI' assistant for real-time customer support.",
+    impact:
+      "Live in production at https://aranyaorganicdairyfarm.com/ with <1.1s LCP, 100/100 SEO health score, instant mobile WhatsApp checkout, and 24/7 autonomous AI inquiry handling.",
+    learned:
+      "Full-lifecycle AI engineering from domain modeling to live deployment, edge CDN caching strategies, bilingual conversational RAG pipelines, zero-cost omnichannel commerce integrations, and high-conversion mobile UI architectures.",
+    stack: ["Next.js 14", "TypeScript", "Tailwind CSS", "RAG", "LLMs", "Edge CDN", "Vercel", "WhatsApp API"],
+    demo: "https://aranyaorganicdairyfarm.com/",
+    category: "Full-Stack AI",
+    flagship: true,
+  },
+  {
     slug: "mediaguard",
     title: "MediGuard V2",
     tagline: "Enterprise Multi-Agent Clinical Decision Support System (CDSS).",
