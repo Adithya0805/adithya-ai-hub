@@ -9,6 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 const Index = lazy(() => import("./pages/Index.tsx"));
 const About = lazy(() => import("./pages/About.tsx"));
 const Projects = lazy(() => import("./pages/Projects.tsx"));
+const Freelance = lazy(() => import("./pages/Freelance.tsx"));
 const Blog = lazy(() => import("./pages/Blog.tsx"));
 const BlogPost = lazy(() => import("./pages/BlogPost.tsx"));
 const Resume = lazy(() => import("./pages/Resume.tsx"));
@@ -23,8 +24,8 @@ const AdminNewsletter = lazy(() => import("./pages/AdminNewsletter.tsx"));
 const queryClient = new QueryClient();
 
 const LoadingFallback = () => (
-  <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-    <div style={{ width: '48px', height: '48px', borderRadius: '50%', border: '2px solid var(--text-primary)', borderTopColor: 'transparent', animation: 'spin 1s linear infinite' }} />
+  <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-0)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{ width: '48px', height: '48px', borderRadius: '50%', border: '2px solid var(--text-1)', borderTopColor: 'transparent', animation: 'spin 1s linear infinite' }} />
   </div>
 );
 
@@ -40,6 +41,8 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/about" element={<About />} />
               <Route path="/projects" element={<Projects />} />
+              <Route path="/work" element={<Projects />} />
+              <Route path="/freelance" element={<Freelance />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/resume" element={<Resume />} />

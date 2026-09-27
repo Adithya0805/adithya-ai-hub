@@ -1,245 +1,173 @@
-import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Github, Linkedin, Mail, Loader2, CheckCircle2, FileDown, Award, GraduationCap } from "lucide-react";
 import { Layout } from "@/components/Layout";
 
-const skillsMatrix = [
+const skillCols = [
   {
-    category: "Languages",
-    skills: ["Python", "SQL", "TypeScript", "JavaScript", "Bash"],
+    cat: 'AI & Agents',
+    skills: ['LangGraph', 'LangChain', 'RAG', 'Pinecone', 'AWS Bedrock', 'Gemini API'],
   },
   {
-    category: "AI / ML & NLP",
-    skills: ["LangGraph", "TensorFlow", "Keras", "Pinecone / RAG", "NLTK", "LLMs", "Scikit-learn"],
+    cat: 'Backend',
+    skills: ['Python', 'FastAPI', 'Supabase', 'PostgreSQL', 'Node.js', 'GitHub Actions'],
   },
   {
-    category: "Backend & Cloud",
-    skills: ["FastAPI", "Flask", "AWS EC2", "AWS Bedrock", "AWS S3", "Firebase", "Supabase"],
+    cat: 'Frontend',
+    skills: ['React', 'Next.js', 'TypeScript', 'Tailwind', 'Vite'],
   },
   {
-    category: "Frontend",
-    skills: ["React", "Next.js", "Tailwind CSS", "Vite", "Recharts"],
+    cat: 'Cloud',
+    skills: ['AWS EC2', 'Google Cloud Run', 'Vercel', 'Railway', 'Docker'],
   },
 ];
 
 const certs = [
-  { name: "AWS re/Start Graduate", issuer: "Amazon Web Services", icon: "☁️", link: "https://www.credly.com/badges/42cb2399-72be-4e6c-b8d6-952e7a4ce6d5/public_url" },
-  { name: "BCG Data Science Job Simulation", issuer: "BCG via Forage", icon: "📊", link: "/bcg_cert.pdf" },
-  { name: "Prompt Engineering for AI", issuer: "DeepLearning.AI", icon: "🤖", link: "/prompt_cert.pdf" },
-  { name: "Python for Everybody", issuer: "University of Michigan", icon: "🐍", link: "#" },
-  { name: "Machine Learning Specialization", issuer: "DeepLearning.AI / Coursera", icon: "🧠", link: "#" },
-  { name: "Data Analysis with Python", issuer: "IBM / Coursera", icon: "📈", link: "#" },
+  'AWS re/Start (Amazon-certified)',
+  'BCG Data Science Simulation',
+  'Prompt Engineering — Internshala',
+  'LangGraph Orchestration',
+  'RAG Pipeline Engineering',
+  'Cisco Networking Essentials',
+  'Cisco Entry Level Python',
+  'Tata Data Visualisation',
+];
+
+const links = [
+  { label: 'GitHub', href: 'https://github.com/Adithya0805' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/adithya-kuppusamy-76baab204/' },
+  { label: 'Email', href: 'mailto:adithyaadhi0805@gmail.com' },
+  { label: 'Portfolio', href: 'https://adithyaai.is-cool.dev' },
 ];
 
 export default function About() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [errMsg, setErrMsg] = useState("");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.name || !form.email || !form.message) {
-      setErrMsg("Please fill in all fields.");
-      return;
-    }
-    setErrMsg("");
-    setStatus("loading");
-    try {
-      const res = await fetch("https://formspree.io/f/mjgzgzbn", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ ...form, _subject: `Contact from ${form.name} — Adithya AI Hub`, source: 'contact-form' }),
-      });
-      if (res.ok) {
-        setStatus("success");
-        setForm({ name: "", email: "", message: "" });
-      } else {
-        throw new Error();
-      }
-    } catch {
-      setStatus("error");
-      setErrMsg("Something went wrong. Please email me directly at adithyaadhi0805@gmail.com");
-    }
-  };
-
   return (
     <Layout>
       <Helmet>
-        <title>About Adithya Kuppusamy — AI Engineer | Adithya AI Hub</title>
+        <title>About Adithya Kuppusamy — AI Engineer</title>
         <meta
           name="description"
           content="AI & Data Science graduate from Ambur, Tamil Nadu. Building real AI systems with LangGraph, RAG, and AWS Bedrock."
         />
       </Helmet>
 
-      <div style={{ maxWidth: 'var(--content-width)', margin: '0 auto', padding: '64px 24px' }}>
-        {/* Bio Section */}
-        <div style={{ marginBottom: '64px', borderBottom: '1px solid var(--border)', paddingBottom: '48px' }}>
-          <p style={{
-            fontSize: '12px',
-            fontWeight: '600',
-            letterSpacing: '3px',
-            textTransform: 'uppercase',
-            color: 'var(--text-muted)',
-            marginBottom: '16px'
-          }}>
-            ABOUT ME
-          </p>
+      <div style={{ maxWidth: 'var(--max)', margin: '0 auto', padding: '120px 32px' }}>
 
-          <h1 style={{
-            fontFamily: 'var(--font-serif)',
-            fontSize: '48px',
-            fontWeight: '700',
-            color: 'var(--text-primary)',
-            lineHeight: '1.1',
-            marginBottom: '8px',
-            letterSpacing: '-1px'
-          }}>
-            Adithya Kuppusamy
-          </h1>
-          <p style={{ fontSize: '16px', color: 'var(--text-secondary)', marginBottom: '32px' }}>
-            AI & Data Science Engineer · Tamil Nadu, India
-          </p>
+        {/* ── Identity + Bio ────────────────────────────────────────── */}
+        <div style={{
+          display: 'grid', gridTemplateColumns: '1fr 2fr',
+          gap: '80px', alignItems: 'start',
+          borderBottom: '1px solid var(--border)', paddingBottom: '80px',
+          marginBottom: '80px'
+        }} className="flagship-grid">
 
-          <div style={{ fontSize: '16px', lineHeight: '1.8', color: '#2d2d2d', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <p>
-              I'm Adithya Kuppusamy — a B.Tech graduate in Artificial Intelligence and Data Science from Dhanalakshmi Srinivasan College of Engineering, Tamil Nadu. I grew up in Ambur, a town known for its leather industry.
+          {/* Left — identity */}
+          <div>
+            <div style={{
+              width: '80px', height: '80px', borderRadius: '50%',
+              background: 'var(--bg-2)', border: '1px solid var(--border)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '28px', marginBottom: '24px', color: 'var(--text-1)'
+            }}>A</div>
+            <h1 style={{
+              fontFamily: 'var(--font-serif)', fontSize: '32px',
+              fontWeight: '400', letterSpacing: '-0.5px', marginBottom: '8px',
+              color: 'var(--text-1)'
+            }}>Adithya Kuppusamy</h1>
+            <p style={{ fontSize: '14px', color: 'var(--text-2)', marginBottom: '32px' }}>
+              AI Engineer · Ambur, Tamil Nadu
             </p>
-            <p>
-              I got into AI to build software that solves real physical and informational challenges. My work spans multi-agent clinical decision tools (MediGuard), regional spoken communication helpers (SkillSpeak AI), and market intelligence platforms (TownRise AI).
-            </p>
-            <p>
-              Currently, I focus on building stateful agentic pipelines (LangGraph), retrieval augmented generation (Pinecone RAG), cloud AI services (AWS Bedrock), and performant web applications.
-            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+              {links.map(link => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target={link.href.startsWith('http') ? '_blank' : undefined}
+                  rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
+                  style={{
+                    fontSize: '13px', color: 'var(--text-2)',
+                    textDecoration: 'none', display: 'flex',
+                    justifyContent: 'space-between', alignItems: 'center',
+                    padding: '10px 0', borderBottom: '1px solid var(--border)'
+                  }}
+                >
+                  {link.label} <span style={{ color: 'var(--text-3)' }}>→</span>
+                </a>
+              ))}
+            </div>
           </div>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '32px' }}>
-            <a href="https://github.com/Adithya0805" target="_blank" rel="noreferrer" style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: '600', textDecoration: 'none', border: '1px solid var(--border)', padding: '8px 16px', borderRadius: '4px' }}>
-              GitHub →
-            </a>
-            <a href="https://www.linkedin.com/in/adithya-kuppusamy-76baab204/" target="_blank" rel="noreferrer" style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: '600', textDecoration: 'none', border: '1px solid var(--border)', padding: '8px 16px', borderRadius: '4px' }}>
-              LinkedIn →
-            </a>
-            <a href="mailto:adithyaadhi0805@gmail.com" style={{ fontSize: '14px', color: 'var(--bg-primary)', backgroundColor: 'var(--text-primary)', fontWeight: '600', textDecoration: 'none', padding: '8px 16px', borderRadius: '4px' }}>
-              Email Me →
-            </a>
+          {/* Right — bio */}
+          <div>
+            <p style={{
+              fontFamily: 'var(--font-serif)', fontSize: '22px',
+              lineHeight: '1.6', color: 'var(--text-1)', marginBottom: '32px',
+              fontWeight: '400'
+            }}>
+              I build AI systems that solve real problems —
+              not demos, not tutorials, not toy projects.
+            </p>
+            <p style={{
+              fontSize: '16px', color: 'var(--text-2)',
+              lineHeight: '1.9', marginBottom: '24px'
+            }}>
+              I am a 2025 B.Tech graduate in AI & Data Science from Tamil Nadu.
+              I grew up in Ambur — a town known for leather, not software engineers.
+              Every project I have built started from a real gap I personally witnessed:
+              patients getting wrong health information, property buyers with no tools,
+              Tamil Nadu citizens unable to navigate government schemes.
+            </p>
+            <p style={{
+              fontSize: '16px', color: 'var(--text-2)', lineHeight: '1.9'
+            }}>
+              Through FutureLogic AI, I also freelance — building production platforms
+              for Tamil Nadu businesses that need real digital infrastructure, not
+              templated websites. Currently seeking an ML Engineer or AI Engineer role
+              while continuing to build.
+            </p>
           </div>
         </div>
 
-        {/* Education */}
-        <section style={{ marginBottom: '64px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
-          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '28px', fontWeight: '700', marginBottom: '24px' }}>
-            Education
-          </h2>
-          <div style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border)', padding: '24px', borderRadius: '8px' }}>
-            <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '20px', fontWeight: '600', marginBottom: '4px' }}>
-              B.Tech in Artificial Intelligence & Data Science
-            </h3>
-            <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '8px' }}>
-              Dhanalakshmi Srinivasan College of Engineering, Coimbatore · CGPA: 8.5
-            </p>
-            <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-              2021 – 2025
-            </p>
-          </div>
-        </section>
+        {/* ── Skills table ──────────────────────────────────────────── */}
+        <div style={{
+          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '0', marginBottom: '80px'
+        }} className="skills-grid">
+          {skillCols.map((col, i) => (
+            <div key={i} style={{
+              padding: '32px',
+              borderRight: i < 3 ? '1px solid var(--border)' : 'none',
+              borderTop: '1px solid var(--border)'
+            }}>
+              <p style={{
+                fontSize: '11px', color: 'var(--text-3)',
+                letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '20px'
+              }}>{col.cat}</p>
+              {col.skills.map(s => (
+                <p key={s} style={{
+                  fontSize: '14px', color: 'var(--text-2)',
+                  padding: '8px 0', borderBottom: '1px solid var(--border)'
+                }}>{s}</p>
+              ))}
+            </div>
+          ))}
+        </div>
 
-        {/* Skills Matrix */}
-        <section style={{ marginBottom: '64px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
-          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '28px', fontWeight: '700', marginBottom: '24px' }}>
-            Skills Matrix
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '24px' }}>
-            {skillsMatrix.map((cat) => (
-              <div key={cat.category} style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border)', padding: '20px', borderRadius: '8px' }}>
-                <h3 style={{ fontSize: '12px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '12px' }}>
-                  {cat.category}
-                </h3>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                  {cat.skills.map((s) => (
-                    <span key={s} style={{ fontSize: '13px', backgroundColor: 'var(--border-light)', color: 'var(--text-primary)', padding: '4px 10px', borderRadius: '4px', fontFamily: 'var(--font-mono)' }}>
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
+        {/* ── Certifications ────────────────────────────────────────── */}
+        <div>
+          <p style={{
+            fontSize: '11px', color: 'var(--text-3)',
+            letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '24px'
+          }}>Certifications</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+            {certs.map(cert => (
+              <span key={cert} style={{
+                fontSize: '13px', color: 'var(--text-2)',
+                border: '1px solid var(--border)',
+                padding: '8px 16px', borderRadius: '4px'
+              }}>{cert}</span>
             ))}
           </div>
-        </section>
+        </div>
 
-        {/* Certifications */}
-        <section style={{ marginBottom: '64px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
-          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '28px', fontWeight: '700', marginBottom: '24px' }}>
-            Certifications
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
-            {certs.map((c) => (
-              <div key={c.name} style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border)', padding: '20px', borderRadius: '8px' }}>
-                <div style={{ fontSize: '24px', marginBottom: '8px' }}>{c.icon}</div>
-                <h3 style={{ fontSize: '15px', fontWeight: '600', marginBottom: '4px' }}>{c.name}</h3>
-                <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{c.issuer}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Contact */}
-        <section>
-          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '28px', fontWeight: '700', marginBottom: '12px' }}>
-            Get in Touch
-          </h2>
-          <p style={{ fontSize: '15px', color: 'var(--text-secondary)', marginBottom: '24px' }}>
-            Open to opportunities, collaborations, and discussions about AI engineering.
-          </p>
-
-          {status === "success" ? (
-            <p style={{ fontSize: '15px', color: '#2d7a2d' }}>
-              ✓ Message sent. I will get back to you shortly.
-            </p>
-          ) : (
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '480px' }}>
-              <input
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                placeholder="Your Name"
-                required
-                style={{ padding: '12px 16px', fontSize: '14px', border: '1px solid var(--border)', borderRadius: '4px', backgroundColor: 'var(--bg-secondary)', outline: 'none' }}
-              />
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="your@email.com"
-                required
-                style={{ padding: '12px 16px', fontSize: '14px', border: '1px solid var(--border)', borderRadius: '4px', backgroundColor: 'var(--bg-secondary)', outline: 'none' }}
-              />
-              <textarea
-                name="message"
-                value={form.message}
-                onChange={handleChange}
-                placeholder="Your Message"
-                rows={4}
-                required
-                style={{ padding: '12px 16px', fontSize: '14px', border: '1px solid var(--border)', borderRadius: '4px', backgroundColor: 'var(--bg-secondary)', outline: 'none', resize: 'none' }}
-              />
-              {errMsg && <p style={{ fontSize: '13px', color: '#c0392b' }}>{errMsg}</p>}
-              <button
-                type="submit"
-                disabled={status === 'loading'}
-                style={{ padding: '12px 24px', fontSize: '14px', fontWeight: '600', color: 'var(--bg-primary)', backgroundColor: 'var(--text-primary)', border: 'none', borderRadius: '4px', cursor: 'pointer', width: 'fit-content' }}
-              >
-                {status === 'loading' ? 'Sending...' : 'Send Message'}
-              </button>
-            </form>
-          )}
-        </section>
       </div>
     </Layout>
   );
