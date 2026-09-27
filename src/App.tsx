@@ -10,6 +10,7 @@ const Index = lazy(() => import("./pages/Index.tsx"));
 const About = lazy(() => import("./pages/About.tsx"));
 const Projects = lazy(() => import("./pages/Projects.tsx"));
 const Freelance = lazy(() => import("./pages/Freelance.tsx"));
+const Services = lazy(() => import("./pages/Services.tsx"));
 const Blog = lazy(() => import("./pages/Blog.tsx"));
 const BlogPost = lazy(() => import("./pages/BlogPost.tsx"));
 const Resume = lazy(() => import("./pages/Resume.tsx"));
@@ -43,6 +44,7 @@ const App = () => (
               <Route path="/projects" element={<Projects />} />
               <Route path="/work" element={<Projects />} />
               <Route path="/freelance" element={<Freelance />} />
+              <Route path="/services" element={<Services />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/resume" element={<Resume />} />

@@ -18,8 +18,8 @@ export function Navbar() {
           color: 'var(--text-1)', textDecoration: 'none'
         }}>Adithya</a>
 
-        <div className="nav-links" style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
-          {['Work', 'Blog', 'Freelance', 'About'].map(item => (
+        <div className="nav-links" style={{ display: 'flex', gap: '28px', alignItems: 'center' }}>
+          {['Work', 'Blog', 'Freelance', 'Services', 'About'].map(item => (
             <a
               key={item}
               href={item === 'Work' ? '/work' : `/${item.toLowerCase()}`}
