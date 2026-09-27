@@ -2,11 +2,13 @@ export function Navbar() {
   return (
     <nav style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      borderBottom: '1px solid var(--border)',
-      backgroundColor: 'rgba(10,10,10,0.85)',
-      backdropFilter: 'blur(12px)',
       height: '56px',
-      display: 'flex', alignItems: 'center'
+      display: 'flex', alignItems: 'center',
+      backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)',
+      backgroundColor: 'rgba(10,10,10,0.75)',
+      borderBottom: '1px solid rgba(255,255,255,0.05)',
+      backgroundImage: 'linear-gradient(180deg, rgba(200,169,110,0.03) 0%, transparent 100%)',
     }}>
       <div style={{
         maxWidth: 'var(--max)', margin: '0 auto', width: '100%',
