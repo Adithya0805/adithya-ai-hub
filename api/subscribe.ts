@@ -127,7 +127,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     <p style="font-size:11px;color:#9a9a9a;margin:0 0 8px;letter-spacing:1px;text-transform:uppercase;font-family:Arial,sans-serif;">
                       CAREER · 8 MIN READ
                     </p>
-                    <a href="https://adithyaai.is-cool.dev/blog/my-ai-career-journey-2025-tamil-nadu-fresher"
+                    <a href="https://adithya-ai-hub.vercel.app/blog/honest-ai-ml-engineer-roadmap-tier-3-tamil-nadu"
                        style="font-family:'Georgia',serif;font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;line-height:1.3;">
                       From Ambur to AI Engineer — My Honest Career Journey →
                     </a>
@@ -142,7 +142,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     <p style="font-size:11px;color:#9a9a9a;margin:0 0 8px;letter-spacing:1px;text-transform:uppercase;font-family:Arial,sans-serif;">
                       MACHINE LEARNING · 10 MIN READ
                     </p>
-                    <a href="https://adithyaai.is-cool.dev/blog/how-i-built-mediaguard-multi-agent-ai-system"
+                    <a href="https://adithya-ai-hub.vercel.app/blog/how-i-built-mediaguard-multi-agent-ai-system"
                        style="font-family:'Georgia',serif;font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;line-height:1.3;">
                       How I Built MediGuard — Multi-Agent Clinical AI →
                     </a>
@@ -157,7 +157,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     <p style="font-size:11px;color:#9a9a9a;margin:0 0 8px;letter-spacing:1px;text-transform:uppercase;font-family:Arial,sans-serif;">
                       INTERVIEW PREP · 7 MIN READ
                     </p>
-                    <a href="https://adithyaai.is-cool.dev/blog/my-tcs-nqt-experience-2026-honest-review"
+                    <a href="https://adithya-ai-hub.vercel.app/blog/my-tcs-nqt-experience-2026-honest-review"
                        style="font-family:'Georgia',serif;font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;line-height:1.3;">
                       My TCS NQT Experience 2026 — Honest Review →
                     </a>
@@ -180,14 +180,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 AI & Data Science Engineer · Ambur, Tamil Nadu
               </p>
               <div style="display:flex;gap:20px;">
-                <a href="https://adithyaai.is-cool.dev" style="font-size:13px;color:#1a1a1a;font-family:Arial,sans-serif;">Website</a>
+                <a href="https://adithya-ai-hub.vercel.app" style="font-size:13px;color:#1a1a1a;font-family:Arial,sans-serif;">Website</a>
                 &nbsp;&nbsp;·&nbsp;&nbsp;
                 <a href="https://github.com/Adithya0805" style="font-size:13px;color:#1a1a1a;font-family:Arial,sans-serif;">GitHub</a>
                 &nbsp;&nbsp;·&nbsp;&nbsp;
                 <a href="https://www.linkedin.com/in/adithya-kuppusamy-76baab204/" style="font-size:13px;color:#1a1a1a;font-family:Arial,sans-serif;">LinkedIn</a>
               </div>
               <p style="font-size:12px;color:#b0b0b0;margin:20px 0 0;font-family:Arial,sans-serif;">
-                You subscribed at adithyaai.is-cool.dev · <a href="{{unsubscribeUrl}}" style="color:#b0b0b0;">Unsubscribe</a>
+                You subscribed at adithya-ai-hub.vercel.app · <a href="{{unsubscribeUrl}}" style="color:#b0b0b0;">Unsubscribe</a>
               </p>
             </td>
           </tr>

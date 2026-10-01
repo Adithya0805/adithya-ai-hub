@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { Post } from "@/data/posts";
 
 export type BlogPost = Post;
@@ -11,6 +12,7 @@ export interface BlogCardProps {
 // Category background colors fallback
 export function getCategoryColor(category: string): string {
   const colors: Record<string, string> = {
+    'AI Engineering': '#c8a96e',
     'Machine Learning': '#c4b5a0',
     'Interview Prep': '#a0b5c4',
     'Career': '#b5a0c4',
@@ -25,6 +27,7 @@ export function getCategoryColor(category: string): string {
 // Category cover images
 export function getCategoryCoverImage(category: string): string {
   const covers: Record<string, string> = {
+    'AI Engineering': '/blog/cover_ai_engineering.jpg',
     'Machine Learning': '/blog/cover_machine_learning.jpg',
     'Python': '/blog/cover_python.jpg',
     'AWS': '/blog/cover_aws.jpg',
@@ -41,8 +44,8 @@ export function BlogCard({ post, size = 'small', featured }: BlogCardProps) {
   const coverUrl = post.coverImage || getCategoryCoverImage(post.category);
 
   return (
-    <a
-      href={`/blog/${post.slug}`}
+    <Link
+      to={`/blog/${post.slug}`}
       style={{ textDecoration: 'none', display: 'block' }}
     >
       {/* Thumbnail — Professional cover image */}
@@ -58,6 +61,9 @@ export function BlogCard({ post, size = 'small', featured }: BlogCardProps) {
         <img
           src={coverUrl}
           alt={post.title}
+          onError={(e) => {
+            e.currentTarget.src = '/blog/cover_machine_learning.jpg';
+          }}
           style={{
             width: '100%',
             height: '100%',
@@ -138,7 +144,7 @@ export function BlogCard({ post, size = 'small', featured }: BlogCardProps) {
         })} · {post.readTime} · ADITHYA
       </p>
 
-    </a>
+    </Link>
   );
 }
 
@@ -147,7 +153,7 @@ export function FeaturedCard({ post }: { post: Post }) {
   const coverUrl = post.coverImage || getCategoryCoverImage(post.category);
 
   return (
-    <a href={`/blog/${post.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
+    <Link to={`/blog/${post.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
 
       {/* Large image */}
       <div style={{
@@ -162,6 +168,9 @@ export function FeaturedCard({ post }: { post: Post }) {
         <img
           src={coverUrl}
           alt={post.title}
+          onError={(e) => {
+            e.currentTarget.src = '/blog/cover_machine_learning.jpg';
+          }}
           style={{
             width: '100%',
             height: '100%',
@@ -234,6 +243,6 @@ export function FeaturedCard({ post }: { post: Post }) {
         })} · {post.readTime} · ADITHYA
       </p>
 
-    </a>
+    </Link>
   );
 }

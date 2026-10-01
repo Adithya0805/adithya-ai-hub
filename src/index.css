@@ -207,7 +207,16 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .nav-links {
-    display: none;
+    display: none !important;
+  }
+
+  .mobile-menu-btn {
+    display: inline-flex !important;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
   }
 
   .article-prose p {
@@ -249,4 +258,27 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: row !important;
     gap: 24px !important;
   }
+
+  .cta-banner-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.tools-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.latest-articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.cta-banner-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  align-items: center;
 }

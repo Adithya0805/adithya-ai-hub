@@ -1,26 +1,30 @@
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
+import { Link } from 'react-router-dom'
 import { Layout } from '@/components/Layout'
 import { NeuralCanvas } from '@/components/NeuralCanvas'
 import { TypeWriter } from '@/components/TypeWriter'
 import { Reveal } from '@/components/Reveal'
 import { GlowOrb } from '@/components/GlowOrb'
+import { NewsletterForm } from '@/components/NewsletterForm'
+import { posts } from '@/data/posts'
 
 /* ── Data ─────────────────────────────────────────────────────────── */
 
 const typewriterWords = [
   'Multi-Agent Clinical AI',
+  'Commercial E-Commerce AI Platforms',
   'Tamil Nadu Gov Scheme Tools',
-  'Real Estate Intelligence',
+  'Real Estate Growth Intelligence',
   'RAG Knowledge Systems',
   'Production FastAPI Backends',
-  'Full Stack AI Platforms',
+  'Full Stack AI Applications',
 ]
 
 const stats = [
   { number: '5+', label: 'AI Systems Shipped' },
-  { number: '2', label: 'Freelance Clients Live' },
-  { number: '8', label: 'Service Areas' },
+  { number: '2', label: 'Commercial Clients Live' },
+  { number: '20', label: 'Technical Articles' },
   { number: '100%', label: 'Production Deployed' },
 ]
 
@@ -44,10 +48,10 @@ const smallProjects = [
   {
     tag: 'Real Estate AI',
     name: 'TownRise AI',
-    desc: 'Zero-cost real estate intelligence platform for Tamil Nadu. OpenStreetMap, Gemini API, Supabase, GitHub Actions nightly refresh.',
-    tech: ['Next.js', 'Supabase', 'Gemini API'],
-    github: 'https://github.com/Adithya0805',
-    demo: 'https://townrise-ai.vercel.app',
+    desc: 'Zero-cost real estate intelligence platform analyzing 50+ Tamil Nadu towns. OpenStreetMap, Gemini API, Supabase, GitHub Actions nightly refresh.',
+    tech: ['Next.js', 'Supabase', 'Gemini API', 'TypeScript'],
+    github: 'https://github.com/Adithya0805/townrise_App_for_real_estates',
+    demo: 'https://townrise-app-for-real-estates.vercel.app/',
   },
   {
     tag: 'Gov Tech · Tamil Nadu',
@@ -59,20 +63,54 @@ const smallProjects = [
   },
 ]
 
+const interactiveTools = [
+  {
+    icon: '🩺',
+    badge: 'Multi-Agent AI',
+    name: 'MediGuard Clinical Sandbox',
+    desc: 'Simulate triage, symptom extraction, Pinecone RAG differential diagnosis, and allergy safety verification in an interactive agent pipeline.',
+    route: '/tools',
+  },
+  {
+    icon: '🎙️',
+    badge: 'Tamil NLP',
+    name: 'SkillSpeak Interview Prep',
+    desc: 'Practice technical interviews with real-time Tamil & Tanglish translation, STAR-framework evaluation, and instant performance feedback.',
+    route: '/tools',
+  },
+  {
+    icon: '📈',
+    badge: 'Quantitative AI',
+    name: 'Binance Futures Bot Simulator',
+    desc: 'Interactive backtesting engine with configurable EMA crossovers, trailing stops, risk-to-reward ratios, and live simulated PnL charts.',
+    route: '/tools',
+  },
+  {
+    icon: '🕸️',
+    badge: 'Interactive Graph',
+    name: 'AI Skill Network Graph',
+    desc: 'Explore the full web of AI engineering competencies, toolchains, frameworks, and architectures in an interactive visual node map.',
+    route: '/tools',
+  },
+]
+
 /* ── Page ─────────────────────────────────────────────────────────── */
 
 export default function Index() {
+  const latestPosts = posts.slice(0, 3)
+
   return (
     <Layout>
       <Helmet>
-        <title>Adithya Kuppusamy — AI Engineer</title>
+        <title>Adithya Kuppusamy — AI Engineer & Full-Stack Architect</title>
         <meta
           name="description"
-          content="AI Engineer building real systems for real problems. LangGraph · RAG · AWS Bedrock · Pinecone. Based in Tamil Nadu, India."
+          content="AI Engineer building production systems: Multi-Agent Clinical AI, Commercial Client Platforms (Aranya Organic Dairy Farm), RAG, and Tamil NLP. Based in Tamil Nadu, India."
         />
-        <meta property="og:title" content="Adithya Kuppusamy — AI Engineer" />
-        <meta property="og:description" content="Building clinical AI, real estate intelligence, and Tamil Nadu government tools." />
-        <meta property="og:url" content="https://adithyaai.is-cool.dev/" />
+        <link rel="canonical" href="https://adithya-ai-hub.vercel.app/" />
+        <meta property="og:title" content="Adithya Kuppusamy — AI Engineer & Full-Stack Architect" />
+        <meta property="og:description" content="Building clinical AI, commercial platforms, real estate intelligence, and regional AI tools." />
+        <meta property="og:url" content="https://adithya-ai-hub.vercel.app/" />
       </Helmet>
 
       {/* ── HERO ──────────────────────────────────────────────────────── */}
@@ -120,7 +158,7 @@ export default function Index() {
               animation: 'pulse-green 2s ease-in-out infinite',
             }} />
             <span style={{ fontSize: '12px', color: 'var(--text-2)', letterSpacing: '0.5px' }}>
-              Available for work · Ambur, Tamil Nadu
+              Available for Freelance & AI Engineering · Ambur, Tamil Nadu
             </span>
           </motion.div>
 
@@ -179,22 +217,22 @@ export default function Index() {
             transition={{ delay: 0.4, duration: 0.6 }}
             style={{
               fontSize: '16px', color: 'var(--text-2)',
-              lineHeight: '1.7', maxWidth: '500px', marginBottom: '52px',
+              lineHeight: '1.7', maxWidth: '520px', marginBottom: '52px',
             }}
           >
-            B.Tech AI & DS · LangGraph · Pinecone RAG · AWS Bedrock.
-            5 production systems shipped. 2 freelance clients live.
-            Tamil Nadu → the world.
+            B.Tech AI & DS · LangGraph · Pinecone RAG · AWS Bedrock · Next.js.
+            Shipped production clinical CDSS & live commercial platforms.
+            From Tamil Nadu to global production deployments.
           </motion.p>
 
-          {/* CTAs */}
+          {/* CTAs with SPA Link navigation */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.6 }}
             style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '80px' }}
           >
-            <a href="/work" style={{
+            <Link to="/work" style={{
               padding: '13px 28px',
               background: 'var(--text-1)',
               color: 'var(--bg-0)',
@@ -204,8 +242,8 @@ export default function Index() {
               display: 'flex', alignItems: 'center', gap: '8px',
             }}>
               View Projects <span style={{ fontSize: '16px' }}>→</span>
-            </a>
-            <a href="/services" style={{
+            </Link>
+            <Link to="/services" style={{
               padding: '13px 28px',
               background: 'rgba(200,169,110,0.1)',
               border: '1px solid rgba(200,169,110,0.3)',
@@ -214,16 +252,26 @@ export default function Index() {
               textDecoration: 'none', borderRadius: '6px',
             }}>
               Hire Me for AI Work
-            </a>
-            <a href="/blog" style={{
+            </Link>
+            <Link to="/tools" style={{
+              padding: '13px 28px',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid var(--border)',
+              color: 'var(--text-2)',
+              fontSize: '14px',
+              textDecoration: 'none', borderRadius: '6px',
+            }}>
+              Interactive AI Lab 🧪
+            </Link>
+            <Link to="/blog" style={{
               padding: '13px 28px',
               border: '1px solid var(--border)',
               color: 'var(--text-2)',
               fontSize: '14px',
               textDecoration: 'none', borderRadius: '6px',
             }}>
-              Read Blog
-            </a>
+              Read Blog (20)
+            </Link>
           </motion.div>
 
           {/* Stats row */}
@@ -330,18 +378,19 @@ export default function Index() {
               <p style={{
                 fontSize: '11px', color: 'var(--text-3)',
                 letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '8px',
-              }}>Selected Work</p>
+              }}>Selected Work & Live Deployments</p>
               <h2 style={{
                 fontFamily: 'var(--font-serif)', fontSize: '36px',
                 fontWeight: '400', letterSpacing: '-0.5px', color: 'var(--text-1)',
-              }}>Projects</h2>
+              }}>Flagship Engineering</h2>
             </div>
-            <a href="/work" style={{
-              fontSize: '13px', color: 'var(--text-2)', textDecoration: 'none',
-            }}>All projects →</a>
+            <Link to="/work" style={{
+              fontSize: '13px', color: 'var(--accent)', textDecoration: 'none',
+              fontWeight: '500',
+            }}>All projects →</Link>
           </div>
 
-          {/* MediGuard — flagship hero card */}
+          {/* 1. MediGuard V2 — Clinical AI Flagship */}
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -351,7 +400,7 @@ export default function Index() {
               background: 'linear-gradient(135deg, #111111 0%, #0d1117 50%, #111111 100%)',
               border: '1px solid rgba(200,169,110,0.2)',
               borderRadius: '16px', padding: '56px',
-              marginBottom: '16px',
+              marginBottom: '28px',
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
               gap: '48px', alignItems: 'center',
@@ -360,7 +409,6 @@ export default function Index() {
             }}
             className="flagship-grid"
           >
-            {/* Top gradient line */}
             <div style={{
               position: 'absolute', top: 0, left: '10%', right: '10%',
               height: '1px',
@@ -375,17 +423,17 @@ export default function Index() {
                   border: '1px solid rgba(200,169,110,0.3)',
                   padding: '3px 10px', borderRadius: '3px',
                   letterSpacing: '1px', textTransform: 'uppercase',
-                }}>Flagship</span>
+                }}>Flagship AI System</span>
                 <span style={{
                   fontSize: '11px', color: 'var(--text-3)',
                   border: '1px solid var(--border)',
                   padding: '3px 10px', borderRadius: '3px',
                   letterSpacing: '1px', textTransform: 'uppercase',
-                }}>Healthcare AI</span>
+                }}>Healthcare CDSS</span>
               </div>
 
               <h3 style={{
-                fontFamily: 'var(--font-serif)', fontSize: '40px',
+                fontFamily: 'var(--font-serif)', fontSize: '38px',
                 fontWeight: '400', letterSpacing: '-1px',
                 lineHeight: '1.1', marginBottom: '16px', color: 'var(--text-1)',
               }}>MediGuard V2</h3>
@@ -410,14 +458,18 @@ export default function Index() {
                 ))}
               </div>
 
-              <div style={{ display: 'flex', gap: '16px' }}>
-                <a href="https://github.com/Adithya0805" target="_blank" rel="noreferrer" style={{
+              <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                <a href="https://github.com/adithya-kuppusamy/mediguard-v2" target="_blank" rel="noreferrer" style={{
                   fontSize: '13px', fontWeight: '600',
                   color: 'var(--text-1)', textDecoration: 'none',
                 }}>GitHub →</a>
-                <a href="/blog/how-i-built-mediaguard-multi-agent-ai-system" style={{
-                  fontSize: '13px', color: 'var(--text-2)', textDecoration: 'none',
-                }}>Case Study →</a>
+                <Link to="/blog/how-i-built-mediaguard-multi-agent-ai-system" style={{
+                  fontSize: '13px', color: 'var(--accent)', textDecoration: 'none',
+                }}>Architecture Deep-Dive →</Link>
+                <Link to="/tools" style={{
+                  fontSize: '12px', color: 'var(--text-2)', textDecoration: 'none',
+                  padding: '4px 10px', border: '1px solid var(--border)', borderRadius: '4px'
+                }}>Try Sandbox 🧪</Link>
               </div>
             </div>
 
@@ -445,7 +497,159 @@ export default function Index() {
             </div>
           </motion.div>
 
-          {/* TownRise + Urimai — 2-column cards */}
+          {/* 2. Aranya Organic Dairy Farm — Commercial Client Production Platform */}
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              background: 'linear-gradient(135deg, #0e140f 0%, #111a14 50%, #0c120e 100%)',
+              border: '1px solid rgba(74, 222, 128, 0.25)',
+              borderRadius: '16px', padding: '56px',
+              marginBottom: '28px',
+              display: 'grid',
+              gridTemplateColumns: '1.1fr 0.9fr',
+              gap: '48px', alignItems: 'center',
+              position: 'relative', overflow: 'hidden',
+              boxShadow: '0 0 80px rgba(74, 222, 128, 0.03), inset 0 1px 0 rgba(255,255,255,0.04)',
+            }}
+            className="flagship-grid"
+          >
+            <div style={{
+              position: 'absolute', top: 0, left: '10%', right: '10%',
+              height: '1px',
+              background: 'linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.4), transparent)',
+            }} />
+
+            {/* Left — description */}
+            <div>
+              <div style={{ display: 'inline-flex', gap: '8px', marginBottom: '24px' }}>
+                <span style={{
+                  fontSize: '11px', color: '#4ade80',
+                  border: '1px solid rgba(74, 222, 128, 0.3)',
+                  padding: '3px 10px', borderRadius: '3px',
+                  letterSpacing: '1px', textTransform: 'uppercase',
+                  display: 'flex', alignItems: 'center', gap: '6px'
+                }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#4ade80', display: 'inline-block' }} />
+                  Live Commercial Client
+                </span>
+                <span style={{
+                  fontSize: '11px', color: 'var(--text-3)',
+                  border: '1px solid var(--border)',
+                  padding: '3px 10px', borderRadius: '3px',
+                  letterSpacing: '1px', textTransform: 'uppercase',
+                }}>Production Platform</span>
+              </div>
+
+              <h3 style={{
+                fontFamily: 'var(--font-serif)', fontSize: '38px',
+                fontWeight: '400', letterSpacing: '-1px',
+                lineHeight: '1.1', marginBottom: '16px', color: 'var(--text-1)',
+              }}>Aranya Organic Dairy Farm</h3>
+
+              <p style={{
+                fontSize: '15px', color: 'var(--text-2)',
+                lineHeight: '1.8', marginBottom: '28px',
+              }}>
+                Complete full-lifecycle AI platform built for a 9-year Vedic dairy farm in Shoolagiri, Tamil Nadu.
+                Features mobile-first catalog, instant WhatsApp cart serialization, zero-overhead Gmail routing,
+                and an embedded bilingual <strong>"Ask Farm AI"</strong> chatbot assistant answering customer queries on
+                A2 milk purity, delivery routes, and Vedic Bilona ghee.
+              </p>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '32px' }}>
+                {['Next.js 14', 'RAG Chatbot', 'WhatsApp Commerce', 'Edge CDN', 'Tamil & English SEO', 'Tailwind'].map(t => (
+                  <span key={t} style={{
+                    fontFamily: 'var(--font-mono)', fontSize: '11px',
+                    color: '#86efac', border: '1px solid rgba(74, 222, 128, 0.2)',
+                    padding: '4px 10px', borderRadius: '3px',
+                    background: 'rgba(74, 222, 128, 0.04)'
+                  }}>{t}</span>
+                ))}
+              </div>
+
+              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <a
+                  href="https://aranyaorganicdairyfarm.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    padding: '10px 20px',
+                    background: '#4ade80',
+                    color: '#052e16',
+                    fontSize: '13px', fontWeight: '700',
+                    borderRadius: '6px',
+                    textDecoration: 'none',
+                    display: 'inline-flex', alignItems: 'center', gap: '6px'
+                  }}
+                >
+                  Visit Live Site (aranyaorganicdairyfarm.com) ↗
+                </a>
+                <Link
+                  to="/blog/building-and-deploying-aranya-organic-dairy-farm-live-ai-engineer-guide"
+                  style={{
+                    fontSize: '13px', color: 'var(--accent)', textDecoration: 'none',
+                    fontWeight: '500'
+                  }}
+                >
+                  Read 12-Min Engineering Case Study →
+                </Link>
+              </div>
+            </div>
+
+            {/* Right — live metrics and highlights */}
+            <div style={{
+              background: 'rgba(0, 0, 0, 0.4)',
+              border: '1px solid rgba(74, 222, 128, 0.15)',
+              borderRadius: '12px',
+              padding: '28px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px'
+            }}>
+              <p style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '11px',
+                color: '#4ade80',
+                letterSpacing: '1px',
+                textTransform: 'uppercase',
+                margin: 0
+              }}>PRODUCTION TELEMETRY</p>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '6px', border: '1px solid var(--border)' }}>
+                  <p style={{ fontSize: '24px', fontFamily: 'var(--font-serif)', color: 'var(--text-1)', margin: '0 0 4px 0' }}>&lt; 1.1s</p>
+                  <p style={{ fontSize: '11px', color: 'var(--text-3)', margin: 0 }}>LCP Edge Render Speed</p>
+                </div>
+                <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '6px', border: '1px solid var(--border)' }}>
+                  <p style={{ fontSize: '24px', fontFamily: 'var(--font-serif)', color: '#4ade80', margin: '0 0 4px 0' }}>100%</p>
+                  <p style={{ fontSize: '11px', color: 'var(--text-3)', margin: 0 }}>Lighthouse SEO Score</p>
+                </div>
+                <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '6px', border: '1px solid var(--border)' }}>
+                  <p style={{ fontSize: '24px', fontFamily: 'var(--font-serif)', color: 'var(--accent)', margin: '0 0 4px 0' }}>24 / 7</p>
+                  <p style={{ fontSize: '11px', color: 'var(--text-3)', margin: 0 }}>Autonomous AI Assistant</p>
+                </div>
+                <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '6px', border: '1px solid var(--border)' }}>
+                  <p style={{ fontSize: '24px', fontFamily: 'var(--font-serif)', color: 'var(--text-1)', margin: '0 0 4px 0' }}>1-Click</p>
+                  <p style={{ fontSize: '11px', color: 'var(--text-3)', margin: 0 }}>Direct WhatsApp Cart</p>
+                </div>
+              </div>
+
+              <div style={{
+                borderTop: '1px solid rgba(255,255,255,0.06)',
+                paddingTop: '14px',
+                fontSize: '12px',
+                color: 'var(--text-2)',
+                lineHeight: '1.6'
+              }}>
+                💬 <em>"Ask Farm AI answers questions on cow feed, milk composition, and delivery schedules in real time, increasing direct customer conversion."</em>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* 3. TownRise + Urimai — 2-column cards */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}
             className="projects-grid">
             {smallProjects.map((p, i) => (
@@ -464,7 +668,6 @@ export default function Index() {
                   cursor: 'default',
                 }}
               >
-                {/* Top glow line on hover */}
                 <div style={{
                   position: 'absolute', top: 0, left: 0, right: 0,
                   height: '1px',
@@ -502,11 +705,377 @@ export default function Index() {
                   {p.demo && (
                     <a href={p.demo} target="_blank" rel="noreferrer" style={{
                       fontSize: '13px', color: 'var(--text-2)', textDecoration: 'none',
-                    }}>Live →</a>
+                    }}>Live App →</a>
                   )}
                 </div>
               </motion.div>
             ))}
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ── INTERACTIVE AI LABS & SANDBOXES ───────────────────────────── */}
+      <Reveal delay={0.1}>
+        <section style={{
+          borderTop: '1px solid var(--border)',
+          background: 'radial-gradient(ellipse at 50% 0%, rgba(200,169,110,0.03) 0%, transparent 70%)',
+          padding: '80px 32px',
+        }}>
+          <div style={{ maxWidth: 'var(--max)', margin: '0 auto' }}>
+            <div style={{
+              display: 'flex', justifyContent: 'space-between',
+              alignItems: 'flex-end', marginBottom: '40px',
+              flexWrap: 'wrap', gap: '16px'
+            }}>
+              <div>
+                <p style={{
+                  fontSize: '11px', color: 'var(--accent)',
+                  letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '8px',
+                  fontWeight: '600'
+                }}>Hands-on Evaluation</p>
+                <h2 style={{
+                  fontFamily: 'var(--font-serif)', fontSize: '36px',
+                  fontWeight: '400', letterSpacing: '-0.5px', color: 'var(--text-1)',
+                  margin: 0
+                }}>Interactive AI Sandboxes</h2>
+                <p style={{ fontSize: '14px', color: 'var(--text-3)', marginTop: '8px', maxWidth: '600px' }}>
+                  Test clinical multi-agent decision support, practice bilingual Tamil/Tanglish interviews,
+                  or simulate trading bot strategies directly inside the browser.
+                </p>
+              </div>
+              <Link to="/tools" style={{
+                padding: '10px 20px',
+                background: 'rgba(200,169,110,0.1)',
+                border: '1px solid rgba(200,169,110,0.3)',
+                color: 'var(--accent)',
+                fontSize: '13px', fontWeight: '600',
+                borderRadius: '6px', textDecoration: 'none',
+              }}>
+                Launch Full AI Lab →
+              </Link>
+            </div>
+
+            <div className="tools-preview-grid">
+              {interactiveTools.map((tool, idx) => (
+                <Link
+                  key={idx}
+                  to={tool.route}
+                  style={{
+                    textDecoration: 'none',
+                    background: 'var(--bg-1)',
+                    border: '1px solid var(--border)',
+                    borderRadius: '12px',
+                    padding: '28px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    transition: 'all 0.25s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)'
+                    e.currentTarget.style.transform = 'translateY(-4px)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--border)'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                  }}
+                >
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                      <span style={{ fontSize: '28px' }}>{tool.icon}</span>
+                      <span style={{
+                        fontSize: '10px',
+                        fontFamily: 'var(--font-mono)',
+                        color: 'var(--accent)',
+                        background: 'rgba(200,169,110,0.08)',
+                        border: '1px solid rgba(200,169,110,0.2)',
+                        padding: '2px 8px',
+                        borderRadius: '3px',
+                        textTransform: 'uppercase'
+                      }}>{tool.badge}</span>
+                    </div>
+                    <h3 style={{
+                      fontFamily: 'var(--font-serif)',
+                      fontSize: '20px',
+                      fontWeight: '400',
+                      color: 'var(--text-1)',
+                      marginBottom: '10px'
+                    }}>{tool.name}</h3>
+                    <p style={{
+                      fontSize: '13px',
+                      color: 'var(--text-2)',
+                      lineHeight: '1.6',
+                      margin: 0
+                    }}>{tool.desc}</p>
+                  </div>
+
+                  <div style={{
+                    marginTop: '20px',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    color: 'var(--accent)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}>
+                    Open Sandbox <span>→</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ── LATEST TECHNICAL ARTICLES ──────────────────────────────────── */}
+      <Reveal delay={0.1}>
+        <section style={{
+          maxWidth: 'var(--max)', margin: '0 auto', padding: '80px 32px',
+          borderTop: '1px solid var(--border)',
+        }}>
+          <div style={{
+            display: 'flex', justifyContent: 'space-between',
+            alignItems: 'flex-end', marginBottom: '40px',
+            flexWrap: 'wrap', gap: '16px'
+          }}>
+            <div>
+              <p style={{
+                fontSize: '11px', color: 'var(--text-3)',
+                letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '8px',
+              }}>Systems Engineering & Insights</p>
+              <h2 style={{
+                fontFamily: 'var(--font-serif)', fontSize: '36px',
+                fontWeight: '400', letterSpacing: '-0.5px', color: 'var(--text-1)',
+                margin: 0
+              }}>Latest Technical Articles</h2>
+            </div>
+            <Link to="/blog" style={{
+              fontSize: '13px', color: 'var(--accent)', textDecoration: 'none',
+              fontWeight: '500',
+            }}>View all 20 guides →</Link>
+          </div>
+
+          <div className="latest-articles-grid">
+            {latestPosts.map((post) => (
+              <motion.article
+                key={post.slug}
+                whileHover={{ y: -4, borderColor: 'rgba(200,169,110,0.3)' }}
+                style={{
+                  background: 'var(--bg-1)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '12px',
+                  padding: '28px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  transition: 'border-color 0.2s',
+                }}
+              >
+                <div>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '14px',
+                    fontSize: '11px',
+                    fontFamily: 'var(--font-mono)',
+                    color: 'var(--text-3)'
+                  }}>
+                    <span style={{
+                      color: 'var(--accent)',
+                      background: 'rgba(200,169,110,0.08)',
+                      padding: '2px 8px',
+                      borderRadius: '3px',
+                      border: '1px solid rgba(200,169,110,0.2)'
+                    }}>{post.category}</span>
+                    <span>{post.readTime}</span>
+                  </div>
+
+                  <Link to={`/blog/${post.slug}`} style={{ textDecoration: 'none' }}>
+                    <h3 style={{
+                      fontFamily: 'var(--font-serif)',
+                      fontSize: '20px',
+                      fontWeight: '400',
+                      lineHeight: '1.3',
+                      color: 'var(--text-1)',
+                      marginBottom: '12px',
+                    }}>{post.title}</h3>
+                  </Link>
+
+                  <p style={{
+                    fontSize: '13px',
+                    color: 'var(--text-2)',
+                    lineHeight: '1.7',
+                    marginBottom: '20px',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden'
+                  }}>{post.excerpt}</p>
+                </div>
+
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingTop: '16px',
+                  borderTop: '1px solid rgba(255,255,255,0.04)'
+                }}>
+                  <span style={{ fontSize: '11px', color: 'var(--text-3)' }}>{post.date}</span>
+                  <Link
+                    to={`/blog/${post.slug}`}
+                    style={{
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      color: 'var(--accent)',
+                      textDecoration: 'none'
+                    }}
+                  >
+                    Read Guide →
+                  </Link>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ── CLIENT ACQUISITION / WORK TOGETHER BANNER ─────────────────── */}
+      <Reveal delay={0.1}>
+        <section style={{
+          borderTop: '1px solid var(--border)',
+          background: 'linear-gradient(180deg, var(--bg-0) 0%, #0d0d0d 100%)',
+          padding: '80px 32px',
+        }}>
+          <div style={{ maxWidth: 'var(--max)', margin: '0 auto' }}>
+            <div className="cta-banner-grid" style={{ marginBottom: '64px' }}>
+              <div>
+                <p style={{
+                  fontSize: '11px', color: '#4ade80',
+                  letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '12px',
+                  fontWeight: '600',
+                  display: 'flex', alignItems: 'center', gap: '6px'
+                }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#4ade80', display: 'inline-block' }} />
+                  Taking Selected Client Projects
+                </p>
+                <h2 style={{
+                  fontFamily: 'var(--font-serif)', fontSize: 'clamp(32px, 4vw, 44px)',
+                  fontWeight: '400', letterSpacing: '-1px', color: 'var(--text-1)',
+                  lineHeight: '1.15', marginBottom: '20px'
+                }}>
+                  Need an AI Engineer to turn complex workflows into reality?
+                </h2>
+                <p style={{
+                  fontSize: '15px', color: 'var(--text-2)',
+                  lineHeight: '1.7', marginBottom: '32px',
+                  maxWidth: '540px'
+                }}>
+                  Whether you need a custom Multi-Agent system, a localized RAG knowledge engine,
+                  an autonomous customer service chatbot, or a full-stack AI web platform like Aranya Dairy,
+                  I engineer production-ready software designed to generate measurable business results.
+                </p>
+
+                <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
+                  <a
+                    href="https://wa.me/918825714576?text=Hi%20Adithya%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20an%20AI%20project"
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      padding: '12px 24px',
+                      background: '#25D366',
+                      color: '#052e16',
+                      fontSize: '14px', fontWeight: '700',
+                      borderRadius: '6px', textDecoration: 'none',
+                      display: 'inline-flex', alignItems: 'center', gap: '8px'
+                    }}
+                  >
+                    <span>💬 Chat on WhatsApp</span>
+                  </a>
+                  <Link
+                    to="/services"
+                    style={{
+                      padding: '12px 24px',
+                      background: 'rgba(200,169,110,0.1)',
+                      border: '1px solid rgba(200,169,110,0.3)',
+                      color: 'var(--accent)',
+                      fontSize: '14px', fontWeight: '600',
+                      borderRadius: '6px', textDecoration: 'none',
+                    }}
+                  >
+                    View 8 AI Services & Pricing →
+                  </Link>
+                  <a
+                    href="mailto:adithyakupusamy@gmail.com?subject=AI%20Engineering%20Inquiry"
+                    style={{
+                      padding: '12px 20px',
+                      border: '1px solid var(--border)',
+                      color: 'var(--text-2)',
+                      fontSize: '14px',
+                      borderRadius: '6px', textDecoration: 'none',
+                    }}
+                  >
+                    Send Email
+                  </a>
+                </div>
+              </div>
+
+              {/* Trust Box */}
+              <div style={{
+                background: 'var(--bg-1)',
+                border: '1px solid var(--border)',
+                borderRadius: '12px',
+                padding: '32px',
+              }}>
+                <h3 style={{
+                  fontFamily: 'var(--font-serif)',
+                  fontSize: '20px',
+                  fontWeight: '400',
+                  color: 'var(--text-1)',
+                  marginBottom: '16px'
+                }}>How I Deliver Value</h3>
+
+                <ul style={{
+                  listStyle: 'none',
+                  padding: 0,
+                  margin: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '14px',
+                  fontSize: '13px',
+                  color: 'var(--text-2)',
+                  lineHeight: '1.6'
+                }}>
+                  <li style={{ display: 'flex', gap: '10px' }}>
+                    <span style={{ color: '#4ade80', fontWeight: 'bold' }}>✓</span>
+                    <span><strong>End-to-End Ownership:</strong> From architecture design, LLM prompt engineering, and database modeling to edge cloud deployment.</span>
+                  </li>
+                  <li style={{ display: 'flex', gap: '10px' }}>
+                    <span style={{ color: '#4ade80', fontWeight: 'bold' }}>✓</span>
+                    <span><strong>Rapid Turnaround:</strong> Working MVPs delivered in 7-14 days with zero operational bloat.</span>
+                  </li>
+                  <li style={{ display: 'flex', gap: '10px' }}>
+                    <span style={{ color: '#4ade80', fontWeight: 'bold' }}>✓</span>
+                    <span><strong>Deterministic Reliability:</strong> DeepEval safety benchmarking, unit test suites, and strict guardrails.</span>
+                  </li>
+                </ul>
+
+                <div style={{
+                  marginTop: '24px',
+                  paddingTop: '20px',
+                  borderTop: '1px solid var(--border)',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}>
+                  <span style={{ fontSize: '11px', color: 'var(--text-3)' }}>Direct Line:</span>
+                  <span style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--accent)' }}>+91 88257 14576</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Newsletter Subscription */}
+            <NewsletterForm compact={false} />
           </div>
         </section>
       </Reveal>

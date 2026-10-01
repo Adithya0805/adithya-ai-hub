@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { Download, Mail } from "lucide-react";
+import { Download, Mail, Linkedin, ExternalLink } from "lucide-react";
 
 const timeline = [
   { year: "2025", title: "B.Tech — AI & Data Science", desc: "Dhanalakshmi Srinivasan College of Engineering, Coimbatore. CGPA: 8.5" },
@@ -18,7 +18,14 @@ const skills = [
   { group: "Soft Skills", items: ["Analytical Thinking", "Team Collaboration", "Problem-Solving"] },
 ];
 
-const certs = ["AWS re/Start Programme (Cultus & AWS)", "Prompt Engineering for Generative AI (Internshala)", "Data Science Job Simulation (BCG)", "Networking Essentials (Cisco)", "Entry Level Python Programmer (Cisco)", "Web Development Fundamentals"];
+const certs = [
+  { name: "AWS re/Start Programme (Cultus & AWS)", file: null },
+  { name: "Prompt Engineering for Generative AI (Internshala)", file: "/prompt_cert.pdf" },
+  { name: "Data Science Job Simulation (BCG)", file: "/bcg_cert.pdf" },
+  { name: "Networking Essentials (Cisco)", file: null },
+  { name: "Entry Level Python Programmer (Cisco)", file: null },
+  { name: "Web Development Fundamentals", file: null }
+];
 
 const Resume = () => (
   <Layout>
@@ -41,18 +48,27 @@ const Resume = () => (
     </Helmet>
 
     <section className="container py-20">
-      <p className="text-sm text-primary font-medium">Resume</p>
+      <p className="text-sm text-primary font-medium">Resume & Credentials</p>
       <h1 className="mt-2 text-4xl md:text-5xl font-bold">Adithya K — AI & Data Science Engineer</h1>
       <p className="mt-4 text-muted-foreground max-w-2xl">
-        A snapshot for recruiters and hiring managers. Download the full resume or get in touch.
+        A snapshot for recruiters, engineering leads, and hiring managers. Download the official PDF resume or get in touch directly.
       </p>
 
       <div className="mt-6 flex gap-3 flex-wrap">
         <Button variant="hero" size="lg" asChild>
-          <a href="https://www.linkedin.com/in/adithya-k-76baab204/" target="_blank" rel="noreferrer"><Download className="w-4 h-4" /> View LinkedIn</a>
+          <a href="/resume.pdf" download="Adithya_Kuppusamy_Resume.pdf">
+            <Download className="w-4 h-4 mr-2" /> Download Resume PDF
+          </a>
         </Button>
         <Button variant="glass" size="lg" asChild>
-          <a href="mailto:adithyaadhi0805@gmail.com"><Mail className="w-4 h-4" /> Email Me</a>
+          <a href="https://www.linkedin.com/in/adithya-kuppusamy-76baab204/" target="_blank" rel="noreferrer">
+            <Linkedin className="w-4 h-4 mr-2" /> View LinkedIn
+          </a>
+        </Button>
+        <Button variant="glass" size="lg" asChild>
+          <a href="mailto:adithyaadhi0805@gmail.com">
+            <Mail className="w-4 h-4 mr-2" /> Email Adithya
+          </a>
         </Button>
       </div>
 
@@ -75,7 +91,14 @@ const Resume = () => (
           <h2 className="text-2xl font-bold mb-6">Certifications</h2>
           <ul className="space-y-3">
             {certs.map((c) => (
-              <li key={c} className="p-4 rounded-xl bg-card border border-border text-sm">{c}</li>
+              <li key={c.name} className="p-4 rounded-xl bg-card border border-border text-sm flex items-center justify-between">
+                <span>{c.name}</span>
+                {c.file && (
+                  <a href={c.file} target="_blank" rel="noreferrer" className="text-primary hover:underline text-xs flex items-center gap-1 shrink-0 ml-2">
+                    Verify <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
+              </li>
             ))}
           </ul>
         </aside>

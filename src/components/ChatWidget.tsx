@@ -9,6 +9,17 @@ interface Message {
 }
 
 const KNOWLEDGE_BASE: Record<string, string> = {
+  aranya: `**Aranya Organic Dairy Farm** is Adithya's live commercial client deployment at [aranyaorganicdairyfarm.com](https://aranyaorganicdairyfarm.com/). A 9-year Vedic A2 dairy farm in Shoolagiri, Tamil Nadu, featuring a mobile-first e-commerce catalog, instant WhatsApp ordering, and a bilingual conversational RAG assistant ("Ask Farm AI").`,
+
+  urimai: `**Urimai AI** is a multi-agent Tamil Nadu government scheme eligibility assistant analyzing 64 schemes with 199 rules and conversational Tamil intake (49/49 automated tests passing).`,
+
+  freelance: `Under **FutureLogic AI**, Adithya builds production-grade web platforms and AI tools for Tamil Nadu businesses and international clients. Services include:
+• Multi-Agent Systems (LangGraph)
+• RAG Knowledge Pipelines (Pinecone/Bedrock)
+• LLM API Integrations (Gemini, Claude, OpenAI)
+• Full-Stack AI Platforms (Next.js, FastAPI, Supabase)
+Visit the **Freelance** and **Services** pages to learn more!`,
+
   mediguard: `**MediGuard** is Adithya's flagship clinical AI assistant built with **LangGraph, Pinecone, AWS Bedrock, and FastAPI**. He engineered a multi-agent system that indexes **50,000+ medical documents**, achieving an end-to-end response time under **8 seconds** with **>90% relevance scoring** using advanced RAG pipelines.`,
   
   skillspeak: `**SkillSpeak AI** is a comprehensive mock interview platform that simulates company-specific and role-based technical/behavioral interviews. Built using **React, Python, Firebase, and speech transcription APIs**, it supports dynamic competency scoring and has engaged **10,000+ engineering professionals** to practice coding and communication!`,
@@ -40,17 +51,19 @@ const KNOWLEDGE_BASE: Record<string, string> = {
   contact: `You can hire Adithya or get in touch directly! He is open to conversations:
 
 • 📧 **Email:** adithyaadhi0805@gmail.com
+• 💬 **WhatsApp:** [+91 88257 14576](https://wa.me/918825714576)
 • 🔗 **LinkedIn:** [Adithya Kuppusamy](https://www.linkedin.com/in/adithya-kuppusamy-76baab204/)
 • 🐙 **GitHub:** [github.com/Adithya0805](https://github.com/Adithya0805)
 
-You can also download his full resume from the homepage or About section!`,
+You can also download his full resume from the Resume section!`,
 };
 
 const SUGGESTED_CHIPS = [
   { label: "Tell me about MediGuard", keyword: "mediguard" },
+  { label: "Aranya Dairy Client Project", keyword: "aranya" },
   { label: "What is his tech stack?", keyword: "stack" },
+  { label: "Freelance & Services", keyword: "freelance" },
   { label: "Is he open to relocation?", keyword: "relocate" },
-  { label: "Show certifications", keyword: "certifications" },
 ];
 
 export function ChatWidget() {
@@ -85,7 +98,13 @@ Feel free to choose a prompt below or ask me anything!`,
     const cleanText = text.toLowerCase();
     let reply = "";
 
-    if (cleanText.includes("mediguard")) {
+    if (cleanText.includes("aranya") || cleanText.includes("dairy") || cleanText.includes("farm")) {
+      reply = KNOWLEDGE_BASE.aranya;
+    } else if (cleanText.includes("urimai") || cleanText.includes("scheme") || cleanText.includes("tamil nadu")) {
+      reply = KNOWLEDGE_BASE.urimai;
+    } else if (cleanText.includes("freelance") || cleanText.includes("service") || cleanText.includes("futurelogic") || cleanText.includes("client")) {
+      reply = KNOWLEDGE_BASE.freelance;
+    } else if (cleanText.includes("mediguard")) {
       reply = KNOWLEDGE_BASE.mediguard;
     } else if (cleanText.includes("skillspeak") || cleanText.includes("speak")) {
       reply = KNOWLEDGE_BASE.skillspeak;
