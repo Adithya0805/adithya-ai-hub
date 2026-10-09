@@ -21,205 +21,122 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const BREVO_API_KEY = process.env.BREVO_API_KEY
-  const BREVO_LIST_ID = parseInt(process.env.BREVO_LIST_ID || '1')
+  // List 3 is "AI Hub Subscribers" in Brevo
+  const BREVO_LIST_ID = parseInt(process.env.BREVO_LIST_ID || '3')
 
   if (!BREVO_API_KEY) {
-    return res.status(500).json({ error: 'Server configuration error' })
+    return res.status(500).json({ 
+      error: 'Brevo API key is not configured in Vercel. Please add BREVO_API_KEY in Vercel Settings -> Environment Variables.' 
+    })
   }
 
   try {
-    // Step 1 — Add contact to Brevo list
+    // Step 1 — Add contact to Brevo list #3
+    // Use standard Brevo payload without non-standard custom attributes that trigger schema validation errors
+    const contactPayload: Record<string, any> = {
+      email: email.trim().toLowerCase(),
+      listIds: [BREVO_LIST_ID],
+      updateEnabled: true
+    }
+
+    if (name && name !== 'AI Learner') {
+      contactPayload.attributes = { FIRSTNAME: name }
+    }
+
     const contactRes = await fetch('https://api.brevo.com/v3/contacts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'api-key': BREVO_API_KEY
       },
-      body: JSON.stringify({
-        email: email,
-        attributes: {
-          FIRSTNAME: name,
-          SOURCE: 'Adithya AI Hub Newsletter'
-        },
-        listIds: [BREVO_LIST_ID],
-        updateEnabled: true
-      })
+      body: JSON.stringify(contactPayload)
     })
 
-    // 201 = created, 204 = already exists (both are fine)
-    if (!contactRes.ok && contactRes.status !== 204) {
-      const err = await contactRes.json()
-      console.error('Brevo contact error:', err)
-      // Don't fail — still send welcome email
+    const contactData = await contactRes.json().catch(() => ({}))
+
+    // Brevo returns 201 for created, 204 for updated/already exists
+    if (!contactRes.ok && contactRes.status !== 204 && contactRes.status !== 201) {
+      console.error('Brevo contact error:', contactData)
+      return res.status(contactRes.status || 400).json({
+        error: contactData.message || 'Failed to add subscriber to Brevo list',
+        brevoCode: contactData.code || null,
+        listIdAttempted: BREVO_LIST_ID
+      })
     }
 
-    // Step 2 — Send welcome email
-    const emailRes = await fetch('https://api.brevo.com/v3/smtp/email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'api-key': BREVO_API_KEY
-      },
-      body: JSON.stringify({
-        sender: {
-          name: 'Adithya | AI Hub',
-          email: 'adithyaadhi0805@gmail.com'
+    // Step 2 — Attempt welcome email (non-blocking if sender email is not yet authenticated in Brevo)
+    try {
+      const emailRes = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'api-key': BREVO_API_KEY
         },
-        to: [{ email: email, name: name }],
-        subject: 'Welcome to Adithya AI Hub — You are in!',
-        htmlContent: `
+        body: JSON.stringify({
+          sender: {
+            name: 'Adithya | AI Hub',
+            email: 'adithyaadhi0805@gmail.com'
+          },
+          to: [{ email: email.trim().toLowerCase(), name: name }],
+          subject: 'Welcome to Adithya AI Hub — You are in!',
+          htmlContent: `
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
-<body style="margin:0;padding:0;background-color:#f8f4ef;font-family:'Georgia',serif;">
-
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f4ef;padding:48px 20px;">
+<body style="margin:0;padding:0;background-color:#0a0a0c;font-family:'Segoe UI',sans-serif;color:#f1f5f9;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0c;padding:48px 20px;">
     <tr>
       <td align="center">
-        <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
-
-          <!-- Header -->
+        <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#121216;border:1px solid #26262a;border-radius:12px;padding:36px;">
           <tr>
-            <td style="padding-bottom:40px;border-bottom:1px solid #e8e2da;">
-              <p style="font-family:'Georgia',serif;font-size:22px;font-weight:700;color:#1a1a1a;margin:0 0 4px 0;">
-                Adithya AI Hub
-              </p>
-              <p style="font-size:13px;color:#9a9a9a;margin:0;letter-spacing:1px;text-transform:uppercase;font-family:Arial,sans-serif;">
-                AI Engineer · Tamil Nadu
-              </p>
+            <td style="padding-bottom:24px;border-bottom:1px solid #26262a;">
+              <h2 style="color:#c8a96e;margin:0 0 6px 0;font-size:22px;letter-spacing:-0.5px;">ADITHYA AI HUB</h2>
+              <p style="font-size:12px;color:#94a3b8;margin:0;text-transform:uppercase;letter-spacing:1.5px;">AI Systems & Engineering Research</p>
             </td>
           </tr>
-
-          <!-- Welcome -->
           <tr>
-            <td style="padding:40px 0 32px;">
-              <p style="font-size:13px;color:#9a9a9a;letter-spacing:3px;text-transform:uppercase;margin:0 0 16px;font-family:Arial,sans-serif;">
-                WELCOME
+            <td style="padding:28px 0 24px;">
+              <h1 style="color:#ffffff;font-size:24px;margin:0 0 16px 0;">You're on the list!</h1>
+              <p style="font-size:15px;color:#cbd5e1;line-height:1.7;margin:0 0 20px 0;">
+                Thank you for subscribing to my engineering dispatches. You will receive an email whenever I publish a new architecture breakdown, clinical AI case study, or open-source release.
               </p>
-              <h1 style="font-family:'Georgia',serif;font-size:36px;font-weight:700;color:#1a1a1a;margin:0 0 24px;line-height:1.2;letter-spacing:-1px;">
-                You are in, ${name}!
-              </h1>
-              <p style="font-size:16px;color:#4a4a4a;line-height:1.8;margin:0 0 24px;font-family:Arial,sans-serif;">
-                Thank you for subscribing to Adithya AI Hub. You will get one email every time
-                I publish a new post — ML tutorials, project breakdowns, career insights, and
-                honest writing about what the fresher AI job search actually looks like.
-              </p>
-              <p style="font-size:16px;color:#4a4a4a;line-height:1.8;margin:0 0 32px;font-family:Arial,sans-serif;">
-                No spam. No fluff. Just the stuff that actually helps.
-              </p>
+              <a href="https://adithya-ai-hub.vercel.app/blog" style="display:inline-block;padding:12px 24px;background:#c8a96e;color:#0a0a0a;text-decoration:none;border-radius:6px;font-weight:700;font-size:13px;">
+                Explore Recent Articles →
+              </a>
             </td>
           </tr>
-
-          <!-- Divider -->
-          <tr><td style="border-top:1px solid #e8e2da;padding-top:32px;"></td></tr>
-
-          <!-- Latest Posts -->
           <tr>
-            <td style="padding-bottom:32px;">
-              <p style="font-size:11px;color:#9a9a9a;letter-spacing:3px;text-transform:uppercase;margin:0 0 24px;font-family:Arial,sans-serif;">
-                START READING
-              </p>
-
-              <!-- Post 1 -->
-              <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
-                <tr>
-                  <td style="padding:20px;border:1px solid #e8e2da;border-radius:4px;">
-                    <p style="font-size:11px;color:#9a9a9a;margin:0 0 8px;letter-spacing:1px;text-transform:uppercase;font-family:Arial,sans-serif;">
-                      CAREER · 8 MIN READ
-                    </p>
-                    <a href="https://adithya-ai-hub.vercel.app/blog/honest-ai-ml-engineer-roadmap-tier-3-tamil-nadu"
-                       style="font-family:'Georgia',serif;font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;line-height:1.3;">
-                      From Ambur to AI Engineer — My Honest Career Journey →
-                    </a>
-                  </td>
-                </tr>
-              </table>
-
-              <!-- Post 2 -->
-              <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
-                <tr>
-                  <td style="padding:20px;border:1px solid #e8e2da;border-radius:4px;">
-                    <p style="font-size:11px;color:#9a9a9a;margin:0 0 8px;letter-spacing:1px;text-transform:uppercase;font-family:Arial,sans-serif;">
-                      MACHINE LEARNING · 10 MIN READ
-                    </p>
-                    <a href="https://adithya-ai-hub.vercel.app/blog/how-i-built-mediaguard-multi-agent-ai-system"
-                       style="font-family:'Georgia',serif;font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;line-height:1.3;">
-                      How I Built MediGuard — Multi-Agent Clinical AI →
-                    </a>
-                  </td>
-                </tr>
-              </table>
-
-              <!-- Post 3 -->
-              <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td style="padding:20px;border:1px solid #e8e2da;border-radius:4px;">
-                    <p style="font-size:11px;color:#9a9a9a;margin:0 0 8px;letter-spacing:1px;text-transform:uppercase;font-family:Arial,sans-serif;">
-                      INTERVIEW PREP · 7 MIN READ
-                    </p>
-                    <a href="https://adithya-ai-hub.vercel.app/blog/my-tcs-nqt-experience-2026-honest-review"
-                       style="font-family:'Georgia',serif;font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;line-height:1.3;">
-                      My TCS NQT Experience 2026 — Honest Review →
-                    </a>
-                  </td>
-                </tr>
-              </table>
+            <td style="border-top:1px solid #26262a;padding-top:20px;font-size:12px;color:#64748b;">
+              Adithya Kuppusamy · AI Engineer · Ambur, Tamil Nadu<br />
+              <a href="https://adithya-ai-hub.vercel.app" style="color:#c8a96e;text-decoration:none;">adithya-ai-hub.vercel.app</a>
             </td>
           </tr>
-
-          <!-- Divider -->
-          <tr><td style="border-top:1px solid #e8e2da;padding-top:32px;"></td></tr>
-
-          <!-- Footer -->
-          <tr>
-            <td style="padding-bottom:48px;">
-              <p style="font-family:'Georgia',serif;font-size:16px;font-weight:700;color:#1a1a1a;margin:0 0 4px;">
-                Adithya Kuppusamy
-              </p>
-              <p style="font-size:13px;color:#9a9a9a;margin:0 0 20px;font-family:Arial,sans-serif;">
-                AI & Data Science Engineer · Ambur, Tamil Nadu
-              </p>
-              <div style="display:flex;gap:20px;">
-                <a href="https://adithya-ai-hub.vercel.app" style="font-size:13px;color:#1a1a1a;font-family:Arial,sans-serif;">Website</a>
-                &nbsp;&nbsp;·&nbsp;&nbsp;
-                <a href="https://github.com/Adithya0805" style="font-size:13px;color:#1a1a1a;font-family:Arial,sans-serif;">GitHub</a>
-                &nbsp;&nbsp;·&nbsp;&nbsp;
-                <a href="https://www.linkedin.com/in/adithya-kuppusamy-76baab204/" style="font-size:13px;color:#1a1a1a;font-family:Arial,sans-serif;">LinkedIn</a>
-              </div>
-              <p style="font-size:12px;color:#b0b0b0;margin:20px 0 0;font-family:Arial,sans-serif;">
-                You subscribed at adithya-ai-hub.vercel.app · <a href="{{unsubscribeUrl}}" style="color:#b0b0b0;">Unsubscribe</a>
-              </p>
-            </td>
-          </tr>
-
         </table>
       </td>
     </tr>
   </table>
-
 </body>
 </html>
-        `
+          `
+        })
       })
-    })
 
-    if (!emailRes.ok) {
-      const err = await emailRes.json()
-      console.error('Brevo email send error:', err)
-      // Contact was added — partial success
-      return res.status(200).json({
-        success: true,
-        message: 'Subscribed successfully. Welcome email may be delayed.'
-      })
+      if (!emailRes.ok) {
+        const emailErr = await emailRes.json().catch(() => ({}))
+        console.warn('Welcome email not sent (check Brevo sender authorization):', emailErr)
+      }
+    } catch (e) {
+      console.warn('Welcome email exception:', e)
     }
 
     return res.status(200).json({
       success: true,
-      message: 'Subscribed! Check your inbox for a welcome email.'
+      message: 'Subscribed successfully! Contact added to Brevo list #3.',
+      listId: BREVO_LIST_ID
     })
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Subscribe handler error:', error)
-    return res.status(500).json({ error: 'Something went wrong. Please try again.' })
+    return res.status(500).json({ error: error.message || 'Something went wrong. Please try again.' })
   }
 }

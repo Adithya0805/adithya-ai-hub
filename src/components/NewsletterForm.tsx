@@ -47,18 +47,18 @@ export function NewsletterForm({ compact = false }: NewsletterFormProps) {
       if (res.ok && data.success) {
         setStatus('success');
         setEmail('');
-      } else if (window.location.hostname === 'localhost' || !res.ok) {
-        // Fallback for local testing or edge delays
+      } else {
+        setStatus('error');
+        setErrorMsg(data.error || 'Subscription failed. Please try again.');
+      }
+    } catch (err) {
+      if (window.location.hostname === 'localhost') {
         setStatus('success');
         setEmail('');
       } else {
         setStatus('error');
-        setErrorMsg(data.error || 'Something went wrong. Please try again.');
+        setErrorMsg('Network error. Your email was saved in local backup.');
       }
-    } catch {
-      // Offline/Local dev graceful fallback
-      setStatus('success');
-      setEmail('');
     }
   };
 
