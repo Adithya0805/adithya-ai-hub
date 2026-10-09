@@ -1,6 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-secret-key')
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end()
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
@@ -19,7 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     postExcerpt,
     postCategory,
     postReadTime
-  } = req.body
+  } = req.body || {}
 
   if (!postTitle || !postSlug) {
     return res.status(400).json({ error: 'postTitle and postSlug are required' })
@@ -34,26 +42,46 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Create email campaign in Brevo targeted to List #3
-    const campaignRes = await fetch('https://api.brevo.com/v3/emailCampaigns', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'api-key': BREVO_API_KEY
-      },
-      body: JSON.stringify({
-        name: `New Post — ${postTitle} — ${new Date().toLocaleDateString()}`,
-        subject: `New on Adithya AI Hub: ${postTitle}`,
-        sender: {
-          name: 'Adithya | AI Hub',
-          email: 'adithyaadhi0805@gmail.com'
-        },
-        type: 'classic',
-        htmlContent: `
+    // 1. Fetch active subscribers from Brevo List #3
+    const listRes = await fetch(
+      `https://api.brevo.com/v3/contacts/lists/${BREVO_LIST_ID}/contacts?limit=50&offset=0`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'api-key': BREVO_API_KEY
+        }
+      }
+    )
+
+    if (!listRes.ok) {
+      const err = await listRes.json().catch(() => ({}))
+      console.error('Brevo fetch list error:', err)
+      return res.status(listRes.status).json({
+        error: `Failed to fetch contacts from Brevo List #${BREVO_LIST_ID}`,
+        details: err,
+        listId: BREVO_LIST_ID
+      })
+    }
+
+    const listData = await listRes.json()
+    const contacts: { email: string }[] = listData.contacts || []
+
+    if (contacts.length === 0) {
+      return res.status(200).json({
+        success: true,
+        sentCount: 0,
+        totalSubscribers: 0,
+        listId: BREVO_LIST_ID,
+        message: `No active contacts found in Brevo List #${BREVO_LIST_ID}. Add a subscriber first!`,
+        postUrl
+      })
+    }
+
+    const emailHtml = `
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
-<body style="margin:0;padding:0;background-color:#0a0a0c;font-family:'Segoe UI',sans-serif;color:#f1f5f9;">
+<body style="margin:0;padding:0;background-color:#0a0a0c;font-family:'Segoe UI',system-ui,sans-serif;color:#f1f5f9;">
 
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0c;padding:48px 20px;">
     <tr>
@@ -96,7 +124,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               <p style="margin:0;">
                 <a href="https://adithya-ai-hub.vercel.app" style="color:#c8a96e;text-decoration:none;">adithya-ai-hub.vercel.app</a>
                 &nbsp;·&nbsp;
-                <a href="{{unsubscribeUrl}}" style="color:#64748b;">Unsubscribe</a>
+                <a href="https://adithya-ai-hub.vercel.app/blog" style="color:#94a3b8;text-decoration:none;">Browse All Research</a>
               </p>
             </td>
           </tr>
@@ -108,30 +136,51 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 </body>
 </html>
-        `,
-        recipients: { listIds: [BREVO_LIST_ID] },
-        scheduledAt: new Date(Date.now() + 2 * 60 * 1000).toISOString()
+    `
+
+    // 2. Send instant transactional email to all contacts in Brevo List #3
+    const sendResults = await Promise.all(
+      contacts.map(async (contact) => {
+        try {
+          const sendRes = await fetch('https://api.brevo.com/v3/smtp/email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'api-key': BREVO_API_KEY
+            },
+            body: JSON.stringify({
+              sender: {
+                name: 'Adithya | AI Hub',
+                email: 'adithyaadhi0805@gmail.com'
+              },
+              to: [{ email: contact.email }],
+              subject: `New on Adithya AI Hub: ${postTitle}`,
+              htmlContent: emailHtml
+            })
+          })
+
+          const data = await sendRes.json().catch(() => ({}))
+          return { email: contact.email, ok: sendRes.ok, status: sendRes.status, data }
+        } catch (err: any) {
+          return { email: contact.email, ok: false, error: err.message }
+        }
       })
-    })
+    )
 
-    if (!campaignRes.ok) {
-      const err = await campaignRes.json().catch(() => ({}))
-      console.error('Brevo campaign creation error:', err)
-      return res.status(500).json({ error: 'Failed to create Brevo campaign', details: err, listId: BREVO_LIST_ID })
-    }
-
-    const campaign = await campaignRes.json()
+    const successful = sendResults.filter(r => r.ok).length
 
     return res.status(200).json({
       success: true,
-      campaignId: campaign.id,
+      sentCount: successful,
+      totalSubscribers: contacts.length,
       listId: BREVO_LIST_ID,
-      message: `Newsletter campaign created for Brevo List #${BREVO_LIST_ID}. Scheduled to broadcast in 2 minutes!`,
-      postUrl
+      message: `Broadcast complete! Successfully sent email to ${successful} subscriber(s) in Brevo List #${BREVO_LIST_ID}.`,
+      postUrl,
+      results: sendResults
     })
 
   } catch (error: any) {
     console.error('Notify handler error:', error)
-    return res.status(500).json({ error: error.message || 'Something went wrong scheduling newsletter' })
+    return res.status(500).json({ error: error.message || 'Something went wrong dispatching newsletter' })
   }
 }

@@ -39,6 +39,24 @@ const AdminNewsletter = () => {
 
   const selectedPost = posts.find((p) => p.slug === selectedSlug);
 
+  const safeJsonParse = async (response: Response) => {
+    const text = await response.text();
+    try {
+      return JSON.parse(text);
+    } catch {
+      if (!response.ok) {
+        throw new Error(
+          `Server Error (${response.status}): ${
+            text.includes("A server error")
+              ? "Vercel function error. Check your BREVO_API_KEY and NEWSLETTER_SECRET environment variables."
+              : text.slice(0, 140)
+          }`
+        );
+      }
+      return {};
+    }
+  };
+
   // Fetch live subscribers from Brevo via /api/subscribers
   const fetchSubscribers = async () => {
     if (!secretKey) {
@@ -54,10 +72,10 @@ const AdminNewsletter = () => {
         },
       });
 
-      const data = await response.json();
+      const data = await safeJsonParse(response);
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to fetch subscribers from Brevo.");
+        throw new Error(data.error || `Failed to fetch subscribers (HTTP ${response.status}).`);
       }
 
       setSubscribers(data.contacts || []);
@@ -113,7 +131,7 @@ const AdminNewsletter = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: testEmail.trim(), name: "Admin Test" }),
       });
-      const data = await res.json();
+      const data = await safeJsonParse(res);
       if (res.ok && data.success) {
         toast.success(`Success! ${testEmail} added to Brevo List #3.`);
         setTestEmail("");
@@ -158,15 +176,15 @@ const AdminNewsletter = () => {
         }),
       });
 
-      const data = await response.json();
+      const data = await safeJsonParse(response);
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to launch campaign.");
+        throw new Error(data.error || `Failed to broadcast campaign (HTTP ${response.status}).`);
       }
 
-      toast.success(data.message || "Campaign launched successfully via Brevo!");
+      toast.success(data.message || "Broadcast complete! Emails delivered to Brevo subscribers.");
     } catch (err: any) {
-      toast.error(err.message || "Something went wrong launching campaign.");
+      toast.error(err.message || "Something went wrong broadcasting campaign.");
     } finally {
       setIsLoading(false);
     }
