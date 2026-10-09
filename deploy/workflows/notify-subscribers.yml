@@ -1,0 +1,72 @@
+name: Notify Subscribers on New Blog
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/data/posts.ts'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Extract Latest Post and Broadcast
+        env:
+          NEWSLETTER_SECRET: ${{ secrets.NEWSLETTER_SECRET }}
+        run: |
+          node -e '
+            const fs = require("fs");
+            const content = fs.readFileSync("src/data/posts.ts", "utf8");
+            
+            // Extract title and slug using regex
+            const slugMatch = content.match(/slug:\s*["\x27]([^"\x27]+)["\x27]/);
+            const titleMatch = content.match(/title:\s*["\x27]([^"\x27]+)["\x27]/);
+            const excerptMatch = content.match(/excerpt:\s*["\x27]([^"\x27]+)["\x27]/);
+            const categoryMatch = content.match(/category:\s*["\x27]([^"\x27]+)["\x27]/);
+            const readTimeMatch = content.match(/readTime:\s*["\x27]([^"\x27]+)["\x27]/);
+
+            if (!slugMatch || !titleMatch) {
+              console.log("Could not parse newest post metadata.");
+              process.exit(0);
+            }
+
+            const payload = {
+              postSlug: slugMatch[1],
+              postTitle: titleMatch[1],
+              postExcerpt: excerptMatch ? excerptMatch[1] : "",
+              postCategory: categoryMatch ? categoryMatch[1] : "AI Engineering",
+              postReadTime: readTimeMatch ? readTimeMatch[1] : "5 min read"
+            };
+
+            console.log("Broadcasting newest post:", payload.postTitle);
+
+            if (!process.env.NEWSLETTER_SECRET) {
+              console.log("NEWSLETTER_SECRET is not set in GitHub Repository Secrets. Skipping automatic broadcast.");
+              process.exit(0);
+            }
+
+            fetch("https://adithya-ai-hub.vercel.app/api/notify", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "x-secret-key": process.env.NEWSLETTER_SECRET
+              },
+              body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+              console.log("Brevo broadcast result:", data);
+            })
+            .catch(err => {
+              console.error("Error triggering broadcast:", err);
+            });
+          '
