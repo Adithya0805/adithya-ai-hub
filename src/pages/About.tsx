@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Layout } from "@/components/Layout";
+import { BuilderJourney } from "@/components/BuilderJourney";
 
 const skillCols = [
   {
@@ -124,6 +125,20 @@ export default function About() {
               while continuing to build.
             </p>
           </div>
+        </div>
+
+        {/* ── Builder Journey Timeline ──────────────────────────────── */}
+        <div style={{ marginBottom: '80px', borderBottom: '1px solid var(--border)', paddingBottom: '64px' }}>
+          <p style={{
+            fontSize: '11px', color: 'var(--accent)',
+            letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '16px', fontWeight: '600'
+          }}>Career Evolution</p>
+          <h2 style={{
+            fontFamily: 'var(--font-serif)', fontSize: '32px',
+            fontWeight: '400', letterSpacing: '-0.5px', marginBottom: '32px',
+            color: 'var(--text-1)'
+          }}>The Builder Journey (2021–2026)</h2>
+          <BuilderJourney />
         </div>
 
         {/* ── Skills table ──────────────────────────────────────────── */}

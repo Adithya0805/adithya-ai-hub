@@ -69,28 +69,28 @@ const interactiveTools = [
     badge: 'Multi-Agent AI',
     name: 'MediGuard Clinical Sandbox',
     desc: 'Simulate triage, symptom extraction, Pinecone RAG differential diagnosis, and allergy safety verification in an interactive agent pipeline.',
-    route: '/tools',
+    route: '/tools?tab=mediguard',
   },
   {
     icon: '🎙️',
     badge: 'Tamil NLP',
     name: 'SkillSpeak Interview Prep',
     desc: 'Practice technical interviews with real-time Tamil & Tanglish translation, STAR-framework evaluation, and instant performance feedback.',
-    route: '/tools',
+    route: '/tools?tab=skillspeak',
   },
   {
     icon: '📈',
     badge: 'Quantitative AI',
     name: 'Binance Futures Bot Simulator',
     desc: 'Interactive backtesting engine with configurable EMA crossovers, trailing stops, risk-to-reward ratios, and live simulated PnL charts.',
-    route: '/tools',
+    route: '/tools?tab=trading',
   },
   {
     icon: '🕸️',
     badge: 'Interactive Graph',
     name: 'AI Skill Network Graph',
     desc: 'Explore the full web of AI engineering competencies, toolchains, frameworks, and architectures in an interactive visual node map.',
-    route: '/tools',
+    route: '/tools?tab=skillgraph',
   },
 ]
 
@@ -230,48 +230,64 @@ export default function Index() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.6 }}
-            style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '80px' }}
+            style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '72px' }}
           >
-            <Link to="/work" style={{
-              padding: '13px 28px',
-              background: 'var(--text-1)',
-              color: 'var(--bg-0)',
-              fontSize: '14px', fontWeight: '600',
-              textDecoration: 'none', borderRadius: '6px',
-              letterSpacing: '0.2px',
-              display: 'flex', alignItems: 'center', gap: '8px',
-            }}>
-              View Projects <span style={{ fontSize: '16px' }}>→</span>
-            </Link>
-            <Link to="/services" style={{
-              padding: '13px 28px',
-              background: 'rgba(200,169,110,0.1)',
-              border: '1px solid rgba(200,169,110,0.3)',
-              color: 'var(--accent)',
-              fontSize: '14px', fontWeight: '500',
-              textDecoration: 'none', borderRadius: '6px',
-            }}>
-              Hire Me for AI Work
-            </Link>
-            <Link to="/tools" style={{
-              padding: '13px 28px',
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid var(--border)',
-              color: 'var(--text-2)',
-              fontSize: '14px',
-              textDecoration: 'none', borderRadius: '6px',
-            }}>
-              Interactive AI Lab 🧪
-            </Link>
-            <Link to="/blog" style={{
-              padding: '13px 28px',
-              border: '1px solid var(--border)',
-              color: 'var(--text-2)',
-              fontSize: '14px',
-              textDecoration: 'none', borderRadius: '6px',
-            }}>
-              Read Blog (20)
-            </Link>
+            <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Link to="/work" style={{
+                padding: '14px 30px',
+                background: 'var(--text-1)',
+                color: 'var(--bg-0)',
+                fontSize: '14px', fontWeight: '600',
+                textDecoration: 'none', borderRadius: '6px',
+                letterSpacing: '0.2px',
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                boxShadow: '0 4px 20px rgba(255,255,255,0.1)',
+                transition: 'all 0.2s ease',
+              }}>
+                View Flagship Work <span style={{ fontSize: '16px' }}>→</span>
+              </Link>
+              <Link to="/services" style={{
+                padding: '14px 28px',
+                background: 'rgba(200,169,110,0.12)',
+                border: '1px solid rgba(200,169,110,0.35)',
+                color: 'var(--accent)',
+                fontSize: '14px', fontWeight: '600',
+                textDecoration: 'none', borderRadius: '6px',
+                boxShadow: '0 0 24px rgba(200,169,110,0.15)',
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                transition: 'all 0.2s ease',
+              }}>
+                Hire for AI Work
+              </Link>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <span style={{ fontSize: '12px', color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>Explore:</span>
+              <Link to="/tools" style={{
+                padding: '6px 14px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid var(--border)',
+                color: 'var(--text-2)',
+                fontSize: '12px',
+                textDecoration: 'none', borderRadius: '100px',
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                transition: 'all 0.2s ease',
+              }}>
+                <span>🧪</span> Interactive AI Labs
+              </Link>
+              <Link to="/blog" style={{
+                padding: '6px 14px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid var(--border)',
+                color: 'var(--text-2)',
+                fontSize: '12px',
+                textDecoration: 'none', borderRadius: '100px',
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                transition: 'all 0.2s ease',
+              }}>
+                <span>📖</span> 20 Engineering Articles
+              </Link>
+            </div>
           </motion.div>
 
           {/* Stats row */}
@@ -291,12 +307,13 @@ export default function Index() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 + i * 0.1 }}
+                whileHover={{ y: -2 }}
               >
                 <p style={{
                   fontFamily: 'var(--font-serif)',
-                  fontSize: '32px', fontWeight: '400',
-                  color: 'var(--text-1)', lineHeight: '1',
-                  marginBottom: '4px', letterSpacing: '-1px',
+                  fontSize: '34px', fontWeight: '400',
+                  color: 'var(--accent)', lineHeight: '1',
+                  marginBottom: '6px', letterSpacing: '-1px',
                 }}>{stat.number}</p>
                 <p style={{
                   fontSize: '11px', color: 'var(--text-3)',

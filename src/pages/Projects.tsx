@@ -1,12 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { projects, Project } from "@/data/projects";
 import { ExternalLink, Github, ArrowUpRight, CheckCircle2, Sparkles, Layers } from "lucide-react";
 
 export default function Projects() {
   const [filter, setFilter] = useState("All");
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      const targetProject = projects.find((p) => p.slug === id);
+      if (targetProject) {
+        setFilter("All");
+      }
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 150);
+    }
+  }, [location.hash]);
 
   const categories = ["All", "Flagship", "Full-Stack AI", "AI Systems", "Automation", "Data Analytics", "AI Applications"];
 

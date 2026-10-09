@@ -29,17 +29,24 @@ export default function Contact() {
       `Hi Adithya,\n\n${form.message.trim()}\n\n---\nFrom: ${form.name.trim()}\nEmail: ${form.email.trim()}`
     );
 
+    // Also copy message text to clipboard as safety net
+    try {
+      navigator.clipboard.writeText(`From: ${form.name.trim()} (${form.email.trim()})\n\n${form.message.trim()}`);
+    } catch {
+      // ignore
+    }
+
     // Launch default email client
     window.location.href = `mailto:adithyaadhi0805@gmail.com?subject=${subject}&body=${body}`;
 
     setSubmitted(true);
-    toast.success("Opening your email client to send message to Adithya!");
+    toast.success("Opening your email client! Message details also copied to clipboard as backup.");
   };
 
   const handleSendWhatsApp = () => {
     const text = form.message.trim()
       ? `Hi Adithya, my name is ${form.name || "a visitor"} (${form.email || "email"}). ${form.message}`
-      : "Hi Adithya, I visited your AI portfolio and would like to discuss an opportunity/project!";
+      : "Hi Adithya, I visited your AI portfolio and would like to discuss an opportunity or freelance AI project!";
     window.open(`https://wa.me/918825714576?text=${encodeURIComponent(text)}`, "_blank");
   };
 

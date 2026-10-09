@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { MessageSquare, X, Send, Bot, Sparkles, User, FileDown, CheckCircle2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { MessageSquare, X, Send, Bot, Sparkles, User, FileDown, CheckCircle2, ArrowRight } from "lucide-react";
 
 interface Message {
   id: string;
@@ -9,61 +10,84 @@ interface Message {
 }
 
 const KNOWLEDGE_BASE: Record<string, string> = {
-  aranya: `**Aranya Organic Dairy Farm** is Adithya's live commercial client deployment at [aranyaorganicdairyfarm.com](https://aranyaorganicdairyfarm.com/). A 9-year Vedic A2 dairy farm in Shoolagiri, Tamil Nadu, featuring a mobile-first e-commerce catalog, instant WhatsApp ordering, and a bilingual conversational RAG assistant ("Ask Farm AI").`,
+  aranya: `**Aranya Organic Dairy Farm** is Adithya's live commercial client deployment at [aranyaorganicdairyfarm.com](https://aranyaorganicdairyfarm.com/).
+A 9-year Vedic A2 dairy farm in Shoolagiri, Tamil Nadu, featuring:
+• Mobile-first e-commerce catalog with instant WhatsApp cart serialization
+• Zero-overhead Gmail customer routing
+• Bilingual conversational RAG assistant ("Ask Farm AI") answering customer queries 24/7 on purity, delivery, and Vedic Bilona ghee.`,
 
-  urimai: `**Urimai AI** is a multi-agent Tamil Nadu government scheme eligibility assistant analyzing 64 schemes with 199 rules and conversational Tamil intake (49/49 automated tests passing).`,
+  urimai: `**Urimai AI** is a multi-agent Tamil Nadu government scheme eligibility assistant analyzing 64 schemes with 199 rules and conversational Tamil intake (49/49 automated unit tests passing).`,
 
-  freelance: `Under **FutureLogic AI**, Adithya builds production-grade web platforms and AI tools for Tamil Nadu businesses and international clients. Services include:
-• Multi-Agent Systems (LangGraph)
-• RAG Knowledge Pipelines (Pinecone/Bedrock)
-• LLM API Integrations (Gemini, Claude, OpenAI)
-• Full-Stack AI Platforms (Next.js, FastAPI, Supabase)
-Visit the **Freelance** and **Services** pages to learn more!`,
+  services: `Adithya engineers production AI systems through **FutureLogic AI**:
+1. **Multi-Agent Systems** (LangGraph, FastAPI, supervisors)
+2. **Enterprise RAG Knowledge Engines** (Pinecone, Bedrock, FAISS)
+3. **LLM API Integrations** (Claude, Gemini, OpenAI)
+4. **Autonomous Customer Chatbots** (e-commerce & WhatsApp commerce)
+5. **Computer Vision & OCR**
+6. **Time-Series Anomaly Detection**
+7. **Tamil & Regional NLP**
+8. **End-to-End Full-Stack AI Platforms** (Next.js, Supabase, Cloud Run)
+Fast turnaround: Production MVPs delivered in 7–14 days.`,
 
-  mediguard: `**MediGuard** is Adithya's flagship clinical AI assistant built with **LangGraph, Pinecone, AWS Bedrock, and FastAPI**. He engineered a multi-agent system that indexes **50,000+ medical documents**, achieving an end-to-end response time under **8 seconds** with **>90% relevance scoring** using advanced RAG pipelines.`,
-  
-  skillspeak: `**SkillSpeak AI** is a comprehensive mock interview platform that simulates company-specific and role-based technical/behavioral interviews. Built using **React, Python, Firebase, and speech transcription APIs**, it supports dynamic competency scoring and has engaged **10,000+ engineering professionals** to practice coding and communication!`,
-  
-  townrise: `**TownRise AI** is a real-estate intelligence scanner designed for Tamil Nadu. Deployed using **Next.js, Supabase, and the Gemini API**, it aggregates growth patterns and models data for over **50+ local towns** to assist in smart investments.`,
-  
-  nexus: `**Health Sense Nexus** is an anomaly detection deep learning system built using **TensorFlow and LSTM networks**, hitting **94% validation accuracy**. It was fully deployed on **AWS EC2** with automated alerting for real-time health-parameter monitoring.`,
-  
-  stack: `Adithya's core tech stack is highly specialized in **AI Engineering and Full-Stack Development**:
+  freelance: `Under **FutureLogic AI**, Adithya builds production web platforms and AI tools for businesses.
+Notable live platform: **Aranya Organic Dairy Farm** ([aranyaorganicdairyfarm.com](https://aranyaorganicdairyfarm.com/)).
+Services include fixed-price MVP sprints, custom RAG systems, and AI workflows.
+Contact directly via [WhatsApp (+91 88257 14576)](https://wa.me/918825714576)!`,
 
-• **Languages:** Python, TypeScript, SQL, Bash
-• **AI/ML:** LangGraph, Pinecone (Vector DB), RAG, TensorFlow, AWS Bedrock
-• **Backend & Cloud:** FastAPI, AWS (EC2, S3), Firebase, Supabase
-• **Frontend:** React, Next.js, Tailwind CSS`,
-  
-  relocate: `**Yes, absolutely!** Adithya is actively looking for full-time **AI/ML Engineer** or **Associate AI Builder** roles. He is open to immediate relocation to major tech hubs including **Chennai, Bengaluru, Hyderabad, Pune, Noida**, or remote setups.`,
-  
-  cgpa: `Adithya graduated with a B.Tech in **Artificial Intelligence & Data Science** from **Dhanalakshmi Srinivasan College of Engineering, Coimbatore** (Class of 2025). He maintained an excellent cumulative **8.5 CGPA** while building 7 AI projects outside of the curriculum.`,
-  
-  certifications: `Adithya holds **6 professional certifications**, including:
+  mediguard: `**MediGuard V2** is Adithya's flagship clinical AI decision support system (CDSS):
+• **Architecture:** 5-agent LangGraph pipeline with a Clinical Supervisor, Intake Nurse, Symptom Red-Flag Agent, RAG Diagnostic Agent over 50k+ papers, and Drug-Drug Allergy Specialist.
+• **Speed & Reliability:** End-to-end clinical PDF & HL7 FHIR R4 report generated in <8s.
+• **Deployment:** Google Cloud Run + Vercel edge reverse-proxies.
+Try the live interactive sandbox on the **Tools** page!`,
 
+  skillspeak: `**SkillSpeak AI** is a mock interview lab and bilingual career tool:
+• Tanglish & Tamil to Corporate English converter
+• STAR-method interview response analyzer
+• Real-time JD keyword matcher and score breakdown
+Try it now on the **Tools** page!`,
+
+  townrise: `**TownRise AI** is a growth intelligence platform analyzing 50+ Tamil Nadu towns:
+• Integrates OpenStreetMap, Gemini API, and Supabase
+• Computes real estate growth score, affordability index, and town infrastructure ratings.`,
+
+  stack: `Adithya's specialized production stack:
+• **Languages:** Python, TypeScript, SQL, Modern Bash
+• **AI & Orchestration:** LangGraph, LangChain, Pinecone (Vector DB), AWS Bedrock (Claude 3.5), Gemini API, FAISS, DeepEval
+• **Backend & Cloud:** FastAPI, Supabase, PostgreSQL, Docker, Google Cloud Run, AWS EC2, GitHub Actions
+• **Frontend:** Next.js 14, React 18, Tailwind CSS, Framer Motion`,
+
+  relocate: `**Yes, absolutely!** Adithya is actively available for full-time **AI/ML Engineer** or **Full-Stack AI Builder** roles.
+He is open to immediate relocation to **Bengaluru, Chennai, Hyderabad, Pune, Gurgaon, or Noida**, as well as remote positions.`,
+
+  resume: `You can view or download Adithya's official resume directly:
+• [Download Resume PDF](/resume.pdf)
+• Education: B.Tech in AI & Data Science (8.5 CGPA, Class of 2025)
+• Certifications: AWS re/Start, DeepLearning.AI ML Specialization, Prompt Engineering.`,
+
+  cgpa: `Adithya graduated with a B.Tech in **Artificial Intelligence & Data Science** from **Dhanalakshmi Srinivasan College of Engineering, Coimbatore** (Class of 2025) with a cumulative **8.5 CGPA** while shipping multiple production systems.`,
+
+  certifications: `Adithya holds verified credentials:
 1. **AWS re/Start Graduate** (Amazon Web Services)
 2. **Machine Learning Specialization** (DeepLearning.AI / Coursera)
-3. **Prompt Engineering for AI** (DeepLearning.AI)
+3. **Prompt Engineering for Generative AI** (Internshala)
 4. **BCG Data Science Simulation** (Forage)
-5. **IBM Data Analysis with Python**
-6. **Python for Everybody** (University of Michigan)`,
-  
-  contact: `You can hire Adithya or get in touch directly! He is open to conversations:
+5. **Cisco Python Programmer & Networking Essentials**`,
 
-• 📧 **Email:** adithyaadhi0805@gmail.com
+  contact: `Connect with Adithya directly:
 • 💬 **WhatsApp:** [+91 88257 14576](https://wa.me/918825714576)
-• 🔗 **LinkedIn:** [Adithya Kuppusamy](https://www.linkedin.com/in/adithya-kuppusamy-76baab204/)
+• 📧 **Email:** adithyaadhi0805@gmail.com
 • 🐙 **GitHub:** [github.com/Adithya0805](https://github.com/Adithya0805)
-
-You can also download his full resume from the Resume section!`,
+• 🔗 **LinkedIn:** [Adithya Kuppusamy](https://www.linkedin.com/in/adithya-kuppusamy-76baab204/)
+He typically responds within 24 hours.`,
 };
 
 const SUGGESTED_CHIPS = [
-  { label: "Tell me about MediGuard", keyword: "mediguard" },
+  { label: "Clinical AI (MediGuard)", keyword: "mediguard" },
   { label: "Aranya Dairy Client Project", keyword: "aranya" },
-  { label: "What is his tech stack?", keyword: "stack" },
-  { label: "Freelance & Services", keyword: "freelance" },
-  { label: "Is he open to relocation?", keyword: "relocate" },
+  { label: "Tech Stack & Skills", keyword: "stack" },
+  { label: "Hire for AI Services", keyword: "services" },
+  { label: "Download Resume", keyword: "resume" },
+  { label: "Relocation & Full-Time", keyword: "relocate" },
 ];
 
 export function ChatWidget() {
@@ -79,11 +103,11 @@ export function ChatWidget() {
       {
         id: "welcome",
         sender: "bot",
-        text: `Vanakkam! 🙋‍♂️ I am Adithya's AI Agent representation.
+        text: `Vanakkam! 👋 I am Adithya's AI Agent.
 
-I can help recruiters and builders learn about Adithya's projects, skills, education, and availability. 
+I can brief you on his **production AI systems (MediGuard, Aranya Dairy)**, tech stack, certifications, client services, and employment availability.
 
-Feel free to choose a prompt below or ask me anything!`,
+Select a quick topic below or type any question:`,
         timestamp: new Date(),
       },
     ]);
@@ -102,30 +126,36 @@ Feel free to choose a prompt below or ask me anything!`,
       reply = KNOWLEDGE_BASE.aranya;
     } else if (cleanText.includes("urimai") || cleanText.includes("scheme") || cleanText.includes("tamil nadu")) {
       reply = KNOWLEDGE_BASE.urimai;
-    } else if (cleanText.includes("freelance") || cleanText.includes("service") || cleanText.includes("futurelogic") || cleanText.includes("client")) {
+    } else if (cleanText.includes("service") || cleanText.includes("hire") || cleanText.includes("price") || cleanText.includes("cost") || cleanText.includes("mvp")) {
+      reply = KNOWLEDGE_BASE.services;
+    } else if (cleanText.includes("freelance") || cleanText.includes("futurelogic") || cleanText.includes("client")) {
       reply = KNOWLEDGE_BASE.freelance;
-    } else if (cleanText.includes("mediguard")) {
+    } else if (cleanText.includes("mediguard") || cleanText.includes("clinical") || cleanText.includes("cdss") || cleanText.includes("health")) {
       reply = KNOWLEDGE_BASE.mediguard;
-    } else if (cleanText.includes("skillspeak") || cleanText.includes("speak")) {
+    } else if (cleanText.includes("skillspeak") || cleanText.includes("speak") || cleanText.includes("interview")) {
       reply = KNOWLEDGE_BASE.skillspeak;
-    } else if (cleanText.includes("townrise") || cleanText.includes("town")) {
+    } else if (cleanText.includes("townrise") || cleanText.includes("town") || cleanText.includes("estate")) {
       reply = KNOWLEDGE_BASE.townrise;
-    } else if (cleanText.includes("nexus") || cleanText.includes("health") || cleanText.includes("anomaly")) {
-      reply = KNOWLEDGE_BASE.nexus;
-    } else if (cleanText.includes("stack") || cleanText.includes("skill") || cleanText.includes("language") || cleanText.includes("tech")) {
+    } else if (cleanText.includes("stack") || cleanText.includes("skill") || cleanText.includes("language") || cleanText.includes("python") || cleanText.includes("langgraph")) {
       reply = KNOWLEDGE_BASE.stack;
+    } else if (cleanText.includes("resume") || cleanText.includes("cv") || cleanText.includes("download")) {
+      reply = KNOWLEDGE_BASE.resume;
     } else if (cleanText.includes("relocate") || cleanText.includes("available") || cleanText.includes("job") || cleanText.includes("location") || cleanText.includes("hired") || cleanText.includes("relocation")) {
       reply = KNOWLEDGE_BASE.relocate;
-    } else if (cleanText.includes("cgpa") || cleanText.includes("education") || cleanText.includes("college") || cleanText.includes("degree") || cleanText.includes("university")) {
+    } else if (cleanText.includes("cgpa") || cleanText.includes("education") || cleanText.includes("college") || cleanText.includes("degree")) {
       reply = KNOWLEDGE_BASE.cgpa;
-    } else if (cleanText.includes("certification") || cleanText.includes("cert") || cleanText.includes("aws")) {
+    } else if (cleanText.includes("cert") || cleanText.includes("aws")) {
       reply = KNOWLEDGE_BASE.certifications;
-    } else if (cleanText.includes("contact") || cleanText.includes("email") || cleanText.includes("hire") || cleanText.includes("phone") || cleanText.includes("social")) {
+    } else if (cleanText.includes("contact") || cleanText.includes("email") || cleanText.includes("whatsapp") || cleanText.includes("phone")) {
       reply = KNOWLEDGE_BASE.contact;
     } else {
-      reply = `I'm specialized in explaining Adithya's background! Try asking about his AI projects (MediGuard, SkillSpeak AI, TownRise), his tech stack (React, Python, AWS, Pinecone, LangGraph), his CGPA, or whether he is open to relocation. 
+      reply = `I can help you explore Adithya's work! Ask me about:
+• **Flagship Systems:** MediGuard V2, Aranya Organic Dairy, Urimai AI
+• **Engineering Stack:** LangGraph, AWS Bedrock, Pinecone RAG, FastAPI, Next.js
+• **Availability:** Full-time roles, relocation to Bengaluru/Chennai, or freelance MVPs
+• **Resume & Certifications:** 8.5 CGPA, AWS re/Start graduate.
 
-You can also click the quick prompt chips above!`;
+Feel free to click any quick chip below!`;
     }
 
     setIsTyping(true);
@@ -140,7 +170,7 @@ You can also click the quick prompt chips above!`;
           timestamp: new Date(),
         },
       ]);
-    }, 1200);
+    }, 700);
   };
 
   const handleSend = (textToSend: string) => {
@@ -159,175 +189,191 @@ You can also click the quick prompt chips above!`;
   };
 
   const renderMarkdown = (text: string) => {
-    // Basic bold **text** parsing
-    const parts = text.split(/(\*\*.*?\*\*)/g);
-    return parts.map((part, idx) => {
-      if (part.startsWith("**") && part.endsWith("**")) {
-        return <strong key={idx} className="font-semibold text-primary">{part.slice(2, -2)}</strong>;
-      }
-      
-      // Render bullets
-      if (part.startsWith("• ")) {
-        return (
-          <span key={idx} className="block pl-2 my-1">
-            {part}
-          </span>
-        );
-      }
+    const lines = text.split("\n");
+    return lines.map((line, lineIdx) => {
+      // Bullets
+      const isBullet = line.startsWith("• ");
+      const rawContent = isBullet ? line.slice(2) : line;
 
-      // Link rendering [text](url)
-      const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/);
-      if (linkMatch) {
-        return (
-          <a
-            key={idx}
-            href={linkMatch[2]}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:underline font-medium inline-flex items-center gap-0.5"
-          >
-            {linkMatch[1]}
-          </a>
-        );
-      }
+      // Parse bold & links
+      const parts = rawContent.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\))/g);
+      const renderedParts = parts.map((part, idx) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return <strong key={idx} className="font-semibold text-white">{part.slice(2, -2)}</strong>;
+        }
+        const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/);
+        if (linkMatch) {
+          return (
+            <a
+              key={idx}
+              href={linkMatch[2]}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#c8a96e] hover:underline font-medium inline-flex items-center gap-0.5"
+            >
+              {linkMatch[1]}
+            </a>
+          );
+        }
+        return <span key={idx}>{part}</span>;
+      });
 
-      return <span key={idx}>{part}</span>;
+      return (
+        <div key={lineIdx} className={isBullet ? "flex items-start gap-1.5 my-1 pl-1" : "min-h-[1.2em]"}>
+          {isBullet && <span className="text-[#c8a96e] font-bold shrink-0">•</span>}
+          <span>{renderedParts}</span>
+        </div>
+      );
     });
   };
 
   return (
     <div className="fixed bottom-6 right-6 z-50 font-sans">
       {/* ── Floating Button ── */}
-      {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="group relative flex items-center justify-center w-14 h-14 rounded-full bg-gradient-primary text-primary-foreground hover:scale-105 active:scale-95 shadow-glow transition-all duration-300 animate-pulse-ring"
-          aria-label="Chat with Adithya's AI"
-        >
-          <MessageSquare className="w-6 h-6 transition-transform group-hover:rotate-12 duration-300" />
-          
-          {/* Tooltip */}
-          <span className="absolute right-16 px-3 py-1.5 rounded-lg glass text-xs font-semibold tracking-wide text-foreground whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none border border-primary/20 shadow-md">
-            ⚡ Chat with Adithya's AI
-          </span>
-        </button>
-      )}
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsOpen(true)}
+            className="group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-[#111111] border border-[#c8a96e]/40 text-white shadow-2xl hover:border-[#c8a96e] transition-all"
+            aria-label="Chat with Adithya's AI"
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+            <span className="text-xs font-semibold tracking-wide flex items-center gap-1.5">
+              <Bot className="w-4 h-4 text-[#c8a96e]" />
+              Ask AI Agent
+            </span>
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* ── Chat Window ── */}
-      {isOpen && (
-        <div className="w-[90vw] sm:w-[400px] h-[550px] rounded-2xl glass border border-primary/30 flex flex-col overflow-hidden shadow-2xl animate-fade-up animate-duration-300">
-          
-          {/* Header */}
-          <div className="p-4 bg-gradient-to-r from-card to-secondary border-b border-border/80 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/35 flex items-center justify-center text-primary relative">
-                <Bot className="w-5 h-5 animate-pulse" />
-                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-500 border border-card" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-sm flex items-center gap-1.5 leading-none">
-                  Adithya's AI Agent
-                  <Sparkles className="w-3.5 h-3.5 text-accent animate-pulse" />
-                </h3>
-                <span className="text-[10px] text-muted-foreground mt-1 block">Trained on Resume & Projects</span>
-              </div>
-            </div>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="p-1.5 rounded-lg border border-border/80 text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-smooth"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-card/40 custom-scrollbar">
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex gap-3 max-w-[85%] ${
-                  msg.sender === "user" ? "ml-auto flex-row-reverse" : ""
-                }`}
-              >
-                {/* Avatar */}
-                <div
-                  className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-border text-xs ${
-                    msg.sender === "bot"
-                      ? "bg-primary/10 border-primary/20 text-primary"
-                      : "bg-secondary text-muted-foreground"
-                  }`}
-                >
-                  {msg.sender === "bot" ? <Bot className="w-4 h-4" /> : <User className="w-4 h-4" />}
-                </div>
-
-                {/* Message Box */}
-                <div
-                  className={`p-3 rounded-2xl text-sm leading-relaxed whitespace-pre-line shadow-sm border ${
-                    msg.sender === "bot"
-                      ? "bg-secondary/40 border-border/50 text-foreground rounded-tl-sm"
-                      : "bg-primary text-primary-foreground border-primary/20 rounded-tr-sm"
-                  }`}
-                >
-                  {msg.sender === "bot" ? renderMarkdown(msg.text) : msg.text}
-                </div>
-              </div>
-            ))}
-
-            {/* Typing Indicator */}
-            {isTyping && (
-              <div className="flex gap-3 max-w-[85%]">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-primary/20 bg-primary/10 text-primary">
-                  <Bot className="w-4 h-4" />
-                </div>
-                <div className="p-3.5 rounded-2xl rounded-tl-sm bg-secondary/40 border border-border/50 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary/80 animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary/80 animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary/80 animate-bounce" style={{ animationDelay: "300ms" }} />
-                </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-
-          {/* Quick Reply Chips */}
-          <div className="px-4 py-2 border-t border-border/60 bg-card/20 flex gap-2 overflow-x-auto select-none no-scrollbar">
-            {SUGGESTED_CHIPS.map((chip, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleSend(chip.label)}
-                className="shrink-0 px-3 py-1.5 rounded-full bg-secondary/60 hover:bg-primary hover:text-primary-foreground border border-border hover:border-primary text-xs font-medium transition-smooth"
-              >
-                {chip.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Input Panel */}
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSend(input);
-            }}
-            className="p-3 border-t border-border bg-card flex gap-2 items-center"
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.94 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 24, scale: 0.94 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="w-[92vw] sm:w-[420px] h-[580px] rounded-2xl glass-premium flex flex-col overflow-hidden shadow-2xl border border-white/10"
           >
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about my projects, stack, relocation..."
-              className="flex-1 px-3 py-2 rounded-xl bg-secondary/60 border border-border focus:border-primary focus:outline-none text-sm transition-smooth text-foreground placeholder:text-muted-foreground/60"
-            />
-            <button
-              type="submit"
-              disabled={!input.trim()}
-              className="p-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:hover:bg-primary transition-smooth shrink-0"
-              aria-label="Send message"
+            {/* Header */}
+            <div className="p-4 bg-black/60 border-b border-white/10 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#c8a96e]/15 border border-[#c8a96e]/30 flex items-center justify-center text-[#c8a96e] relative">
+                  <Bot className="w-5 h-5" />
+                  <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-400 border border-black" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-sm text-white flex items-center gap-1.5 leading-none">
+                    Adithya AI Agent
+                    <Sparkles className="w-3.5 h-3.5 text-[#c8a96e]" />
+                  </h3>
+                  <span className="text-[10px] text-white/50 mt-1 block">Trained on Production Deployments</span>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-1.5 rounded-lg text-white/50 hover:text-white hover:bg-white/5 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Messages Area */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-black/30">
+              {messages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`flex gap-2.5 max-w-[88%] ${
+                    msg.sender === "user" ? "ml-auto flex-row-reverse" : ""
+                  }`}
+                >
+                  <div
+                    className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border text-xs mt-0.5 ${
+                      msg.sender === "bot"
+                        ? "bg-[#c8a96e]/10 border-[#c8a96e]/30 text-[#c8a96e]"
+                        : "bg-white/10 border-white/15 text-white/80"
+                    }`}
+                  >
+                    {msg.sender === "bot" ? <Bot className="w-3.5 h-3.5" /> : <User className="w-3.5 h-3.5" />}
+                  </div>
+
+                  <div
+                    className={`p-3 rounded-xl text-xs leading-relaxed shadow-sm border ${
+                      msg.sender === "bot"
+                        ? "bg-[#141414] border-white/10 text-white/90 rounded-tl-xs"
+                        : "bg-[#c8a96e] text-black font-medium border-transparent rounded-tr-xs"
+                    }`}
+                  >
+                    {msg.sender === "bot" ? renderMarkdown(msg.text) : msg.text}
+                  </div>
+                </div>
+              ))}
+
+              {/* Typing Indicator */}
+              {isTyping && (
+                <div className="flex gap-2.5 max-w-[85%] items-center">
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border border-[#c8a96e]/30 bg-[#c8a96e]/10 text-[#c8a96e]">
+                    <Bot className="w-3.5 h-3.5" />
+                  </div>
+                  <div className="p-3 rounded-xl rounded-tl-xs bg-[#141414] border border-white/10 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#c8a96e] animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#c8a96e] animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#c8a96e] animate-bounce" style={{ animationDelay: "300ms" }} />
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Quick Reply Chips */}
+            <div className="px-3 py-2 border-t border-white/10 bg-black/40 flex gap-1.5 overflow-x-auto select-none no-scrollbar">
+              {SUGGESTED_CHIPS.map((chip, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleSend(chip.label)}
+                  className="shrink-0 px-2.5 py-1 rounded-full bg-white/5 hover:bg-[#c8a96e] hover:text-black border border-white/10 hover:border-transparent text-[11px] text-white/80 font-medium transition-colors"
+                >
+                  {chip.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Input Panel */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSend(input);
+              }}
+              className="p-3 border-t border-white/10 bg-black/70 flex gap-2 items-center"
             >
-              <Send className="w-4 h-4" />
-            </button>
-          </form>
-        </div>
-      )}
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask about projects, stack, services..."
+                className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 focus:border-[#c8a96e] focus:outline-none text-xs text-white placeholder:text-white/40"
+              />
+              <button
+                type="submit"
+                disabled={!input.trim()}
+                className="p-2 rounded-lg bg-[#c8a96e] text-black hover:bg-[#d6b77c] disabled:opacity-30 transition-colors shrink-0 font-bold"
+                aria-label="Send message"
+              >
+                <Send className="w-3.5 h-3.5" />
+              </button>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

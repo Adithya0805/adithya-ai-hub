@@ -31,6 +31,7 @@ export function Footer() {
         },
         { label: "Email", href: "mailto:adithyaadhi0805@gmail.com", internal: false },
         { label: "Privacy Policy", href: "/privacy", internal: true },
+        { label: "Terms of Service", href: "/terms", internal: true },
       ],
     },
   ];

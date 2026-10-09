@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
+import { motion, AnimatePresence } from "framer-motion";
 import { Layout } from "@/components/Layout";
 import { BlogCard } from "@/components/BlogCard";
 import { NewsletterForm } from "@/components/NewsletterForm";
@@ -228,8 +229,15 @@ export default function Blog() {
               marginBottom: "48px",
             }}
           >
-            {paginated.map((p) => (
-              <BlogCard key={p.slug} post={p} size="small" />
+            {paginated.map((p, idx) => (
+              <motion.div
+                key={p.slug}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: Math.min(idx * 0.05, 0.4) }}
+              >
+                <BlogCard post={p} size="small" />
+              </motion.div>
             ))}
           </div>
         )}

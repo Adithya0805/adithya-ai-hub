@@ -164,22 +164,50 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-2);
 }
 
-/* ── AD CONTAINER ───────────────────────────────────────────────── */
-.ad-container {
-  margin: 40px auto;
-  padding: 16px 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  text-align: center;
-  width: 100%;
+/* ── PREMIUM GLASS & MOTION UTILITIES ────────────────────────────── */
+.glass-premium {
+  background: rgba(14, 14, 14, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-.ad-label {
-  font-size: 10px;
-  color: var(--text-3);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
+.glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(200, 169, 110, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 24px rgba(200, 169, 110, 0.05);
+}
+
+.border-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.border-shimmer::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent 0 340deg, rgba(200, 169, 110, 0.4) 360deg);
+  animation: rotate-shimmer 8s linear infinite;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.border-shimmer:hover::before {
+  opacity: 1;
 }
 
 /* ── KEYFRAME ANIMATIONS ─────────────────────────────────────────── */
@@ -196,6 +224,20 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes pulse-green {
   0%, 100% { box-shadow: 0 0 6px #4ade80; }
   50% { box-shadow: 0 0 14px #4ade80, 0 0 28px rgba(74, 222, 128, 0.3); }
+}
+
+@keyframes pulse-accent {
+  0%, 100% { box-shadow: 0 0 6px var(--accent); }
+  50% { box-shadow: 0 0 16px var(--accent), 0 0 32px rgba(200, 169, 110, 0.3); }
+}
+
+@keyframes float-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes rotate-shimmer {
+  100% { transform: rotate(360deg); }
 }
 
 /* ── MOBILE RESPONSIVE ───────────────────────────────────────────── */

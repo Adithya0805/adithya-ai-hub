@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { ExternalLink, CheckCircle, Lock, BookOpen } from "lucide-react";
 import { Layout } from "@/components/Layout";
-import { AdUnit, AdRectangle } from "@/components/AdSlot";
 
 const tierColors = {
   Beginner: {
@@ -214,10 +213,6 @@ const Resources = () => {
           </p>
         </div>
 
-        {/* Top Leaderboard Ad Slot (Content-First compliant spacing) */}
-        <div className="my-10">
-          <AdUnit adFormat="horizontal" />
-        </div>
 
         <div className="flex gap-8 items-start">
           {/* ── MAIN CONTENT ── */}
@@ -319,10 +314,6 @@ const Resources = () => {
               </ul>
             </div>
 
-            {/* Ad Compliant sidebar */}
-            <div className="flex justify-center my-2">
-              <AdRectangle />
-            </div>
 
             {/* My stack */}
             <div className="p-5 rounded-2xl bg-card border border-border">

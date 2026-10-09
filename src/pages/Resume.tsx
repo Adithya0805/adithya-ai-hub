@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { Download, Mail, Linkedin, ExternalLink } from "lucide-react";
+import { Download, Mail, Linkedin, ExternalLink, MessageCircle } from "lucide-react";
 
 const timeline = [
   { year: "2025", title: "B.Tech — AI & Data Science", desc: "Dhanalakshmi Srinivasan College of Engineering, Coimbatore. CGPA: 8.5" },
@@ -63,6 +63,11 @@ const Resume = () => (
         <Button variant="glass" size="lg" asChild>
           <a href="https://www.linkedin.com/in/adithya-kuppusamy-76baab204/" target="_blank" rel="noreferrer">
             <Linkedin className="w-4 h-4 mr-2" /> View LinkedIn
+          </a>
+        </Button>
+        <Button variant="glass" size="lg" asChild>
+          <a href="https://wa.me/918825714576" target="_blank" rel="noreferrer">
+            <MessageCircle className="w-4 h-4 mr-2 text-emerald-400" /> WhatsApp
           </a>
         </Button>
         <Button variant="glass" size="lg" asChild>

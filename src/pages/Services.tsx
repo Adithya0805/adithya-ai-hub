@@ -539,10 +539,26 @@ export function Services() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <a
-              href="mailto:adithyaadhi0805@gmail.com?subject=Project Inquiry — FutureLogic AI"
+              href="https://wa.me/918825714576?text=Hi%20Adithya%2C%20I%20have%20an%20AI%20project%20inquiry"
+              target="_blank"
+              rel="noreferrer"
               style={{
                 display: 'block', textAlign: 'center',
                 padding: '16px 32px',
+                background: '#25D366',
+                color: '#052e16',
+                fontSize: '14px', fontWeight: '700',
+                textDecoration: 'none', borderRadius: '4px',
+                letterSpacing: '0.3px'
+              }}
+            >
+              💬 Chat on WhatsApp →
+            </a>
+            <a
+              href="mailto:adithyaadhi0805@gmail.com?subject=Project Inquiry — FutureLogic AI"
+              style={{
+                display: 'block', textAlign: 'center',
+                padding: '14px 32px',
                 background: 'var(--accent)',
                 color: 'var(--bg-0)',
                 fontSize: '14px', fontWeight: '700',
@@ -558,7 +574,7 @@ export function Services() {
               rel="noreferrer"
               style={{
                 display: 'block', textAlign: 'center',
-                padding: '16px 32px',
+                padding: '14px 32px',
                 border: '1px solid var(--border)',
                 color: 'var(--text-1)',
                 fontSize: '14px', fontWeight: '500',

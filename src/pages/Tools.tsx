@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Layout } from "@/components/Layout";
 import { MediGuardSandbox } from "@/components/MediGuardSandbox";
@@ -17,13 +17,30 @@ import {
   Lock,
   ArrowRight,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 type ToolTab = "mediguard" | "skillspeak" | "trading" | "skillgraph" | "matcher";
 
 export default function Tools() {
-  const [activeTab, setActiveTab] = useState<ToolTab>("mediguard");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabParam = searchParams.get("tab") as ToolTab | null;
+  const [activeTab, setActiveTab] = useState<ToolTab>(
+    tabParam && ["mediguard", "skillspeak", "trading", "skillgraph", "matcher"].includes(tabParam)
+      ? tabParam
+      : "mediguard"
+  );
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (tabParam && ["mediguard", "skillspeak", "trading", "skillgraph", "matcher"].includes(tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [tabParam]);
+
+  const handleTabChange = (tabId: ToolTab) => {
+    setActiveTab(tabId);
+    setSearchParams({ tab: tabId });
+  };
 
   const handleRecommend = (slug: string) => {
     // Navigate to projects page or scroll to project
@@ -136,7 +153,7 @@ export default function Tools() {
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => handleTabChange(tab.id)}
                 style={{
                   display: "flex",
                   flexDirection: "column",
