@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowUpRight, Sparkles, MessageCircle } from "lucide-react";
+import { Logo } from "./Logo";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -52,31 +53,7 @@ export function Navbar() {
           }}
         >
           {/* Logo */}
-          <Link
-            to="/"
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "20px",
-              color: "var(--text-1)",
-              textDecoration: "none",
-              letterSpacing: "-0.3px",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
-            <span>Adithya</span>
-            <span
-              style={{
-                width: "6px",
-                height: "6px",
-                borderRadius: "50%",
-                background: "var(--accent)",
-                boxShadow: "0 0 8px var(--accent)",
-                display: "inline-block",
-              }}
-            />
-          </Link>
+          <Logo variant="full" size="md" />
 
           {/* Desktop Nav Links */}
           <div className="nav-links" style={{ display: "flex", gap: "22px", alignItems: "center" }}>

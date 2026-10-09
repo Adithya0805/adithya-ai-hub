@@ -7,6 +7,9 @@ import { TypeWriter } from '@/components/TypeWriter'
 import { Reveal } from '@/components/Reveal'
 import { GlowOrb } from '@/components/GlowOrb'
 import { NewsletterForm } from '@/components/NewsletterForm'
+import { VisitorConcierge } from '@/components/VisitorConcierge'
+import { PersonalNote } from '@/components/PersonalNote'
+import { LabGuestPass } from '@/components/LabGuestPass'
 import { posts } from '@/data/posts'
 
 /* ── Data ─────────────────────────────────────────────────────────── */
@@ -84,6 +87,20 @@ const interactiveTools = [
     name: 'Binance Futures Bot Simulator',
     desc: 'Interactive backtesting engine with configurable EMA crossovers, trailing stops, risk-to-reward ratios, and live simulated PnL charts.',
     route: '/tools?tab=trading',
+  },
+  {
+    icon: '🪄',
+    badge: 'LLM Guardrails',
+    name: 'System Prompt Architect Studio',
+    desc: 'Compile production system prompts with XML thinking tags, strict JSON schemas, and anti-injection defenses.',
+    route: '/tools?tab=prompt-studio',
+  },
+  {
+    icon: '🗄️',
+    badge: 'Data Systems',
+    name: 'Natural Language SQL Studio',
+    desc: 'Convert natural language business queries into indexed PostgreSQL with EXPLAIN execution cost plans.',
+    route: '/tools?tab=sql-studio',
   },
   {
     icon: '🕸️',
@@ -224,6 +241,15 @@ export default function Index() {
             Shipped production clinical CDSS & live commercial platforms.
             From Tamil Nadu to global production deployments.
           </motion.p>
+
+          {/* Personalized Visitor Concierge & Intent Switcher */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+          >
+            <VisitorConcierge />
+          </motion.div>
 
           {/* CTAs with SPA Link navigation */}
           <motion.div
@@ -956,6 +982,14 @@ export default function Index() {
           </div>
         </section>
       </Reveal>
+
+      {/* ── PERSONAL NOTE & AUTHENTIC RADAR ───────────────────────────── */}
+      <PersonalNote />
+
+      {/* ── DIGITAL LAB GUEST PASS ────────────────────────────────────── */}
+      <section style={{ padding: '0 24px 64px' }}>
+        <LabGuestPass />
+      </section>
 
       {/* ── CLIENT ACQUISITION / WORK TOGETHER BANNER ─────────────────── */}
       <Reveal delay={0.1}>

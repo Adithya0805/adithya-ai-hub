@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Logo } from "./Logo";
 
 export function Footer() {
   const cols = [
@@ -55,16 +56,9 @@ export function Footer() {
         }}
       >
         <div>
-          <p
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "20px",
-              marginBottom: "8px",
-              color: "var(--text-1)",
-            }}
-          >
-            Adithya Kuppusamy
-          </p>
+          <div style={{ marginBottom: "16px" }}>
+            <Logo variant="stacked" size="md" />
+          </div>
           <p
             style={{
               fontSize: "13px",

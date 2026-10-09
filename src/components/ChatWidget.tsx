@@ -97,20 +97,41 @@ export function ChatWidget() {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Initialize with welcome message
+  // Initialize with persona-aware welcome message
   useEffect(() => {
-    setMessages([
-      {
-        id: "welcome",
-        sender: "bot",
-        text: `Vanakkam! 👋 I am Adithya's AI Agent.
+    const updateWelcome = () => {
+      const persona = localStorage.getItem("adithya_visitor_persona");
+      let welcomeText = `Vanakkam! 👋 I am Adithya's personal digital concierge.
 
-I can brief you on his **production AI systems (MediGuard, Aranya Dairy)**, tech stack, certifications, client services, and employment availability.
+I can brief you on his **production AI systems (MediGuard, Aranya Dairy)**, architecture notes, certifications, client services, and employment availability.`;
 
-Select a quick topic below or type any question:`,
-        timestamp: new Date(),
-      },
-    ]);
+      if (persona === "recruiter") {
+        welcomeText = `Vanakkam! 👋 I see you're evaluating Adithya for engineering opportunities.
+
+I can brief you immediately on his **B.Tech AI & DS credentials (8.5 CGPA)**, AWS re/Start certification, production LangGraph/FastAPI architectures, or provide his direct resume.`;
+      } else if (persona === "founder") {
+        welcomeText = `Vanakkam! 👋 Welcome! Looking to deploy custom AI or automate your platform?
+
+I can walk you through how Adithya delivered 400+ daily orders for **Aranya Organic Dairy**, his fixed-price MVP sprints (7–14 days), or connect you directly via WhatsApp.`;
+      } else if (persona === "engineer") {
+        welcomeText = `Vanakkam! 👋 Welcome, fellow builder!
+
+Feel free to ask me anything about the **5-agent LangGraph supervisor graph** in MediGuard, Pinecone RAG latency optimizations, or explore his interactive sandboxes in AI Labs.`;
+      }
+
+      setMessages([
+        {
+          id: "welcome",
+          sender: "bot",
+          text: welcomeText + "\n\nSelect a quick topic below or type any question:",
+          timestamp: new Date(),
+        },
+      ]);
+    };
+
+    updateWelcome();
+    window.addEventListener("adithya-persona-changed", updateWelcome);
+    return () => window.removeEventListener("adithya-persona-changed", updateWelcome);
   }, []);
 
   // Scroll to bottom on new messages
