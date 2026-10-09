@@ -56,8 +56,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!listRes.ok) {
       const err = await listRes.json().catch(() => ({}))
       console.error('Brevo fetch list error:', err)
+      let msg = err.message || `Failed to fetch contacts from Brevo List #${BREVO_LIST_ID}`
+      if (typeof msg === 'string' && (msg.includes('unrecognised IP address') || msg.includes('authorised_ips'))) {
+        msg = 'Brevo IP restriction active: Please open https://app.brevo.com/security/authorised_ips and click "Deactivate for API" to allow Vercel.'
+      }
       return res.status(listRes.status).json({
-        error: `Failed to fetch contacts from Brevo List #${BREVO_LIST_ID}`,
+        error: msg,
         details: err,
         listId: BREVO_LIST_ID
       })

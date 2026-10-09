@@ -57,8 +57,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Brevo returns 201 for created, 204 for updated/already exists
     if (!contactRes.ok && contactRes.status !== 204 && contactRes.status !== 201) {
       console.error('Brevo contact error:', contactData)
+      let msg = contactData.message || 'Failed to add subscriber to Brevo list'
+      if (typeof msg === 'string' && (msg.includes('unrecognised IP address') || msg.includes('authorised_ips'))) {
+        msg = 'Brevo IP restriction is active: Please visit https://app.brevo.com/security/authorised_ips and click "Deactivate for API" so Vercel can connect.'
+      }
       return res.status(contactRes.status || 400).json({
-        error: contactData.message || 'Failed to add subscriber to Brevo list',
+        error: msg,
         brevoCode: contactData.code || null,
         listIdAttempted: BREVO_LIST_ID
       })

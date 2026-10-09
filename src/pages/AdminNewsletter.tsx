@@ -36,6 +36,7 @@ const AdminNewsletter = () => {
   const [isFetchingSubscribers, setIsFetchingSubscribers] = useState(false);
   const [testEmail, setTestEmail] = useState("");
   const [isSubscribingTest, setIsSubscribingTest] = useState(false);
+  const [ipError, setIpError] = useState(false);
 
   const selectedPost = posts.find((p) => p.slug === selectedSlug);
 
@@ -75,13 +76,20 @@ const AdminNewsletter = () => {
       const data = await safeJsonParse(response);
 
       if (!response.ok) {
+        if (data.error && (data.error.includes("IP") || data.error.includes("authorised_ips"))) {
+          setIpError(true);
+        }
         throw new Error(data.error || `Failed to fetch subscribers (HTTP ${response.status}).`);
       }
 
+      setIpError(false);
       setSubscribers(data.contacts || []);
       setTotalCount(data.count ?? (data.contacts ? data.contacts.length : 0));
       toast.success(`Fetched ${data.count || 0} subscribers from Brevo List #3!`);
     } catch (err: any) {
+      if (err.message && (err.message.includes("IP") || err.message.includes("authorised_ips"))) {
+        setIpError(true);
+      }
       toast.error(err.message || "Failed to fetch subscribers.");
     } finally {
       setIsFetchingSubscribers(false);
@@ -215,6 +223,57 @@ const AdminNewsletter = () => {
             and broadcast instant email dispatches for published blog posts.
           </p>
         </div>
+
+        {/* Brevo IP Whitelist Alert */}
+        {ipError && (
+          <div
+            style={{
+              padding: "16px 20px",
+              borderRadius: "10px",
+              background: "rgba(239, 68, 68, 0.08)",
+              border: "1px solid rgba(239, 68, 68, 0.3)",
+              marginBottom: "28px",
+              display: "flex",
+              alignItems: "flex-start",
+              gap: "14px",
+            }}
+          >
+            <AlertCircle size={20} style={{ color: "#ef4444", flexShrink: 0, marginTop: "2px" }} />
+            <div style={{ fontSize: "13px", lineHeight: "1.6", color: "var(--text-1)" }}>
+              <div style={{ color: "#f87171", fontWeight: "700", marginBottom: "4px" }}>
+                Action Required: Brevo IP Blocking is Active
+              </div>
+              <p style={{ margin: "0 0 12px", color: "var(--text-2)" }}>
+                Brevo is blocking Vercel cloud requests because &quot;Blocking unauthorized IP addresses&quot; is turned on in your Brevo account. Because Vercel uses cloud servers with dynamic IPs, you must deactivate IP blocking in Brevo so your website and visitors can connect.
+              </p>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+                <a
+                  href="https://app.brevo.com/security/authorised_ips"
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: "7px 14px",
+                    background: "#ef4444",
+                    color: "#ffffff",
+                    borderRadius: "6px",
+                    fontWeight: "600",
+                    textDecoration: "none",
+                    fontSize: "12px",
+                  }}
+                >
+                  <span>Open Brevo Security Settings</span>
+                  <ExternalLink size={12} />
+                </a>
+                <span style={{ fontSize: "12px", color: "var(--text-3)" }}>
+                  Click <strong>Deactivate for API</strong> and <strong>Deactivate for SMTP</strong>.
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Tab Buttons */}
         <div style={{ display: "flex", gap: "10px", marginBottom: "32px", borderBottom: "1px solid var(--border)", paddingBottom: "12px" }}>
