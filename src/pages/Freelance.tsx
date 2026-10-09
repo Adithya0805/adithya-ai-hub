@@ -204,16 +204,36 @@ export function Freelance() {
             e-commerce, booking systems, AI-powered tools, and custom
             web applications. Fixed price, fast delivery, real results.
           </p>
-          <a
-            href="mailto:adithyaadhi0805@gmail.com"
-            style={{
-              display: 'inline-block', padding: '14px 36px',
-              background: 'var(--accent)', color: 'var(--bg-0)',
-              fontSize: '14px', fontWeight: '600',
-              textDecoration: 'none', borderRadius: '4px',
-              letterSpacing: '0.3px'
-            }}
-          >Get in touch →</a>
+          <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a
+              href="https://wa.me/918825714576?text=Hi%20Adithya%2C%20I%20have%20a%20project%20in%20mind%20and%20would%20like%20to%20discuss."
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                padding: '14px 32px',
+                background: '#25D366', color: '#052e16',
+                fontSize: '14px', fontWeight: '700',
+                textDecoration: 'none', borderRadius: '4px',
+                letterSpacing: '0.3px'
+              }}
+            >
+              <span>💬 Chat on WhatsApp</span>
+            </a>
+            <a
+              href="mailto:adithyaadhi0805@gmail.com?subject=Freelance%20Project%20Inquiry"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                padding: '14px 32px',
+                background: 'var(--accent)', color: 'var(--bg-0)',
+                fontSize: '14px', fontWeight: '600',
+                textDecoration: 'none', borderRadius: '4px',
+                letterSpacing: '0.3px'
+              }}
+            >
+              <span>Send Email Inquiry →</span>
+            </a>
+          </div>
         </div>
 
       </div>

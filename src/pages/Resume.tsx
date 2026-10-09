@@ -11,11 +11,11 @@ const timeline = [
 ];
 
 const skills = [
-  { group: "Programming Languages", items: ["Python", "SQL", "C++", "JavaScript", "Bash"] },
-  { group: "AI / ML Frameworks", items: ["TensorFlow", "Keras", "PyTorch", "Scikit-learn", "XGBoost"] },
-  { group: "Cloud & Tools", items: ["AWS (EC2, S3, IAM, SageMaker)", "Docker", "Git", "GitHub", "Power BI"] },
-  { group: "Data Science", items: ["EDA", "Statistical Modelling", "NLP", "Computer Vision"] },
-  { group: "Soft Skills", items: ["Analytical Thinking", "Team Collaboration", "Problem-Solving"] },
+  { group: "Multi-Agent & LLM Systems", items: ["LangGraph", "LangChain", "Pinecone (Vector DB)", "AWS Bedrock", "RAG Pipelines", "DeepEval", "Gemini API", "Prompt Engineering"] },
+  { group: "Backend & Cloud Infrastructure", items: ["FastAPI", "Python", "Supabase", "PostgreSQL", "Docker", "AWS (EC2, S3, IAM)", "Google Cloud Run", "GitHub Actions"] },
+  { group: "Frontend & Full-Stack", items: ["TypeScript", "Next.js 14", "React 18", "Tailwind CSS", "Framer Motion", "REST APIs", "Zustand"] },
+  { group: "Machine Learning & Data Science", items: ["PyTorch", "Scikit-learn", "TensorFlow", "Time-Series Anomaly Detection", "Tamil NLP", "EDA", "Statistical Modelling"] },
+  { group: "Engineering Practices", items: ["Zero-Hallucination Guardrails", "Multi-Agent Supervisors", "Edge CDN Caching", "CI/CD Workflows", "System Architecture"] },
 ];
 
 const certs = [

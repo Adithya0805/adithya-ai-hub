@@ -1057,7 +1057,7 @@ export default function Index() {
                     View 8 AI Services & Pricing →
                   </Link>
                   <a
-                    href="mailto:adithyakupusamy@gmail.com?subject=AI%20Engineering%20Inquiry"
+                    href="mailto:adithyaadhi0805@gmail.com?subject=AI%20Engineering%20Inquiry"
                     style={{
                       padding: '12px 20px',
                       border: '1px solid var(--border)',

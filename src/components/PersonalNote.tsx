@@ -253,7 +253,7 @@ export function PersonalNote() {
           {/* Action CTAs */}
           <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
             <a
-              href="https://wa.me/918438558117?text=Hi%20Adithya,%20I%20visited%20your%20site%20and%20would%20love%20to%20connect!"
+              href="https://wa.me/918825714576?text=Hi%20Adithya,%20I%20visited%20your%20site%20and%20would%20love%20to%20connect!"
               target="_blank"
               rel="noopener noreferrer"
               style={{

@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Layout } from "@/components/Layout";
 import { BuilderJourney } from "@/components/BuilderJourney";
+import { Logo } from "@/components/Logo";
 
 const skillCols = [
   {
@@ -36,7 +37,7 @@ const links = [
   { label: 'GitHub', href: 'https://github.com/Adithya0805' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/adithya-kuppusamy-76baab204/' },
   { label: 'Email', href: 'mailto:adithyaadhi0805@gmail.com' },
-  { label: 'Portfolio', href: 'https://adithyaai.is-cool.dev' },
+  { label: 'WhatsApp', href: 'https://wa.me/918825714576' },
 ];
 
 export default function About() {
@@ -62,12 +63,9 @@ export default function About() {
 
           {/* Left — identity */}
           <div>
-            <div style={{
-              width: '80px', height: '80px', borderRadius: '50%',
-              background: 'var(--bg-2)', border: '1px solid var(--border)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '28px', marginBottom: '24px', color: 'var(--text-1)'
-            }}>A</div>
+            <div style={{ marginBottom: '24px' }}>
+              <Logo variant="mark-only" size="lg" linkToHome={false} />
+            </div>
             <h1 style={{
               fontFamily: 'var(--font-serif)', fontSize: '32px',
               fontWeight: '400', letterSpacing: '-0.5px', marginBottom: '8px',

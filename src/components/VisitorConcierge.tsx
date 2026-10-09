@@ -40,7 +40,7 @@ const PERSONA_OPTIONS: PersonaOption[] = [
     actionText: "View Resume & Credentials",
     actionHref: "/resume",
     secondaryActionText: "Direct WhatsApp",
-    secondaryActionHref: "https://wa.me/918438558117?text=Hi%20Adithya,%20I%20am%20reviewing%20your%20profile%20for%20an%20engineering%20role.",
+    secondaryActionHref: "https://wa.me/918825714576?text=Hi%20Adithya,%20I%20am%20reviewing%20your%20profile%20for%20an%20engineering%20role.",
     isExternal: true,
   },
   {
