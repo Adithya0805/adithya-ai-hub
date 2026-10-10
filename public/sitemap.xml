@@ -1,124 +1,244 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
+  <!-- Core Pages -->
   <url>
-    <loc>https://adithyaai.is-cool.dev/</loc>
+    <loc>https://adithya-ai-hub.vercel.app/</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://adithyaai.is-cool.dev/blog</loc>
+    <loc>https://adithya-ai-hub.vercel.app/projects</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/work</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/services</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/freelance</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://adithyaai.is-cool.dev/work</loc>
-    <lastmod>2026-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://adithyaai.is-cool.dev/services</loc>
-    <lastmod>2026-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://adithyaai.is-cool.dev/freelance</loc>
-    <lastmod>2026-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://adithyaai.is-cool.dev/about</loc>
-    <lastmod>2026-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://adithyaai.is-cool.dev/resources</loc>
+    <loc>https://adithya-ai-hub.vercel.app/tools</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
 
-  <!-- Blog posts -->
   <url>
-    <loc>https://adithyaai.is-cool.dev/blog/my-tcs-nqt-experience-2026-honest-review</loc>
-    <lastmod>2026-05-21</lastmod>
+    <loc>https://adithya-ai-hub.vercel.app/resources</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/about</loc>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://adithyaai.is-cool.dev/blog/how-i-built-mediaguard-multi-agent-ai-system</loc>
-    <lastmod>2026-05-22</lastmod>
+    <loc>https://adithya-ai-hub.vercel.app/resume</loc>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://adithyaai.is-cool.dev/blog/how-i-built-skillspeak-ai-career-platform-15-features</loc>
-    <lastmod>2026-05-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://adithyaai.is-cool.dev/blog/my-ai-career-journey-2025-tamil-nadu-fresher</loc>
-    <lastmod>2026-06-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://adithyaai.is-cool.dev/blog/python-machine-learning-roadmap-2026-beginners</loc>
-    <lastmod>2026-05-25</lastmod>
+    <loc>https://adithya-ai-hub.vercel.app/contact</loc>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://adithyaai.is-cool.dev/blog/langchain-rag-complete-tutorial-2026</loc>
-    <lastmod>2026-05-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://adithyaai.is-cool.dev/blog/infosys-interview-experience-2026-fresher</loc>
-    <lastmod>2026-05-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://adithyaai.is-cool.dev/blog/aws-bedrock-beginners-guide-2026</loc>
-    <lastmod>2026-05-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://adithyaai.is-cool.dev/blog/how-i-built-townrise-ai-real-estate-platform</loc>
-    <lastmod>2026-05-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://adithyaai.is-cool.dev/privacy</loc>
-    <lastmod>2026-05-01</lastmod>
+    <loc>https://adithya-ai-hub.vercel.app/privacy</loc>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.2</priority>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/terms</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Verified Technical Articles & Research -->
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/building-and-deploying-aranya-organic-dairy-farm-live-ai-engineer-guide</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/python-314-free-threading-no-gil-async-ai-agents-tutorial</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/dreamdojo-robot-world-models-latent-actions-tutorial</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/aws-bedrock-document-intelligence-claim-processor</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/claude-sonnet-5-adaptive-thinking-routing-tutorial</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/anthropic-qwen-model-extraction-attack-prevention-tutorial</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/openai-drops-jalapeno-first-custom-silicon-kv-cache-attention-simulator</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/nvidia-drops-agent-toolkit-nemoclaw-openshell-secure-agentic-ai</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/google-drops-gemini-for-science-co-scientist-autonomous-ai-researchers</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/claude-opus-4-8-dynamic-workflows-parallel-subagents</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/honest-ai-ml-engineer-roadmap-tier-3-tamil-nadu</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/cognizant-cts-wipro-coding-questions-python-solutions</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/how-i-built-skillspeak-ai-career-platform-15-features</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/how-i-built-mediaguard-multi-agent-ai-system</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/my-tcs-nqt-experience-2026-honest-review</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/python-machine-learning-roadmap-2026-beginners</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/langchain-rag-complete-tutorial-2026</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/infosys-interview-experience-2026-fresher</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/aws-bedrock-beginners-guide-2026</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/how-i-built-townrise-ai-real-estate-platform</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://adithya-ai-hub.vercel.app/blog/my-ai-career-journey-2025-tamil-nadu-fresher</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 
 </urlset>

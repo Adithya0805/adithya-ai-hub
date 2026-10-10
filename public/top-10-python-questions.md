@@ -1,5 +1,5 @@
 # Top 10 Python Coding Questions — Cognizant (CTS) & Wipro Hiring Tests
-## By Adithya Kuppusamy | adithyaai.is-cool.dev
+## By Adithya Kuppusamy | adithya-ai-hub.vercel.app
 
 ---
 
@@ -304,6 +304,6 @@ and resumes from the same point on the next call."
 
 ---
 
-*More free resources at adithyaai.is-cool.dev*
+*More free resources at adithya-ai-hub.vercel.app*
 *Written by Adithya Kuppusamy — AI Engineer, Tamil Nadu*
 *LinkedIn: linkedin.com/in/adithya-kuppusamy-76baab204*
