@@ -2319,6 +2319,7 @@ $$P(A = 1 mid P = p) = p$$
     readTime: "11 min read",
     date: "2026-05-27",
     featured: true,
+    coverImage: '/images/blog/career-journey-cover.jpg',
     content: `
 <h2>The Harsh Reality: The Tier-3 Dilemma</h2>
 <p>If you're studying B.Tech in an engineering college in a tier-2 or tier-3 town in Tamil Nadu (like Ranipet, Ambur, Coimbatore, or Madurai), you know the drill: campus placements mean service companies offering 3 LPA to 4 LPA. Your college professors tell you "learn Java or C++, clear the aptitude, get placed in TCS/Infosys."</p>
@@ -2498,6 +2499,7 @@ print(count_nonzero(grid))  # Output: 6
     category: 'Machine Learning',
     readTime: '12 min read',
     featured: true,
+    coverImage: '/images/blog/skillspeak-cover.jpg',
     content: `
 <h2>Why I Built SkillSpeak AI</h2>
 <p>Over 60% of Indian job seekers use their mobile phones to practice interviews, edit resumes, and check career resources. Yet most career platforms are heavy, cluttered, and built only for desktop users.</p>
@@ -2717,6 +2719,7 @@ service cloud.firestore {
     category: 'Machine Learning',
     readTime: '10 min read',
     featured: true,
+    coverImage: '/images/blog/mediaguard-cover.jpg',
     content: `
 <h2>The Problem That Started Everything</h2>
 <p>Patients in India regularly get wrong medication information. They Google their symptoms, land on unreliable websites, self-diagnose, and take the wrong medicines. In rural areas where access to doctors is limited, this is genuinely dangerous.</p>
@@ -2937,6 +2940,7 @@ response = bedrock.invoke_model(
     category: 'Interview Prep',
     readTime: '7 min read',
     featured: true,
+    coverImage: '/images/blog/tcs-nqt-cover.jpg',
     content: `
 <h2>Why I'm Writing This</h2>
 <p>When I was preparing for TCS NQT, I searched everywhere for honest student experiences. Most blogs were either too vague or just copy-pasted syllabus content. So here's my real account — what I felt walking in, what the questions were like, what I got wrong, and what you should do differently.</p>
@@ -3041,6 +3045,7 @@ def count_vc(s):
     category: 'Machine Learning',
     readTime: '9 min read',
     featured: false,
+    coverImage: '/images/blog/python-roadmap-cover.jpg',
     content: `
 <h2>Why Most ML Roadmaps Fail You</h2>
 <p>Most Python and ML roadmaps online are written for people who already know programming. They assume you understand functions, classes, and data structures before explaining what a neural network is. This roadmap is different — it starts from zero and builds up logically.</p>
@@ -3188,6 +3193,7 @@ model.summary()
     category: 'Machine Learning',
     readTime: '11 min read',
     featured: false,
+    coverImage: '/images/blog/langchain-rag-cover.jpg',
     content: `
 <h2>What is RAG and Why Does It Matter</h2>
 <p>Large Language Models like GPT-4 and Claude are trained on data up to a specific cutoff date. They cannot answer questions about your private documents, your company's internal knowledge base, or recent events. This is where RAG — Retrieval Augmented Generation — solves a real problem.</p>
@@ -3357,6 +3363,7 @@ embeddings = HuggingFaceEmbeddings(
     category: 'Interview Prep',
     readTime: '8 min read',
     featured: false,
+    coverImage: '/images/blog/infosys-cover.jpg',
     content: `
 <h2>Infosys Hiring in 2026 — What's Changed</h2>
 <p>Infosys runs two main fresher hiring tracks — System Engineer (SE) and Digital Specialist Engineer (DSE). DSE is the premium track with higher pay and more technical work. Both go through similar stages but with different difficulty levels in the assessment.</p>
@@ -3445,6 +3452,7 @@ print(second_largest([5, 5, 5]))  # -1
     category: 'Machine Learning',
     readTime: '10 min read',
     featured: false,
+    coverImage: '/images/blog/aws-bedrock-cover.jpg',
     content: `
 <h2>What is AWS Bedrock</h2>
 <p>AWS Bedrock is Amazon's fully managed service for accessing foundation models from leading AI companies — Anthropic's Claude, Amazon's Titan, Meta's Llama, Mistral, and others — all through a single unified API.</p>
@@ -3575,6 +3583,7 @@ print(f"Embedding dimensions: {len(embedding)}")  # 1536
     category: 'Machine Learning',
     readTime: '9 min read',
     featured: false,
+    coverImage: '/images/blog/townrise-cover.jpg',
     content: `
 <h2>The Problem TownRise AI Solves</h2>
 <p>Real estate in Tamil Nadu is opaque. Property buyers in cities like Chennai, Coimbatore, Madurai, and Ambur rely on brokers who have information asymmetry — they know more than the buyer, and they use that knowledge to their advantage.</p>

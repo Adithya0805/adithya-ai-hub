@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { ExternalLink, CheckCircle, Lock, BookOpen } from "lucide-react";
 import { Layout } from "@/components/Layout";
@@ -203,7 +204,12 @@ const Resources = () => {
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
-      <div className="container py-20">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
+      >
+        <div className="container py-20">
         {/* Header */}
         <div className="max-w-3xl mb-12">
           <p className="text-sm text-primary font-medium uppercase tracking-wider">Resources</p>
@@ -341,6 +347,7 @@ const Resources = () => {
           </aside>
         </div>
       </div>
+      </motion.div>
     </Layout>
   );
 };

@@ -26,16 +26,16 @@ const typewriterWords = [
 
 const stats = [
   { number: '5+', label: 'AI Systems Shipped' },
-  { number: '2', label: 'Commercial Clients Live' },
+  { number: '3', label: 'Commercial Clients Live' },
   { number: '20', label: 'Technical Articles' },
   { number: '100%', label: 'Production Deployed' },
 ]
 
 const techStack = [
-  'LangGraph', 'Pinecone RAG', 'AWS Bedrock', 'FastAPI', 'Next.js',
-  'Supabase', 'Gemini API', 'Docker', 'GitHub Actions', 'Google Cloud Run',
-  'TypeScript', 'Python', 'React', 'Tailwind', 'PostgreSQL', 'Whisper',
-  'Tamil NLP', 'LangChain', 'OpenAI', 'DeepEval',
+  'LangGraph', 'Pinecone RAG', 'AWS Bedrock', 'FastAPI', 'Next.js', 'Supabase',
+  'Gemini API', 'Docker', 'GitHub Actions', 'Google Cloud Run', 'TypeScript',
+  'Python', 'React', 'Tailwind', 'PostgreSQL', 'Whisper', 'Tamil NLP',
+  'LangChain', 'DeepEval', 'Framer Motion'
 ]
 
 const archNodes = [
@@ -132,188 +132,138 @@ export default function Index() {
 
       {/* ── HERO ──────────────────────────────────────────────────────── */}
       <section style={{
-        position: 'relative',
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        overflow: 'hidden',
-        borderBottom: '1px solid var(--border)',
+        position: 'relative', minHeight: '100vh',
+        display: 'flex', alignItems: 'center',
+        overflow: 'hidden', borderBottom: '1px solid var(--border)'
       }}>
-        {/* Neural network canvas */}
         <NeuralCanvas />
+        <GlowOrb top="35%" left="18%" size={700} opacity={0.07} />
+        <GlowOrb top="65%" left="72%" size={480} color="100,160,255" opacity={0.04} />
 
-        {/* Ambient glow orbs */}
-        <GlowOrb top="30%" left="20%" size={700} opacity={0.07} />
-        <GlowOrb top="60%" left="70%" size={500} color="100, 160, 255" opacity={0.04} />
-
-        {/* Content */}
         <div style={{
-          maxWidth: 'var(--max)', margin: '0 auto', width: '100%',
-          padding: '120px 32px',
-          position: 'relative', zIndex: 1,
+          maxWidth: 'var(--max)', margin: '0 auto', padding: '140px 32px 120px',
+          position: 'relative', zIndex: 1, width: '100%'
         }}>
 
-          {/* Status badge */}
+          {/* Available badge */}
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '10px',
-              border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: '100px', padding: '8px 18px',
-              marginBottom: '48px',
-              backdropFilter: 'blur(8px)',
-              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)', borderRadius: '100px',
+              padding: '8px 20px', marginBottom: '52px',
+              backdropFilter: 'blur(8px)', background: 'rgba(255,255,255,0.03)'
             }}
           >
             <span style={{
               width: '7px', height: '7px', borderRadius: '50%',
-              background: '#4ade80',
-              boxShadow: '0 0 8px #4ade80',
-              display: 'block', flexShrink: 0,
-              animation: 'pulse-green 2s ease-in-out infinite',
+              background: '#4ade80', display: 'block',
+              animation: 'pulse-green 2s ease-in-out infinite'
             }} />
             <span style={{ fontSize: '12px', color: 'var(--text-2)', letterSpacing: '0.5px' }}>
-              Available for Freelance & AI Engineering · Ambur, Tamil Nadu
+              Available for work & freelance · Ambur, Tamil Nadu
             </span>
           </motion.div>
 
-          {/* Main headline */}
+          {/* Headline */}
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             style={{
               fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(48px, 7.5vw, 96px)',
-              fontWeight: '400',
-              lineHeight: '1.02',
-              letterSpacing: '-3px',
-              color: 'var(--text-1)',
-              marginBottom: '32px',
+              fontSize: 'clamp(52px, 8vw, 100px)',
+              fontWeight: '400', lineHeight: '1.0',
+              letterSpacing: '-3px', color: 'var(--text-1)',
+              maxWidth: '820px', marginBottom: '28px'
             }}
           >
-            Building AI that<br />
-            <span style={{ color: 'var(--accent)', fontStyle: 'italic', position: 'relative' }}>
-              actually works.
+            AI Engineer building<br />
+            <span style={{
+              color: 'var(--accent)', fontStyle: 'italic', position: 'relative'
+            }}>
+              real systems
               <span style={{
-                position: 'absolute',
-                bottom: '-4px', left: 0, right: 0,
+                position: 'absolute', bottom: '-4px', left: 0, right: 0,
                 height: '1px',
                 background: 'linear-gradient(90deg, var(--accent), transparent)',
-                opacity: 0.6,
+                opacity: 0.5
               }} />
-            </span>
+            </span>{' '}for<br />
+            real problems.
           </motion.h1>
 
-          {/* Typewriter subtitle */}
-          <motion.div
+          {/* Typewriter line */}
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            style={{ marginBottom: '28px' }}
+            transition={{ delay: 0.55, duration: 0.5 }}
+            style={{
+              fontSize: '16px', color: 'var(--text-2)',
+              marginBottom: '20px', display: 'flex',
+              alignItems: 'center', gap: '10px', flexWrap: 'wrap'
+            }}
           >
-            <p style={{
-              fontSize: '17px', color: 'var(--text-2)',
-              lineHeight: '1.6', display: 'flex',
-              alignItems: 'center', gap: '8px', flexWrap: 'wrap',
-            }}>
-              <span style={{ color: 'var(--text-3)' }}>Currently building →</span>
-              <TypeWriter
-                words={typewriterWords}
-                style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontSize: '15px' }}
-              />
-            </p>
-          </motion.div>
+            <span style={{ color: 'var(--text-3)' }}>Currently building →</span>
+            <TypeWriter
+              words={[
+                'Multi-Agent Clinical AI',
+                'Tamil Nadu Gov Scheme Tools',
+                'Real Estate Intelligence',
+                'RAG Knowledge Systems',
+                'D2C Leather E-commerce',
+                'Intercity Travel Booking Apps',
+                'Full Stack AI Platforms',
+              ]}
+              style={{
+                color: 'var(--accent)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '14px'
+              }}
+            />
+          </motion.p>
 
-          {/* Bio */}
+          {/* One-liner bio */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
             style={{
               fontSize: '16px', color: 'var(--text-2)',
-              lineHeight: '1.7', maxWidth: '520px', marginBottom: '52px',
+              lineHeight: '1.7', maxWidth: '500px', marginBottom: '52px'
             }}
           >
-            B.Tech AI & DS · LangGraph · Pinecone RAG · AWS Bedrock · Next.js.
-            Shipped production clinical CDSS & live commercial platforms.
-            From Tamil Nadu to global production deployments.
+            B.Tech AI & DS · LangGraph · Pinecone RAG · AWS Bedrock.
+            5 AI systems in production. 3 freelance clients live.
+            Tamil Nadu → the world.
           </motion.p>
 
-          {/* Personalized Visitor Concierge & Intent Switcher */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-          >
-            <VisitorConcierge />
-          </motion.div>
-
-          {/* CTAs with SPA Link navigation */}
+          {/* CTA buttons */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.6 }}
-            style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '72px' }}
+            style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '80px' }}
           >
-            <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
-              <Link to="/work" style={{
-                padding: '14px 30px',
-                background: 'var(--text-1)',
-                color: 'var(--bg-0)',
-                fontSize: '14px', fontWeight: '600',
-                textDecoration: 'none', borderRadius: '6px',
-                letterSpacing: '0.2px',
-                display: 'inline-flex', alignItems: 'center', gap: '8px',
-                boxShadow: '0 4px 20px rgba(255,255,255,0.1)',
-                transition: 'all 0.2s ease',
-              }}>
-                View Flagship Work <span style={{ fontSize: '16px' }}>→</span>
-              </Link>
-              <Link to="/services" style={{
-                padding: '14px 28px',
-                background: 'rgba(200,169,110,0.12)',
-                border: '1px solid rgba(200,169,110,0.35)',
-                color: 'var(--accent)',
-                fontSize: '14px', fontWeight: '600',
-                textDecoration: 'none', borderRadius: '6px',
-                boxShadow: '0 0 24px rgba(200,169,110,0.15)',
-                display: 'inline-flex', alignItems: 'center', gap: '6px',
-                transition: 'all 0.2s ease',
-              }}>
-                Hire for AI Work
-              </Link>
-            </div>
-
-            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
-              <span style={{ fontSize: '12px', color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>Explore:</span>
-              <Link to="/tools" style={{
-                padding: '6px 14px',
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid var(--border)',
-                color: 'var(--text-2)',
-                fontSize: '12px',
-                textDecoration: 'none', borderRadius: '100px',
-                display: 'inline-flex', alignItems: 'center', gap: '6px',
-                transition: 'all 0.2s ease',
-              }}>
-                <span>🧪</span> Interactive AI Labs
-              </Link>
-              <Link to="/blog" style={{
-                padding: '6px 14px',
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid var(--border)',
-                color: 'var(--text-2)',
-                fontSize: '12px',
-                textDecoration: 'none', borderRadius: '100px',
-                display: 'inline-flex', alignItems: 'center', gap: '6px',
-                transition: 'all 0.2s ease',
-              }}>
-                <span>📖</span> 20 Engineering Articles
-              </Link>
-            </div>
+            <a href="/work" style={{
+              padding: '13px 28px', background: 'var(--text-1)',
+              color: 'var(--bg-0)', fontSize: '14px', fontWeight: '600',
+              textDecoration: 'none', borderRadius: '6px', letterSpacing: '0.2px'
+            }}>View Projects →</a>
+            <a href="/services" style={{
+              padding: '13px 28px',
+              background: 'rgba(200,169,110,0.1)',
+              border: '1px solid rgba(200,169,110,0.3)',
+              color: 'var(--accent)', fontSize: '14px', fontWeight: '500',
+              textDecoration: 'none', borderRadius: '6px'
+            }}>Hire Me for AI Work</a>
+            <a href="/blog" style={{
+              padding: '13px 28px', border: '1px solid var(--border)',
+              color: 'var(--text-2)', fontSize: '14px',
+              textDecoration: 'none', borderRadius: '6px'
+            }}>Read Blog</a>
           </motion.div>
 
           {/* Stats row */}
@@ -323,27 +273,28 @@ export default function Index() {
             transition={{ delay: 0.7, duration: 0.6 }}
             style={{
               display: 'flex', gap: '48px', flexWrap: 'wrap',
-              paddingTop: '32px',
-              borderTop: '1px solid var(--border)',
+              paddingTop: '32px', borderTop: '1px solid var(--border)'
             }}
           >
-            {stats.map((stat, i) => (
-              <motion.div
-                key={stat.label}
+            {[
+              { number: '5+', label: 'AI Systems Shipped' },
+              { number: '3', label: 'Freelance Clients Live' },
+              { number: '8', label: 'Service Areas' },
+              { number: '100%', label: 'Production Deployed' },
+            ].map((stat, i) => (
+              <motion.div key={stat.label}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 + i * 0.1 }}
-                whileHover={{ y: -2 }}
+                transition={{ delay: 0.7 + i * 0.08 }}
               >
                 <p style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontSize: '34px', fontWeight: '400',
-                  color: 'var(--accent)', lineHeight: '1',
-                  marginBottom: '6px', letterSpacing: '-1px',
+                  fontFamily: 'var(--font-serif)', fontSize: '34px',
+                  fontWeight: '400', color: 'var(--text-1)',
+                  lineHeight: '1', marginBottom: '4px', letterSpacing: '-1px'
                 }}>{stat.number}</p>
                 <p style={{
                   fontSize: '11px', color: 'var(--text-3)',
-                  letterSpacing: '1px', textTransform: 'uppercase',
+                  letterSpacing: '1px', textTransform: 'uppercase'
                 }}>{stat.label}</p>
               </motion.div>
             ))}
@@ -352,55 +303,43 @@ export default function Index() {
 
         {/* Bottom fade */}
         <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0,
-          height: '120px', zIndex: 1,
+          position: 'absolute', bottom: 0, left: 0, right: 0, height: '100px',
           background: 'linear-gradient(to bottom, transparent, var(--bg-0))',
-          pointerEvents: 'none',
+          pointerEvents: 'none', zIndex: 1
         }} />
       </section>
 
-      {/* ── TECH TICKER ─────────────────────────────────────────────── */}
+      {/* Tech ticker */}
       <div style={{
-        overflow: 'hidden',
-        borderTop: '1px solid var(--border)',
-        borderBottom: '1px solid var(--border)',
-        padding: '16px 0',
-        position: 'relative',
-        background: 'var(--bg-0)',
+        overflow: 'hidden', borderTop: '1px solid var(--border)',
+        borderBottom: '1px solid var(--border)', padding: '16px 0',
+        position: 'relative'
       }}>
-        {/* Fade edges */}
         <div style={{
           position: 'absolute', left: 0, top: 0, bottom: 0, width: '120px',
           background: 'linear-gradient(to right, var(--bg-0), transparent)',
-          zIndex: 2, pointerEvents: 'none',
+          zIndex: 2, pointerEvents: 'none'
         }} />
         <div style={{
           position: 'absolute', right: 0, top: 0, bottom: 0, width: '120px',
           background: 'linear-gradient(to left, var(--bg-0), transparent)',
-          zIndex: 2, pointerEvents: 'none',
+          zIndex: 2, pointerEvents: 'none'
         }} />
-
         <div style={{
-          display: 'flex',
-          animation: 'ticker 30s linear infinite',
-          width: 'max-content',
+          display: 'flex', gap: '0',
+          animation: 'ticker 32s linear infinite', width: 'max-content'
         }}>
           {[...techStack, ...techStack].map((tech, i) => (
             <span key={i} style={{
-              fontSize: '11px',
-              fontFamily: 'var(--font-mono)',
-              color: 'var(--text-3)',
-              letterSpacing: '1.5px',
-              textTransform: 'uppercase',
-              whiteSpace: 'nowrap',
-              display: 'flex', alignItems: 'center', gap: '0',
-              padding: '0 24px',
+              fontSize: '11px', fontFamily: 'var(--font-mono)',
+              color: 'var(--text-3)', letterSpacing: '1.5px',
+              textTransform: 'uppercase', whiteSpace: 'nowrap',
+              padding: '0 32px', display: 'flex', alignItems: 'center', gap: '32px'
             }}>
               {tech}
               <span style={{
-                width: '4px', height: '4px', borderRadius: '50%',
-                backgroundColor: 'var(--accent)', opacity: 0.4,
-                display: 'inline-block', marginLeft: '24px',
+                width: '3px', height: '3px', borderRadius: '50%',
+                backgroundColor: 'var(--accent)', opacity: 0.4, display: 'inline-block'
               }} />
             </span>
           ))}
@@ -435,27 +374,26 @@ export default function Index() {
 
           {/* 1. MediGuard V2 — Clinical AI Flagship */}
           <motion.div
-            initial={{ opacity: 0, y: 32 }}
+            initial={{ opacity: 0, y: 36 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              background: 'linear-gradient(135deg, #111111 0%, #0d1117 50%, #111111 100%)',
-              border: '1px solid rgba(200,169,110,0.2)',
+              background: 'linear-gradient(135deg, #111111 0%, #0d1117 60%, #111111 100%)',
+              border: '1px solid rgba(200,169,110,0.18)',
               borderRadius: '16px', padding: '56px',
-              marginBottom: '28px',
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
+              marginBottom: '16px',
+              display: 'grid', gridTemplateColumns: '1fr 1fr',
               gap: '48px', alignItems: 'center',
               position: 'relative', overflow: 'hidden',
-              boxShadow: '0 0 80px rgba(200,169,110,0.04), inset 0 1px 0 rgba(255,255,255,0.04)',
+              boxShadow: '0 0 100px rgba(200,169,110,0.04), inset 0 1px 0 rgba(255,255,255,0.04)'
             }}
             className="flagship-grid"
           >
+            {/* Gold top line */}
             <div style={{
-              position: 'absolute', top: 0, left: '10%', right: '10%',
-              height: '1px',
-              background: 'linear-gradient(90deg, transparent, rgba(200,169,110,0.4), transparent)',
+              position: 'absolute', top: 0, left: '8%', right: '8%', height: '1px',
+              background: 'linear-gradient(90deg, transparent, rgba(200,169,110,0.45), transparent)'
             }} />
 
             {/* Left — description */}
@@ -698,25 +636,21 @@ export default function Index() {
             {smallProjects.map((p, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -4, borderColor: 'rgba(200,169,110,0.25)' }}
+                whileHover={{ y: -5, borderColor: 'rgba(200,169,110,0.22)' }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
                 style={{
                   background: 'var(--bg-1)',
                   border: '1px solid var(--border)',
                   borderRadius: '12px', padding: '36px',
-                  position: 'relative', overflow: 'hidden',
-                  cursor: 'default',
+                  position: 'relative', overflow: 'hidden', cursor: 'pointer'
                 }}
               >
+                {/* Top glow line */}
                 <div style={{
-                  position: 'absolute', top: 0, left: 0, right: 0,
-                  height: '1px',
+                  position: 'absolute', top: 0, left: '15%', right: '15%', height: '1px',
                   background: 'linear-gradient(90deg, transparent, rgba(200,169,110,0.5), transparent)',
-                  opacity: 0, transition: 'opacity 0.3s',
-                }} className="card-top-glow" />
+                  opacity: 0, transition: 'opacity 0.3s'
+                }} className="card-glow-line" />
 
                 <span style={{
                   fontSize: '11px', color: 'var(--text-3)',
@@ -984,12 +918,16 @@ export default function Index() {
       </Reveal>
 
       {/* ── PERSONAL NOTE & AUTHENTIC RADAR ───────────────────────────── */}
-      <PersonalNote />
+      <Reveal delay={0.1}>
+        <PersonalNote />
+      </Reveal>
 
       {/* ── DIGITAL LAB GUEST PASS ────────────────────────────────────── */}
-      <section style={{ padding: '0 24px 64px' }}>
-        <LabGuestPass />
-      </section>
+      <Reveal delay={0.1}>
+        <section style={{ padding: '0 24px 64px' }}>
+          <LabGuestPass />
+        </section>
+      </Reveal>
 
       {/* ── CLIENT ACQUISITION / WORK TOGETHER BANNER ─────────────────── */}
       <Reveal delay={0.1}>

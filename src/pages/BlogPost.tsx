@@ -11,7 +11,12 @@ import { Share2, Check, ArrowLeft, Twitter, Linkedin, Copy } from "lucide-react"
 export default function BlogPost() {
   const { slug } = useParams();
   const [copied, setCopied] = useState(false);
-  const post = posts.find((p) => p.slug === slug);
+  const post = posts.find(
+    (p) =>
+      p.slug === slug ||
+      (slug === "my-ai-career-journey-2025-tamil-nadu-fresher" &&
+        p.slug === "honest-ai-ml-engineer-roadmap-tier-3-tamil-nadu")
+  );
   if (!post) return <Navigate to="/blog" replace />;
 
   const postUrl = `https://adithya-ai-hub.vercel.app/blog/${post.slug}`;

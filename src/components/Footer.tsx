@@ -69,7 +69,7 @@ export function Footer() {
           >
             AI & Data Science Engineer · FutureLogic AI
             <br />
-            Ambur, Tamil Nadu, India
+            3 freelance clients live · Ambur, Tamil Nadu
           </p>
           <div style={{ marginTop: "16px" }}>
             <span

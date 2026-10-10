@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Layout } from "@/components/Layout";
 import { BuilderJourney } from "@/components/BuilderJourney";
@@ -51,7 +52,12 @@ export default function About() {
         />
       </Helmet>
 
-      <div style={{ maxWidth: 'var(--max)', margin: '0 auto', padding: '120px 32px' }}>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
+      >
+        <div style={{ maxWidth: 'var(--max)', margin: '0 auto', padding: '120px 32px' }}>
 
         {/* ── Identity + Bio ────────────────────────────────────────── */}
         <div style={{
@@ -180,8 +186,8 @@ export default function About() {
             ))}
           </div>
         </div>
-
       </div>
-    </Layout>
-  );
+    </motion.div>
+  </Layout>
+);
 }

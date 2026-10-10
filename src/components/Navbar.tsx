@@ -26,19 +26,13 @@ export function Navbar() {
     <>
       <nav
         style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 100,
-          height: "56px",
-          display: "flex",
-          alignItems: "center",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          backgroundColor: "rgba(10, 10, 10, 0.88)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.07)",
-          backgroundImage: "linear-gradient(180deg, rgba(200, 169, 110, 0.04) 0%, transparent 100%)",
+          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+          height: '56px', display: 'flex', alignItems: 'center',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          backgroundColor: 'rgba(10,10,10,0.72)',
+          borderBottom: '1px solid rgba(255,255,255,0.05)',
+          backgroundImage: 'linear-gradient(180deg, rgba(200,169,110,0.025) 0%, transparent 100%)'
         }}
       >
         <div

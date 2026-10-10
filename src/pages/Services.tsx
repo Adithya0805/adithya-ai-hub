@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { Layout } from '@/components/Layout'
 
@@ -228,68 +229,73 @@ export function Services() {
         />
       </Helmet>
 
-      {/* Page header */}
-      <div style={{
-        maxWidth: 'var(--max)', margin: '0 auto',
-        padding: '80px 32px 64px',
-        borderBottom: '1px solid var(--border)'
-      }}>
-        <p style={{
-          fontSize: '11px', color: 'var(--text-3)',
-          letterSpacing: '4px', textTransform: 'uppercase',
-          marginBottom: '20px'
-        }}>
-          FutureLogic AI · Services
-        </p>
-        <h1 style={{
-          fontFamily: 'var(--font-serif)',
-          fontSize: 'clamp(40px, 7vw, 80px)',
-          fontWeight: '400', letterSpacing: '-2px',
-          lineHeight: '1.05', marginBottom: '28px',
-          maxWidth: '700px', color: 'var(--text-1)'
-        }}>
-          What I build<br />
-          <span style={{ color: 'var(--accent)', fontStyle: 'italic' }}>with AI.</span>
-        </h1>
-        <p style={{
-          fontSize: '17px', color: 'var(--text-2)',
-          lineHeight: '1.8', maxWidth: '540px',
-          marginBottom: '40px'
-        }}>
-          8 service areas across the full AI engineering stack —
-          agents, RAG, LLMs, voice, Tamil language, e-commerce,
-          data pipelines, and MLOps. Every service backed by
-          real shipped projects.
-        </p>
-
-        {/* Service count badges */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-          {[
-            '8 Service Areas',
-            '5+ Projects Shipped',
-            'Production Deployed',
-            'Tamil Nadu Focus',
-            'Fixed Price Available',
-          ].map(badge => (
-            <span key={badge} style={{
-              fontSize: '12px', color: 'var(--text-2)',
-              border: '1px solid var(--border)',
-              padding: '6px 14px', borderRadius: '4px'
-            }}>{badge}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* Services section */}
-      <div style={{
-        maxWidth: 'var(--max)', margin: '0 auto',
-        padding: '64px 32px'
-      }}>
-        {/* Quick-nav pill bar */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
+      >
+        {/* Page header */}
         <div style={{
-          display: 'flex', flexWrap: 'wrap', gap: '8px',
-          marginBottom: '48px'
+          maxWidth: 'var(--max)', margin: '0 auto',
+          padding: '80px 32px 64px',
+          borderBottom: '1px solid var(--border)'
         }}>
+          <p style={{
+            fontSize: '11px', color: 'var(--text-3)',
+            letterSpacing: '4px', textTransform: 'uppercase',
+            marginBottom: '20px'
+          }}>
+            FutureLogic AI · Services
+          </p>
+          <h1 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(40px, 7vw, 80px)',
+            fontWeight: '400', letterSpacing: '-2px',
+            lineHeight: '1.05', marginBottom: '28px',
+            maxWidth: '700px', color: 'var(--text-1)'
+          }}>
+            What I build<br />
+            <span style={{ color: 'var(--accent)', fontStyle: 'italic' }}>with AI.</span>
+          </h1>
+          <p style={{
+            fontSize: '17px', color: 'var(--text-2)',
+            lineHeight: '1.8', maxWidth: '540px',
+            marginBottom: '40px'
+          }}>
+            8 service areas across the full AI engineering stack —
+            agents, RAG, LLMs, voice, Tamil language, e-commerce,
+            data pipelines, and MLOps. Every service backed by
+            real shipped projects.
+          </p>
+
+          {/* Service count badges */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+            {[
+              '8 Service Areas',
+              '5+ Projects Shipped',
+              'Production Deployed',
+              'Tamil Nadu Focus',
+              'Fixed Price Available',
+            ].map(badge => (
+              <span key={badge} style={{
+                fontSize: '12px', color: 'var(--text-2)',
+                border: '1px solid var(--border)',
+                padding: '6px 14px', borderRadius: '4px'
+              }}>{badge}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* Services section */}
+        <div style={{
+          maxWidth: 'var(--max)', margin: '0 auto',
+          padding: '64px 32px'
+        }}>
+          {/* Quick-nav pill bar */}
+          <div className="services-nav" style={{
+            display: 'flex', flexWrap: 'wrap', gap: '8px',
+            marginBottom: '48px'
+          }}>
           {services.map(s => (
             <button
               key={s.id}
@@ -385,10 +391,10 @@ export function Services() {
                 }}>
                   <div style={{
                     display: 'grid',
-                    gridTemplateColumns: '2fr 1fr 1fr',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
                     gap: '48px',
                     paddingTop: '36px'
-                  }} className="flagship-grid">
+                  }} className="services-expanded-grid flagship-grid">
 
                     {/* Left — description + proof + tech */}
                     <div>
@@ -592,8 +598,9 @@ export function Services() {
           </div>
         </div>
       </div>
-    </Layout>
-  )
+    </motion.div>
+  </Layout>
+)
 }
 
 export default Services

@@ -48,59 +48,39 @@ export function BlogCard({ post, size = 'small', featured }: BlogCardProps) {
       to={`/blog/${post.slug}`}
       style={{ textDecoration: 'none', display: 'block' }}
     >
-      {/* Thumbnail — Professional cover image */}
+      {/* Thumbnail */}
       <div style={{
-        width: '100%',
-        aspectRatio: cardSize === 'large' ? '16/9' : '4/3',
+        width: '100%', aspectRatio: '16/9', borderRadius: '4px',
+        marginBottom: '16px', overflow: 'hidden',
         backgroundColor: getCategoryColor(post.category),
-        borderRadius: '4px',
-        marginBottom: '16px',
-        overflow: 'hidden',
         position: 'relative'
       }}>
-        <img
-          src={coverUrl}
-          alt={post.title}
-          onError={(e) => {
-            e.currentTarget.src = '/blog/cover_machine_learning.jpg';
-          }}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            display: 'block',
-            transition: 'transform 0.4s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.05)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1)';
-          }}
-        />
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.25) 100%)',
-          pointerEvents: 'none'
-        }} />
-        <span style={{
-          position: 'absolute',
-          top: '12px',
-          left: '12px',
-          fontSize: '11px',
-          fontWeight: '600',
-          letterSpacing: '1.5px',
-          textTransform: 'uppercase',
-          color: '#ffffff',
-          backgroundColor: 'rgba(0,0,0,0.55)',
-          backdropFilter: 'blur(4px)',
-          padding: '4px 10px',
-          borderRadius: '2px',
-          zIndex: 2
-        }}>
-          {post.category}
-        </span>
+        {post.coverImage ? (
+          <img
+            src={post.coverImage}
+            alt={post.title}
+            loading="lazy"
+            style={{
+              width: '100%', height: '100%',
+              objectFit: 'cover', display: 'block',
+              transition: 'transform 0.4s ease'
+            }}
+            onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.04)')}
+            onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+          />
+        ) : (
+          <div style={{
+            width: '100%', height: '100%',
+            backgroundColor: getCategoryColor(post.category),
+            display: 'flex', alignItems: 'flex-end', padding: '16px'
+          }}>
+            <span style={{
+              fontSize: '10px', fontWeight: '700', letterSpacing: '2px',
+              textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)',
+              fontFamily: 'var(--font-mono)'
+            }}>{post.category}</span>
+          </div>
+        )}
       </div>
 
       {/* Title */}

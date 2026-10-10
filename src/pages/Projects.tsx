@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation } from "react-router-dom";
 import { Layout } from "@/components/Layout";
@@ -51,7 +52,12 @@ export default function Projects() {
         <meta property="og:type" content="website" />
       </Helmet>
 
-      {/* Editorial Page Header */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
+      >
+        {/* Editorial Page Header */}
       <header
         style={{
           maxWidth: "1200px",
@@ -107,7 +113,7 @@ export default function Projects() {
           >
             {[
               { number: "9+", label: "Systems Built" },
-              { number: "2", label: "Live Client Platforms" },
+              { number: "3", label: "Live Client Platforms" },
               { number: "100%", label: "Real Deployments" },
             ].map((stat) => (
               <div key={stat.label} style={{ textAlign: "right" }}>
@@ -567,6 +573,7 @@ export default function Projects() {
           ))}
         </div>
       </section>
+      </motion.div>
     </Layout>
   );
 }
