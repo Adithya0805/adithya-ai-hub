@@ -15,6 +15,7 @@ export function Navbar() {
 
   const navItems = [
     { label: "Work", path: "/work" },
+    { label: "Freelance", path: "/freelance" },
     { label: "Services", path: "/services" },
     { label: "AI Labs", path: "/tools" },
     { label: "Blog", path: "/blog" },
@@ -209,7 +210,6 @@ export function Navbar() {
               </p>
               {[
                 ...navItems,
-                { label: "Client Platforms", path: "/freelance" },
                 { label: "Curated Resources", path: "/resources" },
                 { label: "Resume & Credentials", path: "/resume" },
               ].map((item, idx) => {

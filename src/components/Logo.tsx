@@ -15,6 +15,7 @@ export function Logo({
   className = "",
   linkToHome = true,
 }: LogoProps) {
+  const [imgError, setImgError] = React.useState(false);
   // Dimensions based on size
   const iconSize = size === "sm" ? 28 : size === "lg" ? 44 : 34;
 
@@ -47,14 +48,33 @@ export function Logo({
         className="group-hover:opacity-100"
       />
 
-      <svg
-        width={iconSize}
-        height={iconSize}
-        viewBox="0 0 100 100"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ position: "relative", zIndex: 1 }}
-      >
+      {!imgError ? (
+        <img
+          src="/logo.jpg"
+          alt="Adithya AI Hub"
+          width={iconSize}
+          height={iconSize}
+          onError={() => setImgError(true)}
+          style={{
+            width: `${iconSize}px`,
+            height: `${iconSize}px`,
+            borderRadius: "7px",
+            objectFit: "cover",
+            position: "relative",
+            zIndex: 1,
+            border: "1px solid rgba(200, 169, 110, 0.4)",
+            boxShadow: "0 0 12px rgba(200, 169, 110, 0.25)",
+          }}
+        />
+      ) : (
+        <svg
+          width={iconSize}
+          height={iconSize}
+          viewBox="0 0 100 100"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{ position: "relative", zIndex: 1 }}
+        >
         <defs>
           {/* Luxury Metallic Gold Gradients */}
           <linearGradient id="gold-metallic" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -139,6 +159,7 @@ export function Logo({
         {/* Bottom anchor notch */}
         <circle cx="50" cy="84" r="2" fill="url(#gold-metallic)" opacity="0.8" />
       </svg>
+      )}
     </motion.div>
   );
 

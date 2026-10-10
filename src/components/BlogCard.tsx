@@ -55,11 +55,14 @@ export function BlogCard({ post, size = 'small', featured }: BlogCardProps) {
         backgroundColor: getCategoryColor(post.category),
         position: 'relative'
       }}>
-        {post.coverImage ? (
+        {coverUrl ? (
           <img
-            src={post.coverImage}
+            src={coverUrl}
             alt={post.title}
             loading="lazy"
+            onError={e => {
+              e.currentTarget.src = getCategoryCoverImage(post.category);
+            }}
             style={{
               width: '100%', height: '100%',
               objectFit: 'cover', display: 'block',

@@ -248,20 +248,29 @@ export default function Index() {
             style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '80px' }}
           >
             <a href="/work" style={{
-              padding: '13px 28px', background: 'var(--text-1)',
+              padding: '13px 26px', background: 'var(--text-1)',
               color: 'var(--bg-0)', fontSize: '14px', fontWeight: '600',
               textDecoration: 'none', borderRadius: '6px', letterSpacing: '0.2px'
             }}>View Projects →</a>
+            <a href="/freelance" style={{
+              padding: '13px 26px',
+              background: 'rgba(200,169,110,0.16)',
+              border: '1px solid var(--accent)',
+              color: 'var(--accent)', fontSize: '14px', fontWeight: '600',
+              textDecoration: 'none', borderRadius: '6px',
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+              boxShadow: '0 0 16px rgba(200, 169, 110, 0.25)'
+            }}>Freelance Work (3 Live) →</a>
             <a href="/services" style={{
-              padding: '13px 28px',
-              background: 'rgba(200,169,110,0.1)',
-              border: '1px solid rgba(200,169,110,0.3)',
-              color: 'var(--accent)', fontSize: '14px', fontWeight: '500',
+              padding: '13px 24px',
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              color: 'var(--text-2)', fontSize: '14px', fontWeight: '500',
               textDecoration: 'none', borderRadius: '6px'
             }}>Hire Me for AI Work</a>
             <a href="/blog" style={{
-              padding: '13px 28px', border: '1px solid var(--border)',
-              color: 'var(--text-2)', fontSize: '14px',
+              padding: '13px 24px', border: '1px solid var(--border)',
+              color: 'var(--text-3)', fontSize: '14px',
               textDecoration: 'none', borderRadius: '6px'
             }}>Read Blog</a>
           </motion.div>
@@ -277,25 +286,27 @@ export default function Index() {
             }}
           >
             {[
-              { number: '5+', label: 'AI Systems Shipped' },
-              { number: '3', label: 'Freelance Clients Live' },
-              { number: '8', label: 'Service Areas' },
-              { number: '100%', label: 'Production Deployed' },
+              { number: '5+', label: 'AI Systems Shipped', path: '/work' },
+              { number: '3', label: 'Freelance Clients Live', path: '/freelance' },
+              { number: '8', label: 'Service Areas', path: '/services' },
+              { number: '100%', label: 'Production Deployed', path: '/projects' },
             ].map((stat, i) => (
               <motion.div key={stat.label}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 + i * 0.08 }}
               >
-                <p style={{
-                  fontFamily: 'var(--font-serif)', fontSize: '34px',
-                  fontWeight: '400', color: 'var(--text-1)',
-                  lineHeight: '1', marginBottom: '4px', letterSpacing: '-1px'
-                }}>{stat.number}</p>
-                <p style={{
-                  fontSize: '11px', color: 'var(--text-3)',
-                  letterSpacing: '1px', textTransform: 'uppercase'
-                }}>{stat.label}</p>
+                <a href={stat.path} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <p style={{
+                    fontFamily: 'var(--font-serif)', fontSize: '34px',
+                    fontWeight: '400', color: stat.path === '/freelance' ? 'var(--accent)' : 'var(--text-1)',
+                    lineHeight: '1', marginBottom: '4px', letterSpacing: '-1px'
+                  }}>{stat.number}</p>
+                  <p style={{
+                    fontSize: '11px', color: 'var(--text-3)',
+                    letterSpacing: '1px', textTransform: 'uppercase'
+                  }}>{stat.label} →</p>
+                </a>
               </motion.div>
             ))}
           </motion.div>
@@ -576,6 +587,15 @@ export default function Index() {
                   }}
                 >
                   Read 12-Min Engineering Case Study →
+                </Link>
+                <Link
+                  to="/freelance"
+                  style={{
+                    fontSize: '13px', color: '#86efac', textDecoration: 'none',
+                    fontWeight: '600', display: 'inline-flex', alignItems: 'center', gap: '4px'
+                  }}
+                >
+                  All 3 Live Freelance Clients →
                 </Link>
               </div>
             </div>
