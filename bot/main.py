@@ -24,14 +24,17 @@ load_dotenv()
 TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN', '')
 TELEGRAM_CHAT_ID = int(os.environ.get('TELEGRAM_CHAT_ID', '0')) if os.environ.get('TELEGRAM_CHAT_ID') else 0
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
-GITHUB_PAT = os.environ.get('GITHUB_PAT', '')
+GITHUB_PAT = os.environ.get('MAIN') or os.environ.get('GITHUB_PAT', '')
 GITHUB_REPO = os.environ.get('GITHUB_REPO', 'Adithya0805/adithya-ai-hub')
-SITE_URL = os.environ.get('SITE_URL', 'https://adithyaai.is-cool.dev')
+SITE_URL = os.environ.get('SITE_URL', 'https://adithyaai.is-cool.dev').rstrip('/')
 
 # Init Gemini
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
+try:
+    model = genai.GenerativeModel('gemini-2.5-flash')
+except Exception:
+    model = genai.GenerativeModel('gemini-flash-latest')
 
 # State storage (in-memory — bot is single user)
 pending_post = {}
@@ -380,7 +383,7 @@ async def handle_publish(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             await query.edit_message_text(
                 "❌ GitHub commit failed.\n\n"
-                "Check your GITHUB_PAT secret has repo write access.\n"
+                "Check your MAIN secret has repo write access.\n"
                 "Post content is still saved — try /retry or send title again."
             )
 
