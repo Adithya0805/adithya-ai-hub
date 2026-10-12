@@ -143,18 +143,25 @@ def get_current_posts_file():
 
 def build_post_entry(post: dict) -> str:
     tags_str = json.dumps(post['tags'])
-    # Escape backticks in content
+    # Escape backticks and template expressions in content
     content_escaped = post['content'].replace('`', r'\`').replace('${', r'\${')
+    title_escaped = post['title'].replace("'", "\\'")
+    excerpt_escaped = post['excerpt'].replace("'", "\\'")
+    slug = post['slug']
+    date = post['date']
+    category = post['category']
+    read_time = post['readTime']
+    featured = str(post['featured']).lower()
 
     return f"""  {{
-    slug: '{post["slug"]}',
-    title: '{post["title"].replace("'", "\\'")}',
-    date: '{post["date"]}',
-    excerpt: '{post["excerpt"].replace("'", "\\'")}',
+    slug: '{slug}',
+    title: '{title_escaped}',
+    date: '{date}',
+    excerpt: '{excerpt_escaped}',
     tags: {tags_str},
-    category: '{post["category"]}',
-    readTime: '{post["readTime"]}',
-    featured: {str(post["featured"]).lower()},
+    category: '{category}',
+    readTime: '{read_time}',
+    featured: {featured},
     content: `
 {content_escaped}
     `
