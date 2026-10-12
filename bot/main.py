@@ -238,6 +238,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+CATEGORIES = [
+    'Machine Learning',
+    'Interview Prep',
+    'Career',
+    'Python',
+    'Cloud & AI',
+    'Project'
+]
+
 async def handle_title(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_authorized(update):
         return
@@ -248,18 +257,19 @@ async def handle_title(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if title.startswith('/'):
         return
 
+    # Store title in session state (avoids Telegram 64-byte callback_data limit)
+    pending_post['title'] = title
+    context.user_data['title'] = title
+
+    keyboard = [
+        [InlineKeyboardButton(cat, callback_data=f"cat:{i}")]
+        for i, cat in enumerate(CATEGORIES)
+    ]
+
     await update.message.reply_text(
-        f"📝 Got it: *{title}*\n\n"
-        "Which category?",
+        f"📝 Got it: *{title}*\n\nWhich category?",
         parse_mode='Markdown',
-        reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("Machine Learning", callback_data=f"cat:Machine Learning:{title}")],
-            [InlineKeyboardButton("Interview Prep", callback_data=f"cat:Interview Prep:{title}")],
-            [InlineKeyboardButton("Career", callback_data=f"cat:Career:{title}")],
-            [InlineKeyboardButton("Python", callback_data=f"cat:Python:{title}")],
-            [InlineKeyboardButton("Cloud & AI", callback_data=f"cat:Cloud & AI:{title}")],
-            [InlineKeyboardButton("Project", callback_data=f"cat:Project:{title}")],
-        ])
+        reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
 
@@ -274,7 +284,19 @@ async def handle_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not data.startswith('cat:'):
         return
 
-    _, category, title = data.split(':', 2)
+    try:
+        cat_index = int(data.split(':', 1)[1])
+        category = CATEGORIES[cat_index]
+    except (ValueError, IndexError):
+        category = 'Machine Learning'
+
+    title = context.user_data.get('title') or pending_post.get('title', '')
+    if not title:
+        await query.edit_message_text("❌ Title was lost. Please send the title again.")
+        return
+
+    pending_post['category'] = category
+    context.user_data['category'] = category
 
     await query.edit_message_text(
         f"⏳ Generating post with Gemini...\n\n"
@@ -307,7 +329,7 @@ async def handle_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     InlineKeyboardButton("✅ Publish Now", callback_data="publish:yes"),
                     InlineKeyboardButton("❌ Discard", callback_data="publish:no"),
                 ],
-                [InlineKeyboardButton("🔄 Regenerate", callback_data=f"regen:{category}:{title}")]
+                [InlineKeyboardButton("🔄 Regenerate", callback_data="regen:yes")]
             ])
         )
 
@@ -328,11 +350,17 @@ async def handle_publish(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if data == 'publish:no':
         pending_post.clear()
+        context.user_data.clear()
         await query.edit_message_text("❌ Post discarded. Send a new title anytime.")
         return
 
-    if data.startswith('regen:'):
-        _, category, title = data.split(':', 2)
+    if data == 'regen:yes':
+        title = context.user_data.get('title') or pending_post.get('title', '')
+        category = context.user_data.get('category') or pending_post.get('category', 'Machine Learning')
+        if not title:
+            await query.edit_message_text("❌ Title was lost. Please send the title again.")
+            return
+
         await query.edit_message_text(f"🔄 Regenerating with Gemini...")
         try:
             post = generate_post(title, category)
@@ -348,7 +376,7 @@ async def handle_publish(update: Update, context: ContextTypes.DEFAULT_TYPE):
                         InlineKeyboardButton("✅ Publish Now", callback_data="publish:yes"),
                         InlineKeyboardButton("❌ Discard", callback_data="publish:no"),
                     ],
-                    [InlineKeyboardButton("🔄 Regenerate Again", callback_data=f"regen:{category}:{title}")]
+                    [InlineKeyboardButton("🔄 Regenerate Again", callback_data="regen:yes")]
                 ])
             )
         except Exception as e:
