@@ -13,6 +13,150 @@ export interface Post {
 
 export const posts: Post[] = [
   {
+    slug: 'geopatriation-tech-sovereignty',
+    title: 'Geopatriation & Tech Sovereignty',
+    date: '2026-10-13',
+    excerpt: 'Tamil Nadu\'s geopatriation drives tech sovereignty, forging local digital autonomy to control its future, not just consume it.',
+    tags: ["AWS", "Cloud", "AI", "Python"],
+    category: 'Cloud & AI',
+    readTime: '7 min read',
+    featured: false,
+    content: `
+<h2>Geopatriation & Tech Sovereignty: Building India's AI Future, One Cloud at a Time</h2>
+
+I remember the feeling, sitting in my small room in Ambur, a town famous for its leather, not its tech startups. My laptop fan whirring, the hum of the inverter a constant companion during power cuts. I was wrestling with an AWS IAM policy, trying to give my application access to Bedrock, and getting hit with "Access Denied" errors like a cricket ball to the helmet. It wasn't just a technical challenge; it felt symbolic. Here I was, a first-generation tech enthusiast from a middle-class family, trying to connect my local ambition to a global cloud infrastructure. This wasn't about building *in* Silicon Valley; it was about building *from* Ambur, *for* India, and beyond. This, to me, is the heart of what I call "Geopatriation" in tech – bringing the advanced capabilities of AI and cloud computing back to our roots, and contributing to India's tech sovereignty.
+
+For years, the narrative has been about moving to major tech hubs, chasing opportunities in Bangalore, Hyderabad, or even abroad. And there's nothing wrong with that journey. But what if we could bring those opportunities, those cutting-edge projects, to every corner of India? What if we could build robust, scalable AI solutions from towns like Ambur, Coimbatore, or Madurai? That's the vision that drives me. It’s about leveraging cloud technologies to democratize access to advanced computing, empowering individuals and small teams, and reducing our reliance on entirely foreign-controlled digital infrastructure. It's about ensuring that our data, our innovations, and our talent remain within our borders, contributing directly to our nation's growth and technological independence.
+
+<h3>My Cloud Journey: From Localhost to Global Reach</h3>
+
+My journey into the cloud wasn't a straight line; it was a series of late nights, countless Stack Overflow searches, and the occasional celebratory chai. As a B.Tech AI & DS student, I quickly realized that theoretical knowledge of machine learning models was just one piece of the puzzle. Deploying these models, making them accessible, and scaling them for real-world use cases required a deep dive into cloud platforms. My stack evolved organically: Python for the core logic, LangGraph for orchestrating complex AI workflows, FastAPI for blazing-fast APIs, Next.js for sleek frontends, and a combination of AWS, Google Cloud, Supabase, and Vercel to bring everything together.
+
+One of my biggest playgrounds has been AWS Bedrock. When I started exploring large language models, the options felt overwhelming. Proprietary APIs were expensive, and self-hosting was resource-intensive for an individual developer like me. Bedrock changed that. It offered a managed service with access to frontier models like Claude 3 Sonnet and Haiku, as well as powerful embedding models like Amazon Titan, all under a unified API. This was a game-changer for projects like MediGuard V2, where I needed reliable, performant inference and embeddings without the operational overhead.
+
+Setting up Bedrock was my first real test of AWS IAM (Identity and Access Management). I needed to grant my FastAPI backend running on a different service, or even local development, the permissions to invoke Bedrock models. Initially, I made the classic mistake of trying to attach broad permissions, thinking it would just "work."
+
+Here’s a simplified Python snippet for invoking a Bedrock model:
+
+<pre><code>
+import boto3
+import json
+
+# Ensure your AWS credentials are configured (e.g., via environment variables or ~/.aws/credentials)
+# And the IAM user/role has permissions to invoke Bedrock models.
+
+bedrock_runtime = boto3.client(
+    service_name='bedrock-runtime',
+    region_name='us-east-1' # Claude 3 is available in us-east-1
+)
+
+model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
+body = json.dumps({
+    "messages": [
+        {"role": "user", "content": "Tell me a short story about a brave squirrel."},
+    ],
+    "max_tokens": 200,
+    "temperature": 0.7,
+})
+
+try:
+    response = bedrock_runtime.invoke_model(
+        modelId=model_id,
+        contentType="application/json",
+        accept="application/json",
+        body=body
+    )
+    response_body = json.loads(response['body'].read())
+    print("Model response:")
+    print(response_body['content'][0]['text'])
+
+except Exception as e:
+    print(f"Error invoking model: {e}")
+    # This is where I'd often see "Access Denied" if IAM was misconfigured
+</code></pre>
+
+My "Access Denied" nightmare with Bedrock was a masterclass in IAM. I'd set up an IAM user, generated credentials, and still, nothing. The fix? I realized I needed not just \`bedrock:InvokeModel\` permissions, but specifically \`bedrock:InvokeModel\` on the *resource* of the particular model ID I was trying to use, or at least on \`arn:aws:bedrock:us-east-1::foundation-model/*\`. My initial policy was too generic or missing the \`bedrock-runtime\` service principal entirely. I learned the hard way about the principle of least privilege, debugging IAM policies line by line, and understanding the difference between \`bedrock:InvokeModel\` and \`bedrock-runtime:InvokeModel\`. It was frustrating but incredibly valuable.
+
+For my backend deployments, especially for projects like MediGuard V2, I opted for Google Cloud Run. Its serverless nature, auto-scaling capabilities, and pay-per-use model were perfect for a young developer managing costs. I could package my FastAPI application into a Docker container and deploy it with minimal fuss.
+
+My workflow typically involved:
+<ol>
+    <li>Developing locally with FastAPI and LangGraph.</li>
+    <li>Containerizing the application using a \`Dockerfile\`.</li>
+    <li>Pushing the Docker image to Google Container Registry (GCR) or Artifact Registry.</li>
+    <li>Deploying the image to Cloud Run.</li>
+</ol>
+
+One significant hurdle I encountered with Cloud Run was managing environment variables and secrets. While developing locally, \`dotenv\` files work perfectly. In a production Cloud Run environment, exposing sensitive API keys directly in the Docker image is a security risk. I initially tried hardcoding some non-sensitive values, which quickly became unmanageable. The solution involved using Cloud Run's built-in environment variable configuration and, for more sensitive data, integrating with Google Secret Manager.
+
+For instance, my \`Dockerfile\` would typically look like this:
+
+<pre><code>
+# Use an official Python runtime as a parent image
+FROM python:3.10-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Install any dependencies specified in requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code
+COPY . .
+
+# Expose the port your FastAPI app listens on (default is 8000)
+EXPOSE 8000
+
+# Run the FastAPI application using Uvicorn
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+</code></pre>
+
+When deploying to Cloud Run, I’d specify \`PORT=8000\` and other necessary environment variables like \`AWS_ACCESS_KEY_ID\`, \`AWS_SECRET_ACCESS_KEY\` (though for production, using a service account with appropriate IAM roles is better practice), and \`SUPABASE_URL\` via the Cloud Run UI or \`gcloud\` CLI. The error I hit? My app wasn't listening on the correct port, or Cloud Run couldn't find my \`main:app\` module. It was often a subtle typo in the \`CMD\` instruction or forgetting to set \`PORT\` environment variable to \`8080\` (Cloud Run's default exposed port) if my application wasn't configured to pick up \`PORT\` dynamically. A quick check of Cloud Run logs and \`uvicorn\` configuration solved it.
+
+Beyond compute, data management was crucial. Supabase became my go-to for PostgreSQL databases, authentication, real-time subscriptions, and storage. It's an open-source Firebase alternative that provides a powerful backend-as-a-service. For my Next.js frontends, integrating Supabase was a breeze, offering Row Level Security (RLS) out-of-the-box, which is critical for multi-user applications where data privacy is paramount.
+
+<h3>What I Got Wrong</h3>
+
+It's easy to showcase successes, but true learning comes from mistakes. One of the biggest blunders I made was underestimating the complexity of Supabase RLS policies. I was building a social feature where users could post and only see their own posts, or posts from people they followed. My initial RLS policy for \`posts\` table was something simple like:
+
+<pre><code>
+-- This was my naive initial attempt
+CREATE POLICY "Enable read access for all users"
+ON public.posts FOR SELECT
+TO authenticated
+USING (true);
+</code></pre>
+
+This policy, as you can see, allowed *any* authenticated user to read *all* posts, completely ignoring my privacy requirements. When I tested it with different user accounts, I quickly realized that users were seeing data they shouldn't. It was a security nightmare waiting to happen.
+
+What actually happened was a scramble to understand RLS better. I spent hours debugging with \`jwt_claims()\` and \`auth.uid()\`, trying to filter data based on the authenticated user's ID. The fix involved a much more granular policy:
+
+<pre><code>
+-- Corrected policy for users to only see their own posts or posts from followed users
+CREATE POLICY "Users can view their own posts and posts from followed users"
+ON public.posts FOR SELECT
+TO authenticated
+USING (
+  auth.uid() = user_id OR EXISTS (
+    SELECT 1 FROM public.follows
+    WHERE follower_id = auth.uid() AND following_id = posts.user_id
+  )
+);
+
+-- And for inserting:
+CREATE POLICY "Users can insert their own posts"
+ON public.posts FOR INSERT
+TO authenticated
+WITH CHECK (auth.uid() = user_id);
+</code></pre>
+
+This was a profound lesson in database security and the importance of reading documentation thoroughly, not just skimming. It taught me that even with powerful tools like Supabase, understanding the underlying principles (like PostgreSQL's RLS) is non-negotiable.
+
+Beyond specific services, my development workflow also benefited immensely from GitHub Actions. I implemented CI/CD pipelines for my projects
+    `
+  },
+  {
     slug: 'the-transition-to-physical-ai-robotics',
     title: 'The Transition to Physical AI & Robotics',
     date: '2026-10-12',
