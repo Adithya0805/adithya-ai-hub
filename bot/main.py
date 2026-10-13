@@ -406,11 +406,9 @@ async def handle_publish(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 f"*URL:* {post_url}\n\n"
                 f"GitHub Actions is now running:\n"
                 f"• ✅ Site updating (30 sec)\n"
-                f"• ⏳ Telegram notification (2 min)\n"
-                f"• ⏳ Twitter/X post (2 min)\n"
-                f"• ⏳ LinkedIn post (2 min)\n"
-                f"• ⏳ Dev.to crosspost (2 min)\n"
-                f"• ⏳ Brevo newsletter (2 min)\n\n"
+                f"• ⏳ Telegram notification (1 min)\n"
+                f"• ⏳ Dev.to crosspost (1 min)\n"
+                f"• ⏳ Brevo newsletter (1 min)\n\n"
                 f"Check Actions tab for live status:\n"
                 f"github.com/{GITHUB_REPO}/actions",
                 parse_mode='Markdown'
