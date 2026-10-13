@@ -33,20 +33,33 @@ export default function BlogPost() {
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
+    url: postUrl,
     datePublished: post.date,
+    dateModified: post.date,
+    wordCount: post.content.replace(/<[^>]*>/g, "").split(/\s+/).length,
     author: {
       "@type": "Person",
       name: "Adithya Kuppusamy",
       url: "https://adithya-ai-hub.vercel.app/about",
+      sameAs: [
+        "https://github.com/Adithya0805",
+        "https://www.linkedin.com/in/adithya-kuppusamy-76baab204/",
+      ],
     },
     publisher: {
-      "@type": "Organization",
-      name: "Adithya AI Hub",
+      "@type": "Person",
+      name: "Adithya Kuppusamy",
       url: "https://adithya-ai-hub.vercel.app",
     },
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": postUrl,
+    },
+    keywords: post.tags.join(", "),
+    inLanguage: "en-IN",
+    locationCreated: {
+      "@type": "Place",
+      name: "Ambur, Tamil Nadu, India",
     },
   };
 
@@ -54,14 +67,33 @@ export default function BlogPost() {
     <Layout>
       <ReadingProgress />
       <Helmet>
-        <title>{post.title} | Adithya AI Hub</title>
+        {/* Primary SEO */}
+        <title>{post.seoTitle || post.title} | Adithya AI Hub</title>
         <meta name="description" content={post.excerpt} />
+        <meta name="keywords" content={post.tags.join(", ")} />
         <link rel="canonical" href={postUrl} />
+
+        {/* Open Graph — for LinkedIn and WhatsApp previews */}
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt} />
-        <meta property="og:type" content="article" />
         <meta property="og:url" content={postUrl} />
+        <meta property="og:type" content="article" />
+        <meta
+          property="og:image"
+          content={post.coverImage || "https://adithya-ai-hub.vercel.app/og-default.jpg"}
+        />
+
+        {/* Twitter card */}
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.excerpt} />
+
+        {/* Article specific */}
+        <meta property="article:published_time" content={post.date} />
+        <meta property="article:tag" content={post.tags.join(", ")} />
+        <meta property="article:author" content="Adithya Kuppusamy" />
+
+        {/* JSON-LD structured data — used by Google for rich results */}
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 

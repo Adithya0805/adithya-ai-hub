@@ -80,129 +80,127 @@ def authorized(update: Update) -> bool:
     return update.effective_user.id == TELEGRAM_CHAT_ID
 
 
-# ── GEMINI: Generate high-quality personal post ───────────────────────────────
+# ── GEMINI: Generate short focused SEO post ───────────────────────────────────
 def generate_post(title: str, category: str, custom_notes: str = '') -> dict:
     slug = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
     date = datetime.now().strftime('%Y-%m-%d')
 
-    # Pull in real project context based on category
-    project_context = {
-        'Machine Learning': (
-            'Your real projects: MediGuard V2 (LangGraph 5-agent clinical AI, '
-            'AWS Bedrock, Pinecone RAG over WHO/ICD-10/OpenFDA), TownRise AI '
-            '(Gemini + Supabase + OpenStreetMap nightly refresh), Urimai AI '
-            '(64 Tamil Nadu gov schemes, 199 eligibility rules, Tamil NLP). '
-            'Reference these where relevant.'
-        ),
-        'Interview Prep': (
-            'You appeared for TCS NQT April 2026 at iON Digital Zone Vellore — '
-            'Aptitude medium/tight, Verbal harder than expected, Coding Q1 partial only. '
-            'Also prepared for Infosys SP/DSE April 26 2026. Declined Imagecon India '
-            'Technical Mentor role — wanted to build, not teach. '
-            'AWS Cloud Practitioner failed by narrow margin, retaking when feasible. '
-            'Use these real experiences to make the post authentic.'
-        ),
-        'Career': (
-            'You are from Ambur, Tamil Nadu — a town known for leather, not software. '
-            'Middle-class family. Motivated by making your family proud. '
-            'Run FutureLogic AI targeting Tamil Nadu SMEs. '
-            'Freelance clients: Aranya Organic Dairy Farm (aranyaorganicdairyfarm.com), '
-            'SR Travels (sr-travels-tau.vercel.app), Dino Leathers (leather goods, Ambur). '
-            'Job-seeking for ML/AI Engineer roles while building.'
-        ),
-        'Python': (
-            'You use Python for: FastAPI backends, LangGraph agents, Pinecone RAG pipelines, '
-            'Binance trading bot (HMAC-SHA256 signing), GitHub Actions automation scripts, '
-            'Whisper Tamil speech-to-text (SHAKTI project), DeepEval safety testing. '
-            'Always show real code from your actual work.'
-        ),
-        'Project': (
-            'Your flagship projects: MediGuard V2 (healthcare AI, FastAPI + LangGraph + '
-            'AWS Bedrock + Pinecone + Supabase + Next.js, deployed Cloud Run), '
-            'Urimai AI (Tamil Nadu gov scheme assistant, 49/49 tests passing, '
-            '18 REST endpoints, production deployed), '
-            'TownRise AI (real estate intelligence, Next.js + Supabase + Gemini, '
-            'nightly GitHub Actions cron), '
-            'Dino Leathers (D2C PWA, WhatsApp checkout, Ambur leather market). '
-            'Be specific — name real files, real errors you hit, real decisions you made.'
-        ),
-        'Cloud & AI': (
-            'Real cloud experience: AWS Bedrock (Claude 3 Sonnet/Haiku inference, '
-            'Titan embeddings, IAM setup, us-east-1 region), '
-            'Google Cloud Run (MediGuard V2 backend deployment), '
-            'GitHub Actions (nightly cron, CI/CD, auto-publish pipeline), '
-            'Vercel (all frontends), Supabase (PostgreSQL + RLS + Storage + Auth). '
-            'Include real errors you hit and how you fixed them.'
-        ),
+    # Real search keywords per category
+    keyword_map = {
+        'Machine Learning': 'machine learning India, LangChain tutorial, RAG Python, AI engineer fresher',
+        'Interview Prep':   'TCS NQT 2026, Infosys interview, campus placement India, Python interview',
+        'Career':           'AI engineer Tamil Nadu, fresher job search India, ML engineer career',
+        'Python':           'Python tutorial beginners India, Python coding questions, Python for ML',
+        'Cloud & AI':       'AWS Bedrock Python tutorial, Google Cloud Run FastAPI, cloud AI India',
+        'Project':          'AI project portfolio India, LangGraph project, RAG system build',
     }
+    keywords = keyword_map.get(category, 'AI engineer India, machine learning tutorial')
 
-    context_str = project_context.get(category, project_context['Machine Learning'])
-    custom_section = f'\nExtra notes from author: {custom_notes}' if custom_notes else ''
+    custom_section = f'\nExtra context: {custom_notes}' if custom_notes else ''
 
-    prompt = f"""You are Adithya Kuppusamy writing a blog post for {SITE_URL}.
+    prompt = f"""You are Adithya Kuppusamy writing a SHORT focused blog post for adithyaai.is-cool.dev.
 
-REAL IDENTITY:
-- 2025 B.Tech AI & DS graduate, Dhanalakshmi Srinivasan College, Coimbatore
-- From Ambur, Tamil Nadu (leather town, not a tech hub)
-- Middle-class family, first-gen tech career
-- Stack: Python, LangGraph, FastAPI, AWS Bedrock, Pinecone, Next.js, Supabase, Gemini API
-- Currently job-seeking ML/AI Engineer roles while freelancing via FutureLogic AI
-
-REAL PROJECT CONTEXT FOR THIS CATEGORY:
-{context_str}
+IDENTITY:
+- 2025 B.Tech AI & DS grad, Tamil Nadu
+- Real projects: MediGuard (LangGraph + AWS Bedrock + Pinecone),
+  Urimai AI (64 Tamil Nadu gov schemes, 199 rules),
+  TownRise AI (Gemini + Supabase + OpenStreetMap),
+  Freelance clients: Aranya Organic Dairy Farm, SR Travels, Dino Leathers
+- Stack: Python, LangGraph, FastAPI, AWS Bedrock, Pinecone, Next.js, Supabase
 {custom_section}
 
 POST TITLE: {title}
 CATEGORY: {category}
-TARGET AUDIENCE: Indian engineering students and freshers, especially from Tamil Nadu
+TARGET KEYWORDS: {keywords}
 
-STRICT CONTENT RULES:
-1. MINIMUM 1000 words — no exceptions
-2. FIRST PERSON ALWAYS — "I built", "I learned", "When I was working on"
-3. ANTI-GENERIC — never write "In today's rapidly evolving AI landscape"
-4. START with a real problem or personal moment — not a definition
-5. INCLUDE at least 2 real code blocks with <pre><code> tags
-6. MENTION at least one Tamil Nadu / South India reference naturally
-7. INCLUDE one section called "What I Got Wrong" or "What Actually Happened"
-   — show real mistakes, not just successes
-8. END with: <p><em>— Adithya Kuppusamy, AI Engineer, Ambur, Tamil Nadu</em></p>
+STRICT LENGTH RULE:
+- 350 to 450 words MAXIMUM
+- No padding, no repetition, no long intros
+- Every sentence must earn its place
 
-HTML RULES:
-- Use ONLY these tags: <h2> <h3> <p> <ul> <li> <pre><code> <strong> <em>
-- NO markdown, NO backticks outside code blocks
-- NO triple backticks — use <pre><code> instead
-- Start DIRECTLY with <h2> — no preamble
+STRUCTURE — follow exactly:
 
-Write the complete post now. Make it the kind of post that a Tamil Nadu engineering
-student reads at midnight and thinks "this person gets it."
+<h2>[Hook — your real situation in 1-2 sentences]</h2>
+<p>Start with the actual moment. "I was debugging X at midnight when..." or
+"Three students asked me the same question last week so here is the answer."
+NOT "In today's AI landscape..."</p>
+
+<h2>The Problem</h2>
+<p>2-3 sentences. What exactly is the pain point. Be specific.</p>
+
+<h2>[Main Answer Section — name it after the actual topic]</h2>
+<p>The actual useful content. Include ONE code block if technical.</p>
+<pre><code>
+# Real working code here
+# From your actual projects
+</code></pre>
+
+<h2>What I Got Wrong First</h2>
+<p>1-2 sentences. One real mistake you made. This is what makes the post
+human and trustworthy. No AI writes "what I got wrong."</p>
+
+<h2>3 Things to Remember</h2>
+<ul>
+  <li>Specific actionable point 1</li>
+  <li>Specific actionable point 2</li>
+  <li>Specific actionable point 3</li>
+</ul>
+
+<p><em>— Adithya, Ambur, Tamil Nadu. Building real AI systems while job hunting.
+Follow for weekly posts: adithyaai.is-cool.dev</em></p>
+
+SEO RULES:
+- Use the main keyword from "{keywords}" naturally in first paragraph
+- Use it again in one H2 heading
+- Do NOT stuff keywords — use once or twice maximum
+
+VOICE RULES:
+- First person always
+- One Tamil Nadu or South India reference
+- Direct, no filler words
+- Write like you are explaining to a batch mate, not a professor
+
+OUTPUT: HTML only. Start with <h2>. No preamble. No markdown.
 """
 
     response = model.generate_content(
         prompt,
         generation_config=genai.types.GenerationConfig(
-            temperature=0.85,
-            max_output_tokens=4000,
+            temperature=0.8,
+            max_output_tokens=1200,
         )
     )
     content = response.text.strip()
 
-    # Generate excerpt
+    # Generate SEO-optimized excerpt
     excerpt_prompt = (
-        f"Write ONE compelling sentence (max 160 chars) as excerpt for a blog post titled: "
-        f"'{title}'. Be specific. Mention Tamil Nadu or the real tech stack if relevant. "
-        f"Output only the sentence, no quotes."
+        f"Write ONE sentence (max 155 chars) for Google meta description. "
+        f"Blog post title: '{title}'. "
+        f"Must include one of these keywords: {keywords}. "
+        f"Make it sound like a human wrote it, not AI. "
+        f"Output only the sentence."
     )
-    excerpt = model.generate_content(excerpt_prompt).text.strip()[:160]
+    excerpt = model.generate_content(excerpt_prompt).text.strip()[:155]
 
-    # Generate Canva image prompt
+    # Generate SEO title tag (different from display title — optimized for search)
+    seo_title_prompt = (
+        f"Rewrite this blog title for Google SEO (max 60 chars): '{title}'. "
+        f"Include one keyword from: {keywords}. "
+        f"Keep it natural, not stuffed. Output only the title."
+    )
+    seo_title = model.generate_content(seo_title_prompt).text.strip()[:60]
+
+    # Canva cover prompt
     canva_prompt = generate_canva_prompt(title, category)
 
-    # Generate WhatsApp status text
+    # WhatsApp status
     whatsapp_text = generate_whatsapp_status(title, slug, category)
 
-    # Estimate read time
+    # Word count
     word_count = len(re.sub('<[^>]+>', '', content).split())
-    read_time = f"{max(6, word_count // 200)} min read"
+
+    # Read time
+    read_time = f"{max(2, word_count // 200)} min read"
 
     tag_map = {
         'Machine Learning': ['LangChain', 'Python', 'AI', 'Machine Learning'],
@@ -216,6 +214,7 @@ student reads at midnight and thinks "this person gets it."
     return {
         'slug':          slug,
         'title':         title,
+        'seoTitle':      seo_title,
         'date':          date,
         'excerpt':       excerpt,
         'tags':          tag_map.get(category, ['AI', 'Machine Learning']),
@@ -293,12 +292,14 @@ def build_post_entry(post: dict) -> str:
     content_escaped = post['content'].replace('`', r'\`').replace('${', r'\${')
     featured = str(post.get('featured', False)).lower()
     title_escaped = post['title'].replace(chr(39), chr(92) + chr(39))
+    seo_title_escaped = post.get('seoTitle', post['title']).replace(chr(39), chr(92) + chr(39))
     excerpt_escaped = post['excerpt'].replace(chr(39), chr(92) + chr(39))
 
     return (
         f"  {{\n"
         f"    slug: '{post['slug']}',\n"
         f"    title: '{title_escaped}',\n"
+        f"    seoTitle: '{seo_title_escaped}',\n"
         f"    date: '{post['date']}',\n"
         f"    excerpt: '{excerpt_escaped}',\n"
         f"    tags: {tags_str},\n"
@@ -510,11 +511,15 @@ async def _do_generate(message, context, title: str, category: str, notes: str):
 
         # ── Send summary card ─────────────────────────────────────────────────
         summary = (
-            f"✅ *Post Generated — {post['word_count']} words*\n\n"
+            f"✅ *Post Generated*\n\n"
+            f"📝 *Words:* {post['word_count']} "
+            f"({'✅ Good length' if 300 <= post['word_count'] <= 500 else '⚠️ Check length'})\n"
+            f"⏱ *Read time:* {post['readTime']}\n\n"
+            f"*Display title:*\n_{post['title']}_\n\n"
+            f"*SEO title (Google):*\n_{post.get('seoTitle', post['title'])}_\n\n"
+            f"*Meta description:*\n_{post['excerpt']}_\n\n"
             f"*Slug:* `{post['slug']}`\n"
-            f"*Category:* {post['category']}\n"
-            f"*Read time:* {post['readTime']}\n\n"
-            f"*Excerpt:*\n_{post['excerpt']}_\n\n"
+            f"*URL:* {SITE_URL}/blog/{post['slug']}\n\n"
             f"*Tags:* {', '.join(post['tags'])}\n\n"
             f"Sending full content below 👇"
         )

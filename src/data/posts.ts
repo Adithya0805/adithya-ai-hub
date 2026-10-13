@@ -1,6 +1,7 @@
 export interface Post {
   slug: string;
   title: string;
+  seoTitle?: string;
   excerpt: string;
   category: string;
   tags: string[];
