@@ -16,6 +16,7 @@ const Blog = lazy(() => import("./pages/Blog.tsx"));
 const BlogPost = lazy(() => import("./pages/BlogPost.tsx"));
 const Resume = lazy(() => import("./pages/Resume.tsx"));
 const Tools = lazy(() => import("./pages/Tools.tsx"));
+const ATSScanner = lazy(() => import("./pages/tools/ATSScanner.tsx"));
 const Contact = lazy(() => import("./pages/Contact.tsx"));
 const Privacy = lazy(() => import("./pages/Privacy.tsx"));
 const Terms = lazy(() => import("./pages/Terms.tsx"));
@@ -51,6 +52,7 @@ const App = () => (
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/resume" element={<Resume />} />
               <Route path="/tools" element={<Tools />} />
+              <Route path="/tools/ats-scanner" element={<ATSScanner />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />

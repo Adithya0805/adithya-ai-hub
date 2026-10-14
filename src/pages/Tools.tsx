@@ -24,7 +24,7 @@ import {
   Server,
   Layers,
 } from "lucide-react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 
 type ToolTab =
   | "mediguard"
@@ -170,6 +170,78 @@ export default function Tools() {
             Don't just read about architectures — interact with them live. These sandboxes simulate
             multi-agent workflows, clinical healthcare safety, LLM guardrails, SQL engines, and algorithmic execution.
           </p>
+        </div>
+
+        {/* Featured Live AI Tool Banner */}
+        <div
+          style={{
+            marginBottom: "32px",
+            padding: "24px 28px",
+            background: "linear-gradient(135deg, rgba(200, 169, 110, 0.08) 0%, rgba(10, 10, 10, 0.5) 100%)",
+            border: "1px solid rgba(200, 169, 110, 0.3)",
+            borderRadius: "12px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "20px",
+            boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
+          }}
+        >
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+              <span
+                style={{
+                  fontSize: "10px",
+                  fontFamily: "var(--font-mono)",
+                  textTransform: "uppercase",
+                  letterSpacing: "1.5px",
+                  color: "#4ade80",
+                  background: "rgba(74, 222, 128, 0.1)",
+                  border: "1px solid rgba(74, 222, 128, 0.25)",
+                  padding: "2px 8px",
+                  borderRadius: "100px",
+                  fontWeight: "700",
+                }}
+              >
+                ★ Featured AI Tool
+              </span>
+              <span style={{ fontSize: "12px", color: "var(--text-3)" }}>Powered by Gemini 2.5 Flash</span>
+            </div>
+            <h2
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "24px",
+                fontWeight: "400",
+                color: "var(--text-1)",
+                margin: "0 0 6px",
+              }}
+            >
+              Resume ATS Scanner & Keyword Gap Matcher
+            </h2>
+            <p style={{ fontSize: "14px", color: "var(--text-2)", margin: 0, maxWidth: "560px", lineHeight: "1.6" }}>
+              Paste your tech resume and target JD to calculate ATS compatibility, spot missing technical keywords, and reveal actionable formatting fixes.
+            </p>
+          </div>
+          <Link
+            to="/tools/ats-scanner"
+            style={{
+              padding: "12px 22px",
+              background: "var(--accent)",
+              color: "var(--bg-0)",
+              fontSize: "14px",
+              fontWeight: "700",
+              borderRadius: "8px",
+              textDecoration: "none",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              boxShadow: "0 4px 16px rgba(200, 169, 110, 0.25)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Launch ATS Scanner →
+          </Link>
         </div>
 
         {/* Live Lab Telemetry Header Bar */}

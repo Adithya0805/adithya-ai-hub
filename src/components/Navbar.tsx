@@ -17,6 +17,7 @@ export function Navbar() {
     { label: "Work", path: "/work" },
     { label: "Freelance", path: "/freelance" },
     { label: "Services", path: "/services" },
+    { label: "ATS Scanner", path: "/tools/ats-scanner", badge: "NEW" },
     { label: "AI Labs", path: "/tools" },
     { label: "Blog", path: "/blog" },
     { label: "About", path: "/about" },
@@ -75,7 +76,26 @@ export function Navbar() {
                     (e.currentTarget.style.color = isActive ? "var(--text-1)" : "var(--text-2)")
                   }
                 >
-                  {item.label}
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                    {item.label}
+                    {item.badge && (
+                      <span
+                        style={{
+                          fontSize: "9px",
+                          fontFamily: "var(--font-mono)",
+                          color: "#4ade80",
+                          background: "rgba(74, 222, 128, 0.12)",
+                          border: "1px solid rgba(74, 222, 128, 0.3)",
+                          padding: "1px 5px",
+                          borderRadius: "100px",
+                          fontWeight: "700",
+                          lineHeight: "1",
+                        }}
+                      >
+                        {item.badge}
+                      </span>
+                    )}
+                  </span>
                   {isActive && (
                     <motion.span
                       layoutId="nav-underline"

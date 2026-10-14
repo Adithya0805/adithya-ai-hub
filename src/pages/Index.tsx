@@ -68,6 +68,13 @@ const smallProjects = [
 
 const interactiveTools = [
   {
+    icon: '📄',
+    badge: 'Gemini AI · Free',
+    name: 'Resume ATS Scanner',
+    desc: 'Scan your resume against any tech job description. Get instant match scores, missing keywords, and formatting fixes powered by Gemini AI.',
+    route: '/tools/ats-scanner',
+  },
+  {
     icon: '🩺',
     badge: 'Multi-Agent AI',
     name: 'MediGuard Clinical Sandbox',
