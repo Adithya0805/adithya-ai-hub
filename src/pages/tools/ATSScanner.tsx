@@ -983,14 +983,18 @@ export function ATSScanner() {
                 </div>
 
                 {/* Blurred Overlay with Unlock Card */}
-                <div style={{ position: "relative", marginBottom: "28px", borderRadius: "12px", overflow: "hidden" }}>
+                <div style={{ position: "relative", minHeight: "500px", marginBottom: "32px", borderRadius: "14px", overflow: "hidden" }}>
+                  {/* Realistic Multi-Card Blurred Backdrop */}
                   <div
                     style={{
-                      filter: "blur(6px)",
+                      filter: "blur(7px)",
                       userSelect: "none",
                       pointerEvents: "none",
-                      opacity: 0.5,
-                      padding: "8px 0",
+                      opacity: 0.45,
+                      padding: "16px 8px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "14px",
                     }}
                   >
                     <div
@@ -998,22 +1002,21 @@ export function ATSScanner() {
                         background: "var(--bg-1)",
                         border: "1px solid var(--border)",
                         borderRadius: "8px",
-                        padding: "24px",
-                        marginBottom: "16px",
+                        padding: "20px",
                       }}
                     >
-                      <p style={{ color: "#4ade80", marginBottom: "12px", fontWeight: "600", fontSize: "14px" }}>
+                      <p style={{ color: "#4ade80", marginBottom: "10px", fontWeight: "600", fontSize: "14px" }}>
                         ✓ Matched Keywords ({result.matchedKeywords.length})
                       </p>
                       <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                        {result.matchedKeywords.slice(0, 8).map((kw) => (
+                        {(result.matchedKeywords.length > 0 ? result.matchedKeywords : ["Python", "FastAPI", "React", "Docker"]).slice(0, 8).map((kw) => (
                           <span
                             key={kw}
                             style={{
                               background: "rgba(74,222,128,0.1)",
                               border: "1px solid rgba(74,222,128,0.3)",
                               color: "#4ade80",
-                              padding: "5px 12px",
+                              padding: "4px 12px",
                               borderRadius: "4px",
                               fontSize: "12px",
                             }}
@@ -1023,33 +1026,78 @@ export function ATSScanner() {
                         ))}
                       </div>
                     </div>
+
+                    <div
+                      style={{
+                        background: "var(--bg-1)",
+                        border: "1px solid var(--border)",
+                        borderRadius: "8px",
+                        padding: "20px",
+                      }}
+                    >
+                      <p style={{ color: "#f87171", marginBottom: "10px", fontWeight: "600", fontSize: "14px" }}>
+                        ✗ Missing Critical Keywords ({result.missingKeywords.length})
+                      </p>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                        {(result.missingKeywords.length > 0 ? result.missingKeywords : ["CI/CD pipelines", "Docker ECS", "System Benchmarking"]).slice(0, 8).map((kw) => (
+                          <span
+                            key={kw}
+                            style={{
+                              background: "rgba(248,113,113,0.1)",
+                              border: "1px solid rgba(248,113,113,0.3)",
+                              color: "#f87171",
+                              padding: "4px 12px",
+                              borderRadius: "4px",
+                              fontSize: "12px",
+                            }}
+                          >
+                            {kw}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        background: "var(--bg-1)",
+                        border: "1px solid var(--border)",
+                        borderRadius: "8px",
+                        padding: "20px",
+                      }}
+                    >
+                      <p style={{ color: "#f59e0b", marginBottom: "8px", fontWeight: "600", fontSize: "14px" }}>
+                        ⚠ Format & Readability Warnings
+                      </p>
+                      <p style={{ fontSize: "13px", color: "var(--text-3)", margin: 0 }}>
+                        • Include quantifiable percentage metrics (% improvement, latency drops) in your bullets.
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Unlock Modal Card */}
+                  {/* Unlock Modal Card (Full Height & Centered) */}
                   <div
                     style={{
                       position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
+                      inset: 0,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      background: "radial-gradient(ellipse at center, rgba(10,10,10,0.88) 0%, rgba(10,10,10,0.96) 100%)",
-                      padding: "20px",
+                      background: "radial-gradient(ellipse at center, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.96) 100%)",
+                      padding: "24px 16px",
+                      zIndex: 10,
                     }}
                   >
                     <div
                       style={{
                         background: "var(--bg-2)",
-                        border: "1px solid rgba(200,169,110,0.35)",
+                        border: "1px solid rgba(200,169,110,0.4)",
                         borderRadius: "14px",
-                        padding: "36px 32px",
+                        padding: "32px 28px",
                         textAlign: "center",
-                        maxWidth: "440px",
+                        maxWidth: "460px",
                         width: "100%",
-                        boxShadow: "0 24px 60px rgba(0,0,0,0.6)",
+                        boxShadow: "0 24px 70px rgba(0,0,0,0.8)",
+                        boxSizing: "border-box",
                       }}
                     >
                       <div
@@ -1062,7 +1110,7 @@ export function ATSScanner() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          margin: "0 auto 16px",
+                          margin: "0 auto 14px",
                           color: "var(--accent)",
                         }}
                       >
@@ -1092,74 +1140,48 @@ export function ATSScanner() {
                         Enter your email to reveal all matched keywords, missing skills, format fixes, and unlock the <strong>1-Click AI Resume Auto-Fixer</strong>.
                       </p>
 
-                      {step === "email" ? (
-                        <div>
-                          <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="your.email@example.com"
-                            onKeyDown={(e) => e.key === "Enter" && handleEmailSubmit()}
+                      <div style={{ width: "100%" }}>
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="your.email@example.com"
+                          onKeyDown={(e) => e.key === "Enter" && handleEmailSubmit()}
+                          style={{
+                            width: "100%",
+                            padding: "13px 16px",
+                            background: "var(--bg-0)",
+                            border: "1px solid var(--border)",
+                            borderRadius: "8px",
+                            color: "var(--text-1)",
+                            fontSize: "14px",
+                            outline: "none",
+                            marginBottom: "10px",
+                            boxSizing: "border-box",
+                            transition: "border-color 0.2s",
+                          }}
+                          onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
+                          onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+                          autoFocus
+                        />
+
+                        {emailError && (
+                          <p
                             style={{
-                              width: "100%",
-                              padding: "13px 16px",
-                              background: "var(--bg-0)",
-                              border: "1px solid var(--border)",
-                              borderRadius: "8px",
-                              color: "var(--text-1)",
-                              fontSize: "14px",
-                              outline: "none",
+                              color: "#f87171",
+                              fontSize: "12px",
                               marginBottom: "10px",
-                              boxSizing: "border-box",
-                              transition: "border-color 0.2s",
-                            }}
-                            onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
-                            onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
-                            autoFocus
-                          />
-
-                          {emailError && (
-                            <p
-                              style={{
-                                color: "#f87171",
-                                fontSize: "12px",
-                                marginBottom: "10px",
-                                textAlign: "left",
-                              }}
-                            >
-                              {emailError}
-                            </p>
-                          )}
-
-                          <button
-                            type="button"
-                            onClick={handleEmailSubmit}
-                            disabled={isSubscribing}
-                            style={{
-                              width: "100%",
-                              padding: "14px",
-                              background: "var(--accent)",
-                              color: "var(--bg-0)",
-                              fontSize: "14px",
-                              fontWeight: "700",
-                              border: "none",
-                              borderRadius: "8px",
-                              cursor: isSubscribing ? "not-allowed" : "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              gap: "6px",
-                              opacity: isSubscribing ? 0.7 : 1,
+                              textAlign: "left",
                             }}
                           >
-                            <Unlock size={16} />
-                            {isSubscribing ? "Unlocking..." : "Unlock Full Report & AI Editor →"}
-                          </button>
-                        </div>
-                      ) : (
+                            {emailError}
+                          </p>
+                        )}
+
                         <button
                           type="button"
-                          onClick={() => setStep("email")}
+                          onClick={handleEmailSubmit}
+                          disabled={isSubscribing}
                           style={{
                             width: "100%",
                             padding: "14px",
@@ -1169,17 +1191,32 @@ export function ATSScanner() {
                             fontWeight: "700",
                             border: "none",
                             borderRadius: "8px",
-                            cursor: "pointer",
+                            cursor: isSubscribing ? "not-allowed" : "pointer",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
                             gap: "8px",
+                            boxShadow: "0 4px 16px rgba(200,169,110,0.3)",
+                            opacity: isSubscribing ? 0.7 : 1,
+                            transition: "all 0.2s",
                           }}
                         >
                           <Unlock size={16} />
-                          Get Full Report & AI Editor — Free →
+                          {isSubscribing ? "Unlocking..." : "Unlock Full Report & AI Editor →"}
                         </button>
-                      )}
+
+                        <p
+                          style={{
+                            fontSize: "11px",
+                            color: "var(--text-3)",
+                            marginTop: "10px",
+                            lineHeight: "1.5",
+                            marginBottom: 0,
+                          }}
+                        >
+                          Zero spam. Get curated AI career insights. Unsubscribe in 1-click.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
