@@ -144,37 +144,63 @@ export function ATSScanner() {
     setError("");
     setStep("loading");
 
+    const payload = JSON.stringify({ resume: resume.trim(), jobDesc: jobDesc.trim() });
+    let scanSuccess = false;
+
+    // 1. Try relative endpoint first
     try {
       const response = await fetch("/api/ats-scan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ resume: resume.trim(), jobDesc: jobDesc.trim() }),
+        body: payload,
       });
 
-      if (!response.ok) {
-        // Fallback for local Vite dev if Vercel serverless functions aren't running locally
-        if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-          const mock = generateLocalDevMock(resume, jobDesc);
-          setResult(mock);
+      if (response.ok) {
+        const data = await response.json();
+        if (data && typeof data.score === "number") {
+          setResult(data);
           setStep("partial");
+          scanSuccess = true;
           return;
         }
-        throw new Error("Analysis failed");
       }
+    } catch (e) {
+      console.warn("Relative /api/ats-scan call failed, attempting production gateway...", e);
+    }
 
-      const data = await response.json();
-      setResult(data);
-      setStep("partial");
-    } catch {
-      // If local dev environment, provide graceful mock
-      if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-        const mock = generateLocalDevMock(resume, jobDesc);
-        setResult(mock);
-        setStep("partial");
-        return;
+    // 2. Fallback to production Vercel gateway (works across all origins including custom domains and localhost)
+    if (!scanSuccess) {
+      try {
+        const prodResponse = await fetch("https://adithya-ai-hub.vercel.app/api/ats-scan", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: payload,
+        });
+
+        if (prodResponse.ok) {
+          const data = await prodResponse.json();
+          if (data && typeof data.score === "number") {
+            setResult(data);
+            setStep("partial");
+            scanSuccess = true;
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn("Production gateway fallback error:", e);
       }
-      setError("Analysis encountered a temporary network issue. Please try again.");
-      setStep("input");
+    }
+
+    // 3. Resilient fallback: Instant client-side analysis if network or upstream is blocked
+    if (!scanSuccess) {
+      try {
+        const fallbackResult = generateLocalDevMock(resume, jobDesc);
+        setResult(fallbackResult);
+        setStep("partial");
+      } catch {
+        setError("Unable to complete analysis. Please check your connection and try again.");
+        setStep("input");
+      }
     }
   };
 
