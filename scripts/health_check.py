@@ -25,7 +25,9 @@ def send_telegram(token, chat_id, message):
 def main():
     token = os.environ.get('TELEGRAM_BOT_TOKEN')
     chat_id = os.environ.get('TELEGRAM_CHAT_ID')
-    site_url = os.environ.get('SITE_URL', 'https://adithyaai.is-cool.dev')
+    site_url = os.environ.get('SITE_URL', 'https://adithya-ai-hub.vercel.app').rstrip('/')
+
+    bot_url = os.environ.get('BOT_SERVICE_URL', 'https://adithya-ai-hub.onrender.com')
 
     pages = [
         ('Homepage', site_url),
@@ -33,6 +35,7 @@ def main():
         ('Services', f"{site_url}/services"),
         ('Freelance', f"{site_url}/freelance"),
         ('About', f"{site_url}/about"),
+        ('Telegram Bot Service', bot_url),
     ]
 
     results = []
