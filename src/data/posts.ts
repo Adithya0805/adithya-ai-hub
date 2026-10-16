@@ -14,6 +14,21 @@ export interface Post {
 
 export const posts: Post[] = [
   {
+    slug: 'how-to-get-a-job-in-startup-company-at-tamilnadu',
+    title: 'how to get a job in startup company at tamilnadu',
+    seoTitle: 'Startup Jobs Tamil Nadu: Fresher Job Search India Guide',
+    date: '2026-10-16',
+    excerpt: 'Fresher job search India? Secure your first startup role in Tamil Nadu with practical advice on applications & interviews.',
+    tags: ["Career", "Tamil Nadu", "AI Engineer", "OpenToWork"],
+    category: 'Career',
+    readTime: '2 min read',
+    featured: false,
+    content: `
+<h2>My batchmate called me last week, frantic about finding an AI engineer job in Tamil Nadu.</h2>
+<p>He's a bright fresher, but like many of us, unsure how to bridge the gap between
+    `
+  },
+  {
     slug: 'geopatriation-tech-sovereignty',
     title: 'Geopatriation & Tech Sovereignty',
     date: '2026-10-13',
