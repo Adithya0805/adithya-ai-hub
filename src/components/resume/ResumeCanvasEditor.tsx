@@ -5,15 +5,14 @@ import {
   Sparkles,
   Plus,
   Trash2,
-  ChevronUp,
-  ChevronDown,
   Printer,
   FileCode,
   FileText,
   RotateCcw,
   Check,
   Wand2,
-  Sparkle,
+  FileDown,
+  Layers,
 } from "lucide-react";
 import { ResumeDocument, ProjectItem, ExperienceItem, EducationItem, SkillCategory } from "@/types/resume";
 
@@ -38,6 +37,7 @@ export function ResumeCanvasEditor({
   const [enhancedBulletFeedback, setEnhancedBulletFeedback] = useState<string | null>(null);
   const [injectedKeywordFeedback, setInjectedKeywordFeedback] = useState<string | null>(null);
   const [autoTailorDone, setAutoTailorDone] = useState(false);
+  const [showExportMenu, setShowExportMenu] = useState(false);
 
   const canvasRef = useRef<HTMLDivElement>(null);
 
@@ -71,7 +71,7 @@ export function ResumeCanvasEditor({
 
   const addSkillCategory = () => {
     const newCat: SkillCategory = {
-      category: "New Skill Competency",
+      category: "New Competency",
       skills: ["Skill 1", "Skill 2"],
     };
     onChange({ ...doc, skillCategories: [...doc.skillCategories, newCat] });
@@ -103,7 +103,7 @@ export function ResumeCanvasEditor({
   const addProjectBullet = (projId: string) => {
     const updated = doc.projects.map((p) => {
       if (p.id === projId) {
-        return { ...p, bullets: [...p.bullets, "New high-impact accomplishment utilizing modern technical frameworks."] };
+        return { ...p, bullets: [...p.bullets, "Architected high-impact solution utilizing target technical frameworks."] };
       }
       return p;
     });
@@ -242,13 +242,157 @@ export function ResumeCanvasEditor({
     setTimeout(() => setAutoTailorDone(false), 3000);
   };
 
-  // Print to Vector PDF
-  const handlePrint = () => {
+  // 1. Download PDF (No Watermark via print dialog)
+  const handleExportPDF = () => {
+    const originalTitle = document.title;
+    document.title = `${doc.header.fullName.replace(/\s+/g, "_")}_Resume`;
     window.print();
+    setTimeout(() => {
+      document.title = originalTitle;
+    }, 1500);
   };
 
-  // Download Plain Text
-  const handleDownloadTxt = () => {
+  // 2. Download Microsoft Word (.docx/.doc)
+  const handleExportDocx = () => {
+    const htmlContent = `
+      <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+      <head>
+        <meta charset='utf-8'>
+        <title>${doc.header.fullName} - Resume</title>
+        <style>
+          body { font-family: Calibri, Arial, sans-serif; font-size: 10.5pt; line-height: 1.35; color: #111111; margin: 20pt; }
+          h1 { font-size: 17pt; font-weight: bold; text-align: center; margin: 0 0 3pt 0; text-transform: uppercase; color: #000; }
+          .contact { font-size: 9.5pt; text-align: center; margin-bottom: 10pt; color: #333333; }
+          h2 { font-size: 10.5pt; font-weight: bold; text-transform: uppercase; border-bottom: 1pt solid #222222; margin: 10pt 0 4pt 0; padding-bottom: 1pt; color: #000; }
+          .summary { font-size: 9.5pt; margin-bottom: 6pt; line-height: 1.4; }
+          .skill-line { font-size: 9.5pt; margin-bottom: 2pt; }
+          .proj-title { font-size: 10pt; font-weight: bold; margin-top: 5pt; }
+          .tech-stack { font-size: 9.5pt; font-style: italic; margin-bottom: 2pt; }
+          ul { margin: 2pt 0 4pt 16pt; padding: 0; }
+          li { font-size: 9.5pt; margin-bottom: 2pt; }
+          .edu-line { font-size: 9.5pt; margin-bottom: 3pt; }
+        </style>
+      </head>
+      <body>
+        <h1>${doc.header.fullName}</h1>
+        <div class="contact">
+          ${doc.header.location || "India"} | ${doc.header.phone || ""} | ${doc.header.email || ""}<br>
+          ${doc.header.linkedin || "LinkedIn"} | ${doc.header.github || "GitHub"}
+        </div>
+
+        <h2>Professional Summary</h2>
+        <div class="summary">${doc.summary}</div>
+
+        <h2>Technical Skills</h2>
+        ${doc.skillCategories.map((c) => `<div class="skill-line"><strong>● ${c.category}:</strong> ${c.skills.join(", ")}</div>`).join("")}
+
+        <h2>Technical Projects</h2>
+        ${doc.projects
+          .map(
+            (p) => `
+          <div class="proj-title">${p.title}</div>
+          ${p.techStack ? `<div class="tech-stack">● Tech Stack: ${p.techStack}</div>` : ""}
+          <ul>
+            ${p.bullets.map((b) => `<li>${b}</li>`).join("")}
+          </ul>
+        `
+          )
+          .join("")}
+
+        ${
+          doc.experience.length > 0
+            ? `
+          <h2>Professional Experience</h2>
+          ${doc.experience
+            .map(
+              (e) => `
+            <div class="proj-title">${e.role} — ${e.company} (${e.startDate} - ${e.endDate})</div>
+            <ul>${e.bullets.map((b) => `<li>${b}</li>`).join("")}</ul>
+          `
+            )
+            .join("")}
+        `
+            : ""
+        }
+
+        <h2>Education</h2>
+        ${doc.education
+          .map(
+            (e) => `
+          <div class="edu-line"><strong>● ${e.degree} ${e.year ? `(${e.year})` : ""}</strong><br>${e.institution} ${e.gpaOrScore ? `| ${e.gpaOrScore}` : ""}</div>
+        `
+          )
+          .join("")}
+
+        <h2>Certifications & Training</h2>
+        ${doc.certifications
+          .map(
+            (c) => `
+          <div class="edu-line"><strong>● ${c.title}</strong> ${c.description ? `– ${c.description}` : ""}</div>
+        `
+          )
+          .join("")}
+      </body>
+      </html>
+    `;
+
+    const blob = new Blob(["\ufeff" + htmlContent], { type: "application/msword" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${doc.header.fullName.replace(/\s+/g, "_")}_Resume.doc`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // 3. Download Markdown (.md)
+  const handleExportMarkdown = () => {
+    const mdLines = [
+      `# ${doc.header.fullName.toUpperCase()}`,
+      `📍 ${doc.header.location || "India"} | 📞 ${doc.header.phone || ""} | ✉️ ${doc.header.email || ""}`,
+      `🔗 [${doc.header.linkedin || "LinkedIn"}](https://linkedin.com) | 💻 [${doc.header.github || "GitHub"}](https://github.com)`,
+      "",
+      "## PROFESSIONAL SUMMARY",
+      doc.summary,
+      "",
+      "## TECHNICAL SKILLS",
+      ...doc.skillCategories.map((c) => `- **${c.category}:** ${c.skills.join(", ")}`),
+      "",
+      "## TECHNICAL PROJECTS",
+      ...doc.projects.flatMap((p) => [
+        `### ${p.title}`,
+        p.techStack ? `- **Tech Stack:** ${p.techStack}` : "",
+        ...p.bullets.map((b) => `- ${b}`),
+        "",
+      ]),
+      ...(doc.experience.length > 0
+        ? [
+            "## PROFESSIONAL EXPERIENCE",
+            ...doc.experience.flatMap((e) => [
+              `### ${e.role} — ${e.company} (${e.startDate} - ${e.endDate})`,
+              ...e.bullets.map((b) => `- ${b}`),
+              "",
+            ]),
+          ]
+        : []),
+      "## EDUCATION",
+      ...doc.education.map((e) => `- **${e.degree}** (${e.year || ""})\n  ${e.institution} | ${e.gpaOrScore || ""}`),
+      "",
+      "## CERTIFICATIONS & TRAINING",
+      ...doc.certifications.map((c) => `- **${c.title}** ${c.description ? `– ${c.description}` : ""}`),
+    ];
+
+    const blob = new Blob([mdLines.filter(Boolean).join("\n")], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${doc.header.fullName.replace(/\s+/g, "_")}_Resume.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // 4. Download Plain Text (.txt)
+  const handleExportTxt = () => {
     const textLines = [
       doc.header.fullName.toUpperCase(),
       `📍 ${doc.header.location || "India"} | 📞 ${doc.header.phone || ""} | ✉️ ${doc.header.email || ""}`,
@@ -288,13 +432,13 @@ export function ResumeCanvasEditor({
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${doc.header.fullName.replace(/\s+/g, "_")}_ATS_Tailored_Resume.txt`;
+    a.download = `${doc.header.fullName.replace(/\s+/g, "_")}_Resume.txt`;
     a.click();
     URL.revokeObjectURL(url);
   };
 
-  // Download JSON
-  const handleDownloadJSON = () => {
+  // 5. Download JSON Schema (.json)
+  const handleExportJSON = () => {
     const blob = new Blob([JSON.stringify(doc, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -305,7 +449,7 @@ export function ResumeCanvasEditor({
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       {/* ── TOP CONTROL TOOLBAR ────────────────────────────────────────────── */}
       <div
         className="no-print"
@@ -321,7 +465,7 @@ export function ResumeCanvasEditor({
           gap: "14px",
         }}
       >
-        {/* Left: Quick Actions */}
+        {/* Left: 1-Click Tailor & Zoom */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
           <button
             type="button"
@@ -342,7 +486,7 @@ export function ResumeCanvasEditor({
             }}
           >
             <Sparkles size={14} />
-            {autoTailorDone ? "Target JD Skills Injected! ✓" : "1-Click Auto-Tailor for JD"}
+            {autoTailorDone ? "JD Skills Integrated! ✓" : "1-Click Auto-Tailor for JD"}
           </button>
 
           <div>
@@ -370,11 +514,12 @@ export function ResumeCanvasEditor({
           </div>
         </div>
 
-        {/* Right: Export & Re-Scan Buttons */}
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+        {/* Right: Export Hub (Multiple Formats - 100% Watermark Free) */}
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+          {/* Primary PDF Export */}
           <button
             type="button"
-            onClick={handlePrint}
+            onClick={handleExportPDF}
             style={{
               padding: "9px 18px",
               background: "var(--accent)",
@@ -389,14 +534,16 @@ export function ResumeCanvasEditor({
               gap: "8px",
               boxShadow: "0 2px 8px rgba(200, 169, 110, 0.25)",
             }}
+            title="Export clean vector PDF without headers, footers, or watermarks"
           >
             <Printer size={15} />
-            Download Vector PDF
+            Export PDF (No Watermark)
           </button>
 
+          {/* Word (.docx) */}
           <button
             type="button"
-            onClick={handleDownloadTxt}
+            onClick={handleExportDocx}
             style={{
               padding: "9px 14px",
               background: "var(--bg-2)",
@@ -410,14 +557,16 @@ export function ResumeCanvasEditor({
               alignItems: "center",
               gap: "6px",
             }}
+            title="Download editable Microsoft Word document"
           >
-            <FileText size={14} />
-            Plain Text (.txt)
+            <FileDown size={14} />
+            Word (.doc)
           </button>
 
+          {/* Markdown (.md) */}
           <button
             type="button"
-            onClick={handleDownloadJSON}
+            onClick={handleExportMarkdown}
             style={{
               padding: "9px 12px",
               background: "var(--bg-2)",
@@ -428,12 +577,54 @@ export function ResumeCanvasEditor({
               cursor: "pointer",
               display: "inline-flex",
               alignItems: "center",
-              gap: "6px",
+              gap: "5px",
             }}
-            title="Download JSON schema backup"
+            title="Download clean Markdown file"
+          >
+            <FileText size={13} />
+            .md
+          </button>
+
+          {/* Text (.txt) */}
+          <button
+            type="button"
+            onClick={handleExportTxt}
+            style={{
+              padding: "9px 12px",
+              background: "var(--bg-2)",
+              color: "var(--text-2)",
+              border: "1px solid var(--border)",
+              borderRadius: "6px",
+              fontSize: "12px",
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "5px",
+            }}
+            title="Download plain text file for job forms"
+          >
+            .txt
+          </button>
+
+          {/* JSON (.json) */}
+          <button
+            type="button"
+            onClick={handleExportJSON}
+            style={{
+              padding: "9px 10px",
+              background: "var(--bg-2)",
+              color: "var(--text-3)",
+              border: "1px solid var(--border)",
+              borderRadius: "6px",
+              fontSize: "12px",
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "4px",
+            }}
+            title="Download JSON schema"
           >
             <FileCode size={13} />
-            JSON
           </button>
 
           {onReScan && (
@@ -455,13 +646,13 @@ export function ResumeCanvasEditor({
               }}
             >
               <RotateCcw size={13} />
-              Re-Scan Match Score
+              Re-Scan Score
             </button>
           )}
         </div>
       </div>
 
-      {/* ── MISSING KEYWORD QUICK INJECTOR BAR ───────────────────────────── */}
+      {/* ── MISSING KEYWORDS QUICK INJECTOR BAR ───────────────────────────── */}
       {missingKeywords.length > 0 && (
         <div
           className="no-print"
@@ -469,7 +660,7 @@ export function ResumeCanvasEditor({
             background: "rgba(245, 158, 11, 0.08)",
             border: "1px solid rgba(245, 158, 11, 0.25)",
             borderRadius: "10px",
-            padding: "14px 18px",
+            padding: "12px 18px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -477,7 +668,7 @@ export function ResumeCanvasEditor({
             gap: "12px",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <span style={{ fontSize: "14px" }}>🎯</span>
             <div>
               <p style={{ fontSize: "13px", fontWeight: "600", color: "#f59e0b", margin: 0 }}>
@@ -522,13 +713,13 @@ export function ResumeCanvasEditor({
         </div>
       )}
 
-      {/* ── THE EXACT HIGH-FIDELITY A4 CANVAS ───────────────────────────── */}
+      {/* ── THE WATERMARK-FREE A4 RESUME CANVAS ─────────────────────────── */}
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           overflowX: "auto",
-          padding: "10px 0 40px",
+          padding: "4px 0 40px",
         }}
       >
         <div
@@ -536,23 +727,33 @@ export function ResumeCanvasEditor({
           id="resume-canvas-printable"
           style={{
             width: "210mm",
-            minHeight: "297mm",
             background: "#ffffff",
             color: "#111111",
             fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-            padding: "16mm 20mm",
+            padding: "10mm 15mm 10mm 15mm",
             boxShadow: "0 10px 40px rgba(0,0,0,0.45)",
             borderRadius: "4px",
             boxSizing: "border-box",
             transform: `scale(${zoom / 100})`,
             transformOrigin: "top center",
             transition: "transform 0.2s ease",
-            lineHeight: "1.45",
+            lineHeight: "1.4",
           }}
         >
-          {/* Print CSS injection */}
+          {/* Print CSS injection that strictly eliminates browser watermark URL and headers */}
           <style>{`
+            @page {
+              size: A4 portrait;
+              margin: 0mm !important; /* CRITICAL: Completely removes browser URL, page title, and date watermark */
+            }
             @media print {
+              html, body {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: #ffffff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+              }
               body * {
                 visibility: hidden !important;
               }
@@ -563,12 +764,16 @@ export function ResumeCanvasEditor({
                 position: absolute !important;
                 left: 0 !important;
                 top: 0 !important;
-                width: 100% !important;
-                min-height: 100% !important;
-                box-shadow: none !important;
-                padding: 12mm 16mm !important;
-                transform: none !important;
+                width: 210mm !important;
+                padding: 10mm 15mm 8mm 15mm !important;
                 margin: 0 !important;
+                box-sizing: border-box !important;
+                box-shadow: none !important;
+                border: none !important;
+                transform: none !important;
+                overflow: visible !important;
+                page-break-after: avoid !important;
+                page-break-inside: avoid !important;
               }
               .no-print {
                 display: none !important;
@@ -577,7 +782,7 @@ export function ResumeCanvasEditor({
           `}</style>
 
           {/* 1. HEADER */}
-          <div style={{ textAlign: "center", marginBottom: "16px" }}>
+          <div style={{ textAlign: "center", marginBottom: "12px" }}>
             <input
               type="text"
               value={doc.header.fullName}
@@ -586,7 +791,7 @@ export function ResumeCanvasEditor({
               style={{
                 width: "100%",
                 textAlign: "center",
-                fontSize: "22px",
+                fontSize: "20px",
                 fontWeight: "700",
                 color: "#000000",
                 border: "none",
@@ -595,7 +800,7 @@ export function ResumeCanvasEditor({
                 fontFamily: "inherit",
                 letterSpacing: "0.5px",
                 textTransform: "uppercase",
-                marginBottom: "4px",
+                marginBottom: "3px",
               }}
             />
 
@@ -607,9 +812,9 @@ export function ResumeCanvasEditor({
                 alignItems: "center",
                 gap: "8px",
                 flexWrap: "wrap",
-                fontSize: "12px",
+                fontSize: "11px",
                 color: "#222222",
-                marginBottom: "4px",
+                marginBottom: "3px",
               }}
             >
               <span>📍</span>
@@ -621,7 +826,7 @@ export function ResumeCanvasEditor({
                   border: "none",
                   outline: "none",
                   background: "transparent",
-                  fontSize: "12px",
+                  fontSize: "11px",
                   color: "#222",
                   fontFamily: "inherit",
                   width: "160px",
@@ -638,10 +843,10 @@ export function ResumeCanvasEditor({
                   border: "none",
                   outline: "none",
                   background: "transparent",
-                  fontSize: "12px",
+                  fontSize: "11px",
                   color: "#222",
                   fontFamily: "inherit",
-                  width: "120px",
+                  width: "110px",
                   textAlign: "center",
                 }}
               />
@@ -655,10 +860,10 @@ export function ResumeCanvasEditor({
                   border: "none",
                   outline: "none",
                   background: "transparent",
-                  fontSize: "12px",
+                  fontSize: "11px",
                   color: "#222",
                   fontFamily: "inherit",
-                  width: "190px",
+                  width: "180px",
                   textAlign: "center",
                 }}
               />
@@ -671,7 +876,7 @@ export function ResumeCanvasEditor({
                 justifyContent: "center",
                 alignItems: "center",
                 gap: "10px",
-                fontSize: "12px",
+                fontSize: "11px",
                 color: "#2563eb",
               }}
             >
@@ -685,11 +890,11 @@ export function ResumeCanvasEditor({
                     border: "none",
                     outline: "none",
                     background: "transparent",
-                    fontSize: "12px",
+                    fontSize: "11px",
                     color: "#2563eb",
                     textDecoration: "underline",
                     fontFamily: "inherit",
-                    width: "70px",
+                    width: "60px",
                     textAlign: "center",
                     cursor: "pointer",
                   }}
@@ -706,11 +911,11 @@ export function ResumeCanvasEditor({
                     border: "none",
                     outline: "none",
                     background: "transparent",
-                    fontSize: "12px",
+                    fontSize: "11px",
                     color: "#2563eb",
                     textDecoration: "underline",
                     fontFamily: "inherit",
-                    width: "60px",
+                    width: "55px",
                     textAlign: "center",
                     cursor: "pointer",
                   }}
@@ -720,17 +925,17 @@ export function ResumeCanvasEditor({
           </div>
 
           {/* 2. PROFESSIONAL SUMMARY */}
-          <div style={{ marginBottom: "16px" }}>
+          <div style={{ marginBottom: "12px" }}>
             <h2
               style={{
-                fontSize: "12.5px",
+                fontSize: "12px",
                 fontWeight: "700",
                 color: "#000",
                 textTransform: "uppercase",
                 letterSpacing: "0.5px",
                 borderBottom: "1px solid #222",
                 paddingBottom: "2px",
-                marginBottom: "8px",
+                marginBottom: "6px",
               }}
             >
               PROFESSIONAL SUMMARY
@@ -738,14 +943,14 @@ export function ResumeCanvasEditor({
             <textarea
               value={doc.summary}
               onChange={(e) => updateSummary(e.target.value)}
-              rows={4}
+              rows={3}
               style={{
                 width: "100%",
                 border: "none",
                 outline: "none",
                 background: "transparent",
-                fontSize: "11.5px",
-                lineHeight: "1.55",
+                fontSize: "11px",
+                lineHeight: "1.45",
                 color: "#222",
                 fontFamily: "inherit",
                 resize: "none",
@@ -756,7 +961,7 @@ export function ResumeCanvasEditor({
           </div>
 
           {/* 3. TECHNICAL SKILLS */}
-          <div style={{ marginBottom: "16px" }}>
+          <div style={{ marginBottom: "12px" }}>
             <div
               style={{
                 display: "flex",
@@ -764,12 +969,12 @@ export function ResumeCanvasEditor({
                 alignItems: "center",
                 borderBottom: "1px solid #222",
                 paddingBottom: "2px",
-                marginBottom: "8px",
+                marginBottom: "6px",
               }}
             >
               <h2
                 style={{
-                  fontSize: "12.5px",
+                  fontSize: "12px",
                   fontWeight: "700",
                   color: "#000",
                   textTransform: "uppercase",
@@ -797,10 +1002,10 @@ export function ResumeCanvasEditor({
               </button>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "11.5px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "3px", fontSize: "11px" }}>
               {doc.skillCategories.map((cat, cIdx) => (
-                <div key={cIdx} style={{ display: "flex", alignItems: "baseline", gap: "6px" }}>
-                  <span style={{ fontSize: "10px", color: "#111" }}>●</span>
+                <div key={cIdx} style={{ display: "flex", alignItems: "baseline", gap: "5px" }}>
+                  <span style={{ fontSize: "9px", color: "#111" }}>●</span>
                   <input
                     type="text"
                     value={cat.category + ":"}
@@ -811,10 +1016,10 @@ export function ResumeCanvasEditor({
                       border: "none",
                       outline: "none",
                       background: "transparent",
-                      fontSize: "11.5px",
+                      fontSize: "11px",
                       fontFamily: "inherit",
                       width: "auto",
-                      minWidth: "150px",
+                      minWidth: "155px",
                     }}
                   />
                   <input
@@ -826,7 +1031,7 @@ export function ResumeCanvasEditor({
                       border: "none",
                       outline: "none",
                       background: "transparent",
-                      fontSize: "11.5px",
+                      fontSize: "11px",
                       color: "#222",
                       fontFamily: "inherit",
                     }}
@@ -853,7 +1058,7 @@ export function ResumeCanvasEditor({
           </div>
 
           {/* 4. TECHNICAL PROJECTS */}
-          <div style={{ marginBottom: "16px" }}>
+          <div style={{ marginBottom: "12px" }}>
             <div
               style={{
                 display: "flex",
@@ -861,12 +1066,12 @@ export function ResumeCanvasEditor({
                 alignItems: "center",
                 borderBottom: "1px solid #222",
                 paddingBottom: "2px",
-                marginBottom: "8px",
+                marginBottom: "6px",
               }}
             >
               <h2
                 style={{
-                  fontSize: "12.5px",
+                  fontSize: "12px",
                   fontWeight: "700",
                   color: "#000",
                   textTransform: "uppercase",
@@ -902,7 +1107,7 @@ export function ResumeCanvasEditor({
               </button>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               {doc.projects.map((proj) => (
                 <div key={proj.id}>
                   {/* Title */}
@@ -913,7 +1118,7 @@ export function ResumeCanvasEditor({
                       onChange={(e) => updateProjectField(proj.id, "title", e.target.value)}
                       style={{
                         fontWeight: "700",
-                        fontSize: "12px",
+                        fontSize: "11.5px",
                         color: "#000",
                         border: "none",
                         outline: "none",
@@ -942,8 +1147,8 @@ export function ResumeCanvasEditor({
                   </div>
 
                   {/* Tech Stack */}
-                  <div style={{ display: "flex", alignItems: "baseline", gap: "6px", fontSize: "11.5px", marginTop: "1px" }}>
-                    <span style={{ fontSize: "10px", color: "#111" }}>●</span>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: "5px", fontSize: "11px", marginTop: "1px" }}>
+                    <span style={{ fontSize: "9px", color: "#111" }}>●</span>
                     <span style={{ fontWeight: "700", color: "#111", minWidth: "75px" }}>Tech Stack:</span>
                     <input
                       type="text"
@@ -955,7 +1160,7 @@ export function ResumeCanvasEditor({
                         border: "none",
                         outline: "none",
                         background: "transparent",
-                        fontSize: "11.5px",
+                        fontSize: "11px",
                         color: "#222",
                         fontFamily: "inherit",
                       }}
@@ -963,21 +1168,21 @@ export function ResumeCanvasEditor({
                   </div>
 
                   {/* Bullets */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: "2px", marginTop: "2px" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "2px", marginTop: "1px" }}>
                     {proj.bullets.map((b, bIdx) => (
-                      <div key={bIdx} style={{ display: "flex", alignItems: "baseline", gap: "6px", fontSize: "11.5px" }}>
-                        <span style={{ fontSize: "10px", color: "#111" }}>●</span>
+                      <div key={bIdx} style={{ display: "flex", alignItems: "baseline", gap: "5px", fontSize: "11px" }}>
+                        <span style={{ fontSize: "9px", color: "#111" }}>●</span>
                         <textarea
                           value={b}
                           onChange={(e) => updateProjectBullet(proj.id, bIdx, e.target.value)}
-                          rows={b.length > 110 ? 2 : 1}
+                          rows={b.length > 120 ? 2 : 1}
                           style={{
                             width: "100%",
                             border: "none",
                             outline: "none",
                             background: "transparent",
-                            fontSize: "11.5px",
-                            lineHeight: "1.5",
+                            fontSize: "11px",
+                            lineHeight: "1.4",
                             color: "#222",
                             fontFamily: "inherit",
                             resize: "none",
@@ -1028,7 +1233,7 @@ export function ResumeCanvasEditor({
                       </div>
                     ))}
 
-                    <div className="no-print" style={{ marginTop: "2px" }}>
+                    <div className="no-print" style={{ marginTop: "1px" }}>
                       <button
                         type="button"
                         onClick={() => addProjectBullet(proj.id)}
@@ -1050,37 +1255,37 @@ export function ResumeCanvasEditor({
             </div>
           </div>
 
-          {/* 5. PROFESSIONAL EXPERIENCE (Rendered ONLY if candidate actually has experience) */}
+          {/* 5. PROFESSIONAL EXPERIENCE (Only if candidate has experience) */}
           {doc.experience.length > 0 && (
-            <div style={{ marginBottom: "16px" }}>
+            <div style={{ marginBottom: "12px" }}>
               <h2
                 style={{
-                  fontSize: "12.5px",
+                  fontSize: "12px",
                   fontWeight: "700",
                   color: "#000",
                   textTransform: "uppercase",
                   letterSpacing: "0.5px",
                   borderBottom: "1px solid #222",
                   paddingBottom: "2px",
-                  marginBottom: "8px",
+                  marginBottom: "6px",
                 }}
               >
                 PROFESSIONAL EXPERIENCE
               </h2>
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                 {doc.experience.map((exp) => (
                   <div key={exp.id}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                       <div>
                         <strong>{exp.role}</strong> — <em>{exp.company}</em>
                       </div>
-                      <div style={{ fontSize: "11px", color: "#555" }}>
+                      <div style={{ fontSize: "10.5px", color: "#555" }}>
                         {exp.startDate} – {exp.endDate} | {exp.location}
                       </div>
                     </div>
                     {exp.bullets.map((b, bIdx) => (
-                      <div key={bIdx} style={{ display: "flex", alignItems: "baseline", gap: "6px", fontSize: "11.5px" }}>
-                        <span style={{ fontSize: "10px" }}>●</span>
+                      <div key={bIdx} style={{ display: "flex", alignItems: "baseline", gap: "5px", fontSize: "11px" }}>
+                        <span style={{ fontSize: "9px" }}>●</span>
                         <span>{b}</span>
                       </div>
                     ))}
@@ -1091,31 +1296,31 @@ export function ResumeCanvasEditor({
           )}
 
           {/* 6. EDUCATION */}
-          <div style={{ marginBottom: "16px" }}>
+          <div style={{ marginBottom: "12px" }}>
             <h2
               style={{
-                fontSize: "12.5px",
+                fontSize: "12px",
                 fontWeight: "700",
                 color: "#000",
                 textTransform: "uppercase",
                 letterSpacing: "0.5px",
                 borderBottom: "1px solid #222",
                 paddingBottom: "2px",
-                marginBottom: "8px",
+                marginBottom: "6px",
               }}
             >
               EDUCATION
             </h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "11.5px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "11px" }}>
               {doc.education.map((edu) => (
                 <div key={edu.id}>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: "6px" }}>
-                    <span style={{ fontSize: "10px", color: "#111" }}>●</span>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: "5px" }}>
+                    <span style={{ fontSize: "9px", color: "#111" }}>●</span>
                     <span style={{ fontWeight: "700", color: "#111" }}>
                       {edu.degree} {edu.year ? `(${edu.year})` : ""}
                     </span>
                   </div>
-                  <div style={{ paddingLeft: "14px", color: "#333", fontSize: "11.5px" }}>
+                  <div style={{ paddingLeft: "14px", color: "#333", fontSize: "11px" }}>
                     {edu.institution} {edu.gpaOrScore ? `| ${edu.gpaOrScore}` : ""}
                   </div>
                 </div>
@@ -1124,25 +1329,25 @@ export function ResumeCanvasEditor({
           </div>
 
           {/* 7. CERTIFICATIONS & TRAINING */}
-          <div style={{ marginBottom: "12px" }}>
+          <div style={{ marginBottom: "8px" }}>
             <h2
               style={{
-                fontSize: "12.5px",
+                fontSize: "12px",
                 fontWeight: "700",
                 color: "#000",
                 textTransform: "uppercase",
                 letterSpacing: "0.5px",
                 borderBottom: "1px solid #222",
                 paddingBottom: "2px",
-                marginBottom: "8px",
+                marginBottom: "6px",
               }}
             >
               CERTIFICATIONS & TRAINING
             </h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: "5px", fontSize: "11.5px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "3px", fontSize: "11px" }}>
               {doc.certifications.map((cert) => (
-                <div key={cert.id} style={{ display: "flex", alignItems: "baseline", gap: "6px" }}>
-                  <span style={{ fontSize: "10px", color: "#111" }}>●</span>
+                <div key={cert.id} style={{ display: "flex", alignItems: "baseline", gap: "5px" }}>
+                  <span style={{ fontSize: "9px", color: "#111" }}>●</span>
                   <div style={{ flex: 1, color: "#222" }}>
                     <strong>{cert.title || cert.name}</strong>
                     {cert.description && <span> – {cert.description}</span>}
