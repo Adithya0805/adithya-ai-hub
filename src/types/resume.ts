@@ -3,6 +3,11 @@ export interface ContactLink {
   url: string;
 }
 
+export interface SkillCategory {
+  category: string;
+  skills: string[];
+}
+
 export interface ExperienceItem {
   id: string;
   company: string;
@@ -10,14 +15,14 @@ export interface ExperienceItem {
   location: string;
   startDate: string;
   endDate: string;
-  isCurrent: boolean;
+  isCurrent?: boolean;
   bullets: string[];
 }
 
 export interface ProjectItem {
   id: string;
   title: string;
-  techStack: string[];
+  techStack?: string | string[];
   demoUrl?: string;
   githubUrl?: string;
   bullets: string[];
@@ -26,17 +31,21 @@ export interface ProjectItem {
 export interface EducationItem {
   id: string;
   degree: string;
-  field: string;
+  field?: string;
   institution: string;
-  graduationYear: string;
+  year?: string;
+  graduationYear?: string;
   gpaOrScore?: string;
 }
 
 export interface CertificationItem {
   id: string;
-  name: string;
-  issuer: string;
-  year: string;
+  title?: string;
+  name?: string;
+  issuer?: string;
+  issuerYear?: string;
+  year?: string;
+  description?: string;
 }
 
 export interface ResumeSkills {
@@ -50,19 +59,22 @@ export interface ResumeSkills {
 export interface ResumeDocument {
   header: {
     fullName: string;
-    jobTitle: string;
-    email: string;
-    phone: string;
-    location: string;
+    jobTitle?: string;
+    location?: string;
+    phone?: string;
+    email?: string;
+    linkedin?: string;
+    github?: string;
     links: ContactLink[];
   };
   summary: string;
-  skills: ResumeSkills;
-  experience: ExperienceItem[];
+  skillCategories: SkillCategory[];
+  skills?: ResumeSkills; // backwards compatibility
   projects: ProjectItem[];
+  experience: ExperienceItem[];
   education: EducationItem[];
   certifications: CertificationItem[];
-  sectionOrder: Array<"summary" | "skills" | "experience" | "projects" | "education" | "certifications">;
+  sectionOrder: Array<"summary" | "skills" | "projects" | "experience" | "education" | "certifications">;
 }
 
 export interface SectionScores {
@@ -98,7 +110,7 @@ export interface OptimizedResult {
   structuredResume?: ResumeDocument;
 }
 
-// Module declaration for mammoth since no @types package exists
+// Module declaration for mammoth
 declare module "mammoth" {
   export interface MammothResult {
     value: string;

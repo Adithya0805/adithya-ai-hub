@@ -21,20 +21,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const prompt = `You are an expert ATS (Applicant Tracking System) analyzer and senior technical recruiter.
 
-Analyze this resume against the job description and return ONLY a JSON object.
+Analyze this resume against the job description and extract its exact structure into a clean JSON object. Keep all candidate facts, projects, bullets, and skills 100% truthful to the original. Do NOT invent fake experience if candidate only has projects.
 
 RESUME:
-${resume.slice(0, 4000)}
+${resume.slice(0, 4500)}
 
 JOB DESCRIPTION:
-${jobDesc.slice(0, 3000)}
+${jobDesc.slice(0, 3500)}
 
-Return ONLY this JSON structure, no other text:
+Return ONLY this JSON structure:
 {
-  "score": <number 0-100, holistic match score based on keyword presence, technical qualification alignment, and ATS readability>,
-  "matchedKeywords": [<array of strings — keywords and skills from JD clearly found in resume, max 15>],
-  "missingKeywords": [<array of strings — important JD keywords and technical skills missing from resume, max 15>],
-  "formatIssues": [<array of strings — ATS formatting, structure, or impact problems found, max 5>],
+  "score": <number 0-100, holistic match score based on keyword presence and technical qualification alignment>,
+  "matchedKeywords": [<array of strings — keywords from JD found in resume, max 15>],
+  "missingKeywords": [<array of strings — key JD keywords/skills missing from resume, max 15>],
+  "formatIssues": [<array of strings — ATS formatting or impact improvements, max 5>],
   "topSuggestion": "<single most impactful improvement in 1-2 concise actionable sentences>",
   "sectionScores": {
     "keywordMatch": <number 0-100>,
@@ -42,8 +42,66 @@ Return ONLY this JSON structure, no other text:
     "relevance": <number 0-100>,
     "completeness": <number 0-100>
   },
-  "verdict": "<2-sentence honest assessment of this resume for this target job>",
-  "verdictColor": "<'green' if score>=75, 'yellow' if score>=50, 'red' if score<50>"
+  "verdict": "<2-sentence assessment of this resume for this target job>",
+  "verdictColor": "<'green' if score>=75, 'yellow' if score>=50, 'red' if score<50>",
+  "structuredResume": {
+    "header": {
+      "fullName": "<Candidate Name>",
+      "jobTitle": "<Role headline, e.g. Software & AI Engineer>",
+      "location": "<e.g. Ambur, Tamil Nadu, India>",
+      "phone": "<e.g. +91 8825714576>",
+      "email": "<email>",
+      "linkedin": "<linkedin if present>",
+      "github": "<github if present>"
+    },
+    "summary": "<candidate's exact summary paragraph from resume>",
+    "skillCategories": [
+      {
+        "category": "<e.g. Languages / AI & Generative AI Frameworks / Machine Learning & Data Infrastructure / Web & Database Engineering / Cloud, DevOps & Automation>",
+        "skills": ["<skill1>", "<skill2>"]
+      }
+    ],
+    "projects": [
+      {
+        "id": "proj-1",
+        "title": "<Project Name>",
+        "techStack": "<comma-separated tech stack>",
+        "bullets": [
+          "<complete unbroken bullet point 1>",
+          "<complete unbroken bullet point 2>"
+        ]
+      }
+    ],
+    "experience": [
+      {
+        "id": "exp-1",
+        "company": "<company name if candidate has work experience, else leave empty array>",
+        "role": "<job role>",
+        "location": "<location>",
+        "startDate": "<dates>",
+        "endDate": "<dates>",
+        "bullets": ["<bullet>"]
+      }
+    ],
+    "education": [
+      {
+        "id": "edu-1",
+        "degree": "<degree or exam name>",
+        "institution": "<institution or school>",
+        "year": "<year or graduation date>",
+        "gpaOrScore": "<e.g. 8.5 CGPA or 74%>"
+      }
+    ],
+    "certifications": [
+      {
+        "id": "cert-1",
+        "title": "<certification title>",
+        "issuerYear": "<issuer and year>",
+        "description": "<brief description if present>"
+      }
+    ],
+    "sectionOrder": ["summary", "skills", "projects", "education", "certifications"]
+  }
 }`
 
   try {
@@ -58,7 +116,7 @@ Return ONLY this JSON structure, no other text:
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: {
             temperature: 0.2,
-            maxOutputTokens: 2000,
+            maxOutputTokens: 3500,
             responseMimeType: 'application/json',
             thinkingConfig: { thinkingBudget: 0 },
           },
@@ -78,7 +136,7 @@ Return ONLY this JSON structure, no other text:
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
               temperature: 0.2,
-              maxOutputTokens: 2000,
+              maxOutputTokens: 3500,
               responseMimeType: 'application/json',
               thinkingConfig: { thinkingBudget: 0 },
             },

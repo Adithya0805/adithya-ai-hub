@@ -175,6 +175,9 @@ export function ResumeEditor() {
         const data = await response.json();
         if (data && typeof data.score === "number") {
           setResult(data);
+          if (data.structuredResume) {
+            setResumeDoc(data.structuredResume);
+          }
           setStep("partial");
           scanSuccess = true;
           return;
@@ -197,6 +200,9 @@ export function ResumeEditor() {
           const prodData = await prodResponse.json();
           if (prodData && typeof prodData.score === "number") {
             setResult(prodData);
+            if (prodData.structuredResume) {
+              setResumeDoc(prodData.structuredResume);
+            }
             setStep("partial");
             scanSuccess = true;
             return;
