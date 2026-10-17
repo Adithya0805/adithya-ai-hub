@@ -60,6 +60,7 @@ Return ONLY this JSON structure, no other text:
             temperature: 0.2,
             maxOutputTokens: 2000,
             responseMimeType: 'application/json',
+            thinkingConfig: { thinkingBudget: 0 },
           },
         }),
       }
@@ -79,6 +80,7 @@ Return ONLY this JSON structure, no other text:
               temperature: 0.2,
               maxOutputTokens: 2000,
               responseMimeType: 'application/json',
+              thinkingConfig: { thinkingBudget: 0 },
             },
           }),
         }

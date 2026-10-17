@@ -6,7 +6,6 @@ import re
 import threading
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import requests
-import google.generativeai as genai
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     Application, CommandHandler, MessageHandler,
@@ -29,12 +28,49 @@ GITHUB_REPO        = os.environ.get('GITHUB_REPO', 'Adithya0805/adithya-ai-hub')
 SITE_URL           = os.environ.get('SITE_URL', 'https://adithya-ai-hub.vercel.app').rstrip('/')
 NEWSLETTER_SECRET  = os.environ.get('NEWSLETTER_SECRET', 'Adithya@0805')
 
-if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
-try:
-    model = genai.GenerativeModel('gemini-2.5-flash')
-except Exception:
-    model = genai.GenerativeModel('gemini-flash-latest')
+def call_gemini_json(prompt: str) -> dict:
+    """
+    Direct, zero-cost Gemini API caller using modern REST endpoint.
+    Uses thinkingBudget: 0 to prevent burning quota on reasoning tokens,
+    and returns parsed JSON in a single round-trip.
+    """
+    if not GEMINI_API_KEY:
+        raise ValueError("GEMINI_API_KEY is not configured")
+
+    models_to_try = ['gemini-2.5-flash', 'gemini-flash-latest', 'gemini-2.5-flash-lite']
+    last_err = None
+
+    for m in models_to_try:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={GEMINI_API_KEY}"
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {
+                "temperature": 0.4,
+                "maxOutputTokens": 2500,
+                "responseMimeType": "application/json",
+                "thinkingConfig": {"thinkingBudget": 0}
+            }
+        }
+        try:
+            res = requests.post(url, json=payload, timeout=45)
+            if res.ok:
+                data = res.json()
+                raw = data.get('candidates', [{}])[0].get('content', {}).get('parts', [{}])[0].get('text', '')
+                clean = re.sub(r'^```json\s*', '', raw, flags=re.IGNORECASE)
+                clean = re.sub(r'^```\s*', '', clean)
+                clean = re.sub(r'```\s*$', '', clean).strip()
+                s = clean.find('{')
+                e = clean.rfind('}')
+                if s != -1 and e != -1 and e > s:
+                    clean = clean[s:e+1]
+                return json.loads(clean)
+            else:
+                last_err = f"{m} HTTP {res.status_code}: {res.text}"
+        except Exception as e:
+            last_err = str(e)
+            continue
+
+    raise RuntimeError(f"Gemini API generation failed across all models: {last_err}")
 
 # ── State ─────────────────────────────────────────────────────────────────────
 state = {
@@ -160,35 +196,18 @@ VOICE RULES:
 - Direct, no filler words
 - Write like you are explaining to a batch mate, not a professor
 
-OUTPUT: HTML only. Start with <h2>. No preamble. No markdown.
+OUTPUT: Return ONLY a JSON object with these exact keys:
+{{
+  "content": "<complete HTML article adhering to the above structure, 350 to 450 words starting with <h2>>",
+  "excerpt": "<ONE sentence meta description under 155 chars incorporating a keyword naturally>",
+  "seoTitle": "<punchy SEO title under 60 chars>"
+}}
 """
 
-    response = model.generate_content(
-        prompt,
-        generation_config=genai.types.GenerationConfig(
-            temperature=0.8,
-            max_output_tokens=1200,
-        )
-    )
-    content = response.text.strip()
-
-    # Generate SEO-optimized excerpt
-    excerpt_prompt = (
-        f"Write ONE sentence (max 155 chars) for Google meta description. "
-        f"Blog post title: '{title}'. "
-        f"Must include one of these keywords: {keywords}. "
-        f"Make it sound like a human wrote it, not AI. "
-        f"Output only the sentence."
-    )
-    excerpt = model.generate_content(excerpt_prompt).text.strip()[:155]
-
-    # Generate SEO title tag (different from display title — optimized for search)
-    seo_title_prompt = (
-        f"Rewrite this blog title for Google SEO (max 60 chars): '{title}'. "
-        f"Include one keyword from: {keywords}. "
-        f"Keep it natural, not stuffed. Output only the title."
-    )
-    seo_title = model.generate_content(seo_title_prompt).text.strip()[:60]
+    gen_data = call_gemini_json(prompt)
+    content = gen_data.get('content', '').strip()
+    excerpt = gen_data.get('excerpt', '').strip()[:155]
+    seo_title = gen_data.get('seoTitle', title).strip()[:60]
 
     # Canva cover prompt
     canva_prompt = generate_canva_prompt(title, category)

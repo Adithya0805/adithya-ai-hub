@@ -17,7 +17,7 @@ export function Navbar() {
     { label: "Work", path: "/work" },
     { label: "Freelance", path: "/freelance" },
     { label: "Services", path: "/services" },
-    { label: "ATS Scanner", path: "/tools/ats-scanner", badge: "NEW" },
+    { label: "Resume ATS & Editor", path: "/tools/resume-editor", badge: "NEW" },
     { label: "AI Labs", path: "/tools" },
     { label: "Blog", path: "/blog" },
     { label: "About", path: "/about" },
@@ -56,7 +56,8 @@ export function Navbar() {
             {navItems.map((item) => {
               const isActive =
                 location.pathname === item.path ||
-                (item.path === "/work" && location.pathname === "/projects");
+                (item.path === "/work" && location.pathname === "/projects") ||
+                (item.path === "/tools/resume-editor" && location.pathname === "/tools/ats-scanner");
               return (
                 <Link
                   key={item.label}

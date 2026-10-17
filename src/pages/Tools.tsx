@@ -217,14 +217,14 @@ export default function Tools() {
                 margin: "0 0 6px",
               }}
             >
-              Resume ATS Scanner & Keyword Gap Matcher
+              Resume Analyzer & Visual Canvas Editor (PDF & DOCX)
             </h2>
-            <p style={{ fontSize: "14px", color: "var(--text-2)", margin: 0, maxWidth: "560px", lineHeight: "1.6" }}>
-              Paste your tech resume and target JD to calculate ATS compatibility, spot missing technical keywords, and reveal actionable formatting fixes.
+            <p style={{ fontSize: "14px", color: "var(--text-2)", margin: 0, maxWidth: "580px", lineHeight: "1.6" }}>
+              Upload your PDF/Word resume or paste text against any job description. Get instant ATS scores, missing keywords, and live A4 visual canvas editing with Google XYZ bullet magic.
             </p>
           </div>
           <Link
-            to="/tools/ats-scanner"
+            to="/tools/resume-editor"
             style={{
               padding: "12px 22px",
               background: "var(--accent)",
@@ -240,7 +240,7 @@ export default function Tools() {
               whiteSpace: "nowrap",
             }}
           >
-            Launch ATS Scanner →
+            Launch Resume Editor →
           </Link>
         </div>
 
