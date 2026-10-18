@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { isSubscriber, getSubscriberEmail, saveSubscriber } from "@/utils/subscriber";
 
 interface NewsletterFormProps {
   compact?: boolean;
@@ -8,6 +9,15 @@ export function NewsletterForm({ compact = false }: NewsletterFormProps) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [alreadySubscribed, setAlreadySubscribed] = useState(false);
+
+  useEffect(() => {
+    if (isSubscriber()) {
+      setAlreadySubscribed(true);
+      const savedEmail = getSubscriberEmail();
+      if (savedEmail) setEmail(savedEmail);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,13 +31,9 @@ export function NewsletterForm({ compact = false }: NewsletterFormProps) {
     setStatus('loading');
     setErrorMsg('');
 
-    // Backup to local storage so no subscriber is ever lost
+    // Backup and save to unified subscriber store
     try {
-      const existing = JSON.parse(localStorage.getItem('adithya_subscribers') || '[]');
-      if (!existing.includes(email.trim())) {
-        existing.push(email.trim());
-        localStorage.setItem('adithya_subscribers', JSON.stringify(existing));
-      }
+      saveSubscriber(email.trim());
     } catch {
       // ignore
     }
@@ -46,7 +52,8 @@ export function NewsletterForm({ compact = false }: NewsletterFormProps) {
 
       if (res.ok && data.success) {
         setStatus('success');
-        setEmail('');
+        setAlreadySubscribed(true);
+        saveSubscriber(email.trim());
       } else {
         setStatus('error');
         setErrorMsg(data.error || 'Subscription failed. Please try again.');
@@ -54,7 +61,8 @@ export function NewsletterForm({ compact = false }: NewsletterFormProps) {
     } catch (err) {
       if (window.location.hostname === 'localhost') {
         setStatus('success');
-        setEmail('');
+        setAlreadySubscribed(true);
+        saveSubscriber(email.trim());
       } else {
         setStatus('error');
         setErrorMsg('Network error. Your email was saved in local backup.');
@@ -100,6 +108,11 @@ export function NewsletterForm({ compact = false }: NewsletterFormProps) {
             {status === 'loading' ? '...' : 'Subscribe'}
           </button>
         </form>
+        {alreadySubscribed && status === 'idle' && (
+          <p style={{ color: 'var(--accent)', fontSize: '11.5px', marginTop: '6px' }}>
+            ✓ Subscribed — All tools unlocked
+          </p>
+        )}
         {status === 'success' && (
           <div>
             <p style={{ color: '#2d7a2d', fontSize: '13px', marginTop: '8px' }}>
@@ -203,6 +216,25 @@ export function NewsletterForm({ compact = false }: NewsletterFormProps) {
             {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
           </button>
         </form>
+
+        {alreadySubscribed && status === 'idle' && (
+          <div style={{ marginTop: '14px' }}>
+            <span style={{ 
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '5px 12px',
+              background: 'rgba(200, 169, 110, 0.1)',
+              border: '1px solid rgba(200, 169, 110, 0.3)',
+              borderRadius: '20px',
+              color: 'var(--accent)',
+              fontSize: '12px',
+              fontWeight: '500'
+            }}>
+              ✓ Subscribed to Adithya AI Hub — VIP Tools Unlocked
+            </span>
+          </div>
+        )}
 
         {status === 'success' && (
           <div>

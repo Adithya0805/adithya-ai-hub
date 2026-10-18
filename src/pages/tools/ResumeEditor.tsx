@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Layout } from "@/components/Layout";
@@ -33,6 +33,13 @@ import { ResumeFileUploader } from "@/components/resume/ResumeFileUploader";
 import { ResumeCanvasEditor } from "@/components/resume/ResumeCanvasEditor";
 import { ResumeSEOSection } from "@/components/resume/ResumeSEOSection";
 import { parseRawResumeToDocument } from "@/utils/resumeStructureParser";
+import {
+  isSubscriber,
+  getSubscriberEmail,
+  saveSubscriber,
+  initSubscriberFromURL,
+  subscribeToSubscriberStatus,
+} from "@/utils/subscriber";
 
 const SAMPLE_RESUME = `ADITHYA KUPPUSAMY
 AI Engineer & Full-Stack Developer | Tamil Nadu, India
@@ -127,6 +134,7 @@ export function ResumeEditor() {
   const [jobDesc, setJobDesc] = useState("");
   const [extractedMeta, setExtractedMeta] = useState<ExtractedResumeFile | null>(null);
   const [email, setEmail] = useState("");
+  const [userIsSubscribed, setUserIsSubscribed] = useState(() => isSubscriber());
   const [step, setStep] = useState<"input" | "loading" | "partial" | "email" | "full">("input");
   const [result, setResult] = useState<ATSResult | null>(null);
   const [error, setError] = useState("");
@@ -138,6 +146,19 @@ export function ResumeEditor() {
 
   // Structured Resume Document for the Canvas
   const [resumeDoc, setResumeDoc] = useState<ResumeDocument>(() => parseRawResumeToDocument(SAMPLE_RESUME));
+
+  // Auto-detect subscriber status on mount and via URL params
+  useEffect(() => {
+    initSubscriberFromURL();
+    const sub = isSubscriber();
+    setUserIsSubscribed(sub);
+    const savedEmail = getSubscriberEmail();
+    if (savedEmail) setEmail(savedEmail);
+
+    return subscribeToSubscriberStatus((status) => {
+      setUserIsSubscribed(status);
+    });
+  }, []);
 
   // ── Step 1: Analyze ──────────────────────────────────────────────────────
   const handleAnalyze = async (resumeToAnalyze?: string) => {
@@ -163,6 +184,12 @@ export function ResumeEditor() {
     const payload = JSON.stringify({ resume: textToAnalyze, jobDesc: jdToAnalyze });
     let scanSuccess = false;
 
+    // Helper to determine destination step based on subscriber status
+    const resolveNextStep = () => {
+      const isSub = isSubscriber() || userIsSubscribed;
+      return isSub ? "full" : "partial";
+    };
+
     // 1. Relative endpoint
     try {
       const response = await fetch("/api/ats-scan", {
@@ -178,7 +205,7 @@ export function ResumeEditor() {
           if (data.structuredResume) {
             setResumeDoc(data.structuredResume);
           }
-          setStep("partial");
+          setStep(resolveNextStep());
           scanSuccess = true;
           return;
         }
@@ -203,7 +230,7 @@ export function ResumeEditor() {
             if (prodData.structuredResume) {
               setResumeDoc(prodData.structuredResume);
             }
-            setStep("partial");
+            setStep(resolveNextStep());
             scanSuccess = true;
             return;
           }
@@ -217,7 +244,7 @@ export function ResumeEditor() {
     if (!scanSuccess) {
       const fallbackData = generateLocalMock(textToAnalyze, jdToAnalyze);
       setResult(fallbackData);
-      setStep("partial");
+      setStep(resolveNextStep());
     }
   };
 
@@ -240,8 +267,12 @@ export function ResumeEditor() {
           source: "resume-editor-tool",
         }),
       });
+      saveSubscriber(email.trim());
+      setUserIsSubscribed(true);
       setStep("full");
     } catch {
+      saveSubscriber(email.trim());
+      setUserIsSubscribed(true);
       setStep("full");
     } finally {
       setIsSubscribing(false);
@@ -620,7 +651,13 @@ export function ResumeEditor() {
 
                   <button
                     type="button"
-                    onClick={() => setStep("email")}
+                    onClick={() => {
+                      if (userIsSubscribed || isSubscriber()) {
+                        setStep("full");
+                      } else {
+                        setStep("email");
+                      }
+                    }}
                     style={{
                       padding: "14px 36px",
                       background: "var(--accent)",
@@ -636,7 +673,13 @@ export function ResumeEditor() {
                       boxShadow: "0 2px 12px rgba(200, 169, 110, 0.25)",
                     }}
                   >
-                    Unlock Full Report & Visual Canvas Editor →
+                    {userIsSubscribed ? (
+                      <>
+                        <Sparkles size={16} /> Open Visual Canvas Editor →
+                      </>
+                    ) : (
+                      "Unlock Full Report & Visual Canvas Editor →"
+                    )}
                   </button>
                 </div>
               </motion.div>
@@ -744,7 +787,30 @@ export function ResumeEditor() {
                   {isSubscribing ? "Unlocking..." : "Unlock Canvas Editor Instantly"}
                 </button>
 
-                <p style={{ fontSize: "11px", color: "var(--text-3)", margin: 0 }}>
+                {/* 1-Click Restore Link for Existing Subscribers */}
+                <div style={{ marginTop: "10px", borderTop: "1px solid var(--border)", paddingTop: "12px" }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      saveSubscriber(email || undefined);
+                      setUserIsSubscribed(true);
+                      setStep("full");
+                    }}
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      color: "var(--accent)",
+                      fontSize: "12.5px",
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      padding: "4px 8px",
+                    }}
+                  >
+                    Already a newsletter subscriber? Click to restore instant access →
+                  </button>
+                </div>
+
+                <p style={{ fontSize: "11px", color: "var(--text-3)", margin: "10px 0 0" }}>
                   Free forever. Zero spam. Unsubscribe anytime in 1 click.
                 </p>
               </motion.div>
@@ -789,6 +855,25 @@ export function ResumeEditor() {
                         {result.score}/100
                       </span>
                     </div>
+
+                    {userIsSubscribed && (
+                      <span
+                        style={{
+                          padding: "4px 10px",
+                          background: "rgba(200, 169, 110, 0.12)",
+                          border: "1px solid rgba(200, 169, 110, 0.3)",
+                          borderRadius: "20px",
+                          fontSize: "11.5px",
+                          color: "var(--accent)",
+                          fontWeight: "600",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                        }}
+                      >
+                        ✓ Subscriber VIP Access
+                      </span>
+                    )}
 
                     <span style={{ fontSize: "13px", color: "var(--text-3)" }}>
                       ({result.matchedKeywords.length} matched / {result.missingKeywords.length} missing)
