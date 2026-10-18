@@ -14,6 +14,59 @@ export interface Post {
 
 export const posts: Post[] = [
   {
+    slug: 'violent-clashes-looting-and-buildings-ablaze-in-france-as-more-than-1-200-arrested-after-protests',
+    title: 'Violent clashes, looting and buildings ablaze in France as more than 1,200 arrested after protests',
+    seoTitle: 'AWS Bedrock Python Tutorial: LangGraph Deployment',
+    date: '2026-10-18',
+    excerpt: 'Learn to deploy robust AI applications with an AWS Bedrock Python tutorial, integrating LangGraph and optimizing for cloud.',
+    tags: ["AWS", "Cloud", "AI", "Python"],
+    category: 'Cloud & AI',
+    readTime: '2 min read',
+    featured: false,
+    content: `
+<h2>I was fine-tuning a LangGraph agent for Urimai AI at 2 AM when the news broke.</h2>
+<p>The headlines screamed about violent clashes and mass arrests in France. It made me think about the fragility of systems, not just societal ones, but also the AI systems we build. Specifically, how to ensure our AI applications are robust and scalable, especially when deployed in a cloud environment like AWS Bedrock Python tutorial setups.</p>
+
+<h2>The Problem</h2>
+<p>Many developers, myself included during my B.Tech, struggle with deploying complex AI applications reliably. Moving from a local development environment to a production cloud setup often introduces unforeseen challenges related to dependencies, scaling, and cost optimization. This pain point is particularly acute when integrating multiple services like LangGraph with AWS Bedrock and Pinecone.</p>
+
+<h2>Deploying LangGraph Agents with AWS Bedrock</h2>
+<p>My work on MediGuard, which uses LangGraph with AWS Bedrock and Pinecone, taught me the importance of a structured deployment. For those looking to deploy FastAPI applications, Google Cloud Run FastAPI offers a compelling alternative to traditional VM-based deployments, providing serverless scalability. However, for Bedrock, you're often orchestrating services. Here's a snippet for setting up a basic Bedrock client:</p>
+<pre><code>
+import boto3
+
+# Initialize Bedrock client
+bedrock_runtime = boto3.client(
+    service_name='bedrock-runtime',
+    region_name='us-east-1' # Or your preferred region
+)
+
+# Example: Invoke a model (simplified)
+# response = bedrock_runtime.invoke_model(
+#     modelId='anthropic.claude-v2',
+#     contentType='application/json',
+#     accept='application/json',
+#     body=json.dumps({"prompt": "Hello, AI!"})
+# )
+# print(response['body'].read().decode())
+</code></pre>
+<p>This foundational step is crucial before integrating it with LangGraph for more complex agentic workflows. Ensuring your IAM roles are correctly configured for Bedrock access is paramount.</p>
+
+<h2>What I Got Wrong First</h2>
+<p>I initially tried to bundle all my dependencies directly into a single Docker image without proper layering, leading to massive image sizes and slow deployments, especially when working on projects like TownRise AI.</p>
+
+<h2>3 Things to Remember</h2>
+<ul>
+  <li>Always use environment variables for sensitive credentials, never hardcode them.</li>
+  <li>Optimize your Dockerfiles for smaller image sizes and faster builds.</li>
+  <li>Monitor your cloud resource usage closely to avoid unexpected costs, especially for cloud AI India projects.</li>
+</ul>
+
+<p><em>— Adithya, Ambur, Tamil Nadu. Building real AI systems while job hunting.
+Follow for weekly posts: adithyaai.is-cool.dev</em></p>
+    `
+  },
+  {
     slug: 'how-to-get-a-job-in-startup-company-at-tamilnadu',
     title: 'how to get a job in startup company at tamilnadu',
     seoTitle: 'Startup Jobs Tamil Nadu: Fresher Job Search India Guide',
