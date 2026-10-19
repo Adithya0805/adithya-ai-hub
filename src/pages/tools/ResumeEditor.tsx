@@ -87,6 +87,130 @@ REQUIRED QUALIFICATIONS:
 - Strong proficiency in PostgreSQL and database performance optimization.
 - Experience with Docker containerization and CI/CD pipelines on AWS.`;
 
+const SAMPLE_ML_RESUME = `ARJUN SHARMA
+Machine Learning Engineer & NLP Researcher | Bengaluru, India
+Email: arjun.ai@example.com | GitHub: github.com/arjun-ml | Portfolio: arjun-ml.dev
+
+SUMMARY:
+B.Tech in Artificial Intelligence (2025 Graduate, CGPA: 8.8/10). Hands-on experience developing transformer-based NLP pipelines, LoRA fine-tuning for open LLMs, and PyTorch model quantization. Published researcher in automated defect detection.
+
+TECHNICAL SKILLS:
+- Languages: Python, C++, SQL, Bash
+- Machine Learning & Deep Learning: PyTorch, Hugging Face Transformers, LoRA/PEFT, scikit-learn, OpenCV
+- MLOps & Tools: MLflow, Docker, Weights & Biases, Git, FastAPI, AWS S3
+
+PROJECTS:
+1. NeuralMed: Transformer-based Clinical Named Entity Recognition
+- Fine-tuned RoBERTa and BioBERT models on NCBI-disease dataset, achieving 92.4% F1-score across 15,000 biomedical entities.
+- Quantized model using ONNX runtime and TensorRT, reducing inference latency by 45% (down to 18ms per document).
+- Deployed containerized FastAPI microservice on AWS EC2 with automated Docker CI/CD pipelines.
+
+2. VisionInspect: Real-Time Industrial Defect Detection
+- Trained YOLOv8 and Vision Transformers (ViT) on custom 20,000-image dataset, reaching 94.8% mAP@0.5.
+- Implemented multi-threaded video stream inference pipeline processing 60 FPS on edge Nvidia Jetson devices.
+
+EDUCATION:
+- B.Tech in Artificial Intelligence & Data Science | 2021 – 2025 | CGPA: 8.8/10
+
+CERTIFICATIONS & TRAINING:
+- DeepLearning.AI Deep Learning Specialization (Andrew Ng)
+- Hugging Face Transformers & NLP Certification`;
+
+const SAMPLE_ML_JD = `Machine Learning Engineer (Entry-Level / Graduate)
+Company: Cognition Systems
+Location: Hybrid / Bengaluru
+
+We are seeking a high-velocity ML Engineer with strong foundations in Deep Learning, PyTorch, and NLP.
+
+RESPONSIBILITIES:
+- Train, evaluate, and fine-tune foundation models (Transformers, LoRA, QLoRA) on domain datasets.
+- Optimize model inference latency using quantization (ONNX, TensorRT, vLLM).
+- Build and maintain data pipelines for model training with MLflow and Weights & Biases.
+- Develop production-grade REST APIs in Python using FastAPI.
+- Containerize and deploy models with Docker on AWS cloud environments.
+
+QUALIFICATIONS:
+- B.Tech or M.Tech in Artificial Intelligence, Computer Science, or Data Science (2024-2025 batch).
+- Strong proficiency in Python, PyTorch, and Hugging Face libraries.
+- Hands-on experience with Computer Vision (YOLO/ViT) or NLP transformers.
+- Knowledge of Docker containerization and Git version control.`;
+
+const SAMPLE_FS_RESUME = `PRIYA SUNDARAM
+Full-Stack AI Developer | Chennai, India
+Email: priya.sundar@example.com | GitHub: github.com/priyasundar | LinkedIn: linkedin.com/in/priyasundar
+
+SUMMARY:
+B.Tech graduate in Computer Science & AI (2025) with expertise in building end-to-end intelligent web applications. Proficient in React, TypeScript, Next.js, FastAPI, Vector Databases (Pinecone), and LLM API integrations.
+
+TECHNICAL SKILLS:
+- Languages: TypeScript, JavaScript, Python, SQL, HTML5, CSS3
+- Frontend: React.js, Next.js, Tailwind CSS, Redux Toolkit, Framer Motion
+- Backend & Cloud: Node.js, FastAPI, PostgreSQL, Pinecone, Docker, Vercel, Supabase
+- AI Tooling: OpenAI API, Gemini API, LangChain, Semantic Search, Prompt Engineering
+
+PROJECTS:
+1. Omnisearch AI: Semantic Code Search Engine
+- Built full-stack semantic search engine indexing 50,000+ GitHub repositories using Pinecone vector database and OpenAI embeddings.
+- Developed real-time responsive React UI with Tailwind CSS and debounced instant search delivering sub-100ms response times.
+- Implemented FastAPI backend microservice with Redis caching, reducing repeated vector query costs by 68%.
+
+2. SmartNotes AI: Autonomous Research Assistant
+- Created web workspace that extracts key insights, creates flashcards, and synthesizes audio notes using Gemini 2.5 Flash.
+- Integrated Supabase vector store with pgvector for local embeddings and user session synchronization.
+
+EDUCATION:
+- B.Tech in Computer Science and Engineering | 2021 – 2025 | CGPA: 8.6/10
+
+CERTIFICATIONS & TRAINING:
+- Full-Stack Web Development Bootcamp (Meta Certified)
+- Prompt Engineering for Developers (DeepLearning.AI)`;
+
+const SAMPLE_FS_JD = `Full-Stack AI Engineer
+Company: Synapse Cloud Labs
+Location: Remote
+
+We are looking for a Full-Stack AI Engineer to create intuitive user experiences powered by Generative AI and vector search.
+
+RESPONSIBILITIES:
+- Design and build responsive modern frontend interfaces using React, TypeScript, and Tailwind CSS.
+- Integrate LLM APIs (OpenAI, Gemini) and Vector Databases (Pinecone, pgvector) for semantic search.
+- Develop scalable backend REST APIs using FastAPI or Node.js.
+- Optimize client-side bundle size, Core Web Vitals, and real-time streaming state management.
+- Deploy full-stack applications with Docker and CI/CD pipelines.
+
+QUALIFICATIONS:
+- Proven experience with React, TypeScript, Next.js, and modern CSS.
+- Hands-on knowledge of Python, FastAPI, and vector embedding pipelines.
+- Familiarity with PostgreSQL, Redis caching, and Docker.
+- Passion for Generative AI and agentic user interfaces.`;
+
+const STUDENT_PRESETS = [
+  {
+    id: "genai",
+    label: "🎓 GenAI & LangGraph Engineer",
+    badge: "Multi-Agent & RAG",
+    resume: SAMPLE_RESUME,
+    jd: SAMPLE_JD,
+    fileName: "Adithya_Kuppusamy_AI_Resume.pdf",
+  },
+  {
+    id: "ml-nlp",
+    label: "🔬 ML & NLP Researcher / Student",
+    badge: "Transformers & LoRA",
+    resume: SAMPLE_ML_RESUME,
+    jd: SAMPLE_ML_JD,
+    fileName: "Arjun_Sharma_ML_Resume.pdf",
+  },
+  {
+    id: "fullstack-ai",
+    label: "⚡ AI Full-Stack Developer",
+    badge: "React & Vector DB",
+    resume: SAMPLE_FS_RESUME,
+    jd: SAMPLE_FS_JD,
+    fileName: "Priya_Sundaram_FullStack_AI_Resume.pdf",
+  },
+];
+
 // Local dev mock generator
 function generateLocalMock(resumeText: string, jdText: string): ATSResult {
   const commonTech = [
@@ -279,18 +403,22 @@ export function ResumeEditor() {
     }
   };
 
-  const handleUseSample = () => {
-    setResume(SAMPLE_RESUME);
-    setJobDesc(SAMPLE_JD);
+  const handleLoadPreset = (preset: (typeof STUDENT_PRESETS)[0]) => {
+    setResume(preset.resume);
+    setJobDesc(preset.jd);
     setExtractedMeta({
-      text: SAMPLE_RESUME,
-      fileName: "Adithya_Kuppusamy_AI_Resume.pdf",
+      text: preset.resume,
+      fileName: preset.fileName,
       fileSize: 45200,
       fileType: "pdf",
       pageCount: 1,
     });
-    setResumeDoc(parseRawResumeToDocument(SAMPLE_RESUME));
+    setResumeDoc(parseRawResumeToDocument(preset.resume));
     setError("");
+  };
+
+  const handleUseSample = () => {
+    handleLoadPreset(STUDENT_PRESETS[0]);
   };
 
   const scoreColor = (score: number) =>
@@ -504,6 +632,91 @@ export function ResumeEditor() {
                 )}
 
                 {/* Action Buttons */}
+                {/* ── AI STUDENT CAREER PRESETS ──────────────────────────────────── */}
+                <div
+                  style={{
+                    marginBottom: "20px",
+                    padding: "14px 16px",
+                    background: "var(--bg-1)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                      flexWrap: "wrap",
+                      gap: "6px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "11px",
+                        fontWeight: "700",
+                        color: "var(--accent)",
+                        textTransform: "uppercase",
+                        letterSpacing: "1.2px",
+                        fontFamily: "var(--font-mono)",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                      }}
+                    >
+                      <Sparkles size={13} /> AI Student Career Presets (1-Click Load)
+                    </span>
+                    <span style={{ fontSize: "11.5px", color: "var(--text-3)" }}>
+                      Curated templates for 2025/2026 campus placements & startups
+                    </span>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                      gap: "8px",
+                    }}
+                  >
+                    {STUDENT_PRESETS.map((preset) => (
+                      <button
+                        key={preset.id}
+                        type="button"
+                        onClick={() => handleLoadPreset(preset)}
+                        style={{
+                          padding: "9px 12px",
+                          background: "var(--bg-0)",
+                          border: "1px solid var(--border)",
+                          borderRadius: "6px",
+                          color: "var(--text-1)",
+                          fontSize: "12px",
+                          fontWeight: "600",
+                          cursor: "pointer",
+                          textAlign: "left",
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "3px",
+                          transition: "all 0.15s",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.borderColor = "var(--accent)";
+                          e.currentTarget.style.background = "var(--bg-2)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.borderColor = "var(--border)";
+                          e.currentTarget.style.background = "var(--bg-0)";
+                        }}
+                      >
+                        <span>{preset.label}</span>
+                        <span style={{ fontSize: "10.5px", color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>
+                          {preset.badge}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <div style={{ display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
                   <button
                     type="button"
@@ -540,7 +753,7 @@ export function ResumeEditor() {
                       cursor: "pointer",
                     }}
                   >
-                    Load Sample Resume & JD
+                    Reset to Default Sample
                   </button>
                 </div>
               </motion.div>

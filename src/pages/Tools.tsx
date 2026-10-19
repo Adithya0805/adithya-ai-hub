@@ -8,6 +8,7 @@ import { SkillGraph } from "@/components/SkillGraph";
 import { ProjectRecommender } from "@/components/ProjectRecommender";
 import { SystemPromptStudio } from "@/components/SystemPromptStudio";
 import { SqlStudio } from "@/components/SqlStudio";
+import { StudentTokenCalculator } from "@/components/StudentTokenCalculator";
 import {
   Activity,
   MessageSquare,
@@ -28,6 +29,7 @@ import { useNavigate, useSearchParams, Link } from "react-router-dom";
 
 type ToolTab =
   | "mediguard"
+  | "token-studio"
   | "prompt-studio"
   | "sql-studio"
   | "skillspeak"
@@ -37,6 +39,7 @@ type ToolTab =
 
 const VALID_TABS: ToolTab[] = [
   "mediguard",
+  "token-studio",
   "prompt-studio",
   "sql-studio",
   "skillspeak",
@@ -75,6 +78,13 @@ export default function Tools() {
       icon: Activity,
       tag: "Multi-Agent System",
       desc: "5-agent LangGraph clinical triage & RAG diagnostic simulator",
+    },
+    {
+      id: "token-studio" as ToolTab,
+      label: "Token & Quota Studio",
+      icon: Cpu,
+      tag: "AI Student Hub",
+      desc: "Simulate prompt & thinking tokens, compare model costs, and prevent free tier exhaustion",
     },
     {
       id: "prompt-studio" as ToolTab,
@@ -397,6 +407,12 @@ export default function Tools() {
                 </p>
               </div>
               <MediGuardSandbox />
+            </div>
+          )}
+
+          {activeTab === "token-studio" && (
+            <div>
+              <StudentTokenCalculator />
             </div>
           )}
 

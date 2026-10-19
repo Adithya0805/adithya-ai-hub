@@ -1,17 +1,30 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowUpRight, Sparkles, MessageCircle } from "lucide-react";
+import { Menu, X, ArrowUpRight, Sparkles, MessageCircle, Zap, BookOpen } from "lucide-react";
 import { Logo } from "./Logo";
+import { getThemeMode, setThemeMode, subscribeToThemeMode, ThemeMode } from "@/utils/themeMode";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [themeMode, setLocalThemeMode] = useState<ThemeMode>(() => getThemeMode());
   const location = useLocation();
 
   // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
+
+  // Subscribe to external theme mode updates
+  useEffect(() => {
+    return subscribeToThemeMode((mode) => setLocalThemeMode(mode));
+  }, []);
+
+  const toggleThemeMode = () => {
+    const next = themeMode === "studio" ? "editorial" : "studio";
+    setThemeMode(next);
+    setLocalThemeMode(next);
+  };
 
   const navItems = [
     { label: "Work", path: "/work" },
@@ -118,6 +131,42 @@ export function Navbar() {
             })}
 
             <div style={{ display: "flex", alignItems: "center", gap: "8px", marginLeft: "6px" }}>
+              {/* Studio vs Editorial Mode Toggle */}
+              <button
+                type="button"
+                onClick={toggleThemeMode}
+                aria-label={`Switch to ${themeMode === "studio" ? "Editorial" : "Studio"} Mode`}
+                title={`Switch to ${themeMode === "studio" ? "Editorial Mode (Classic Reading)" : "Professional Studio Mode (Cyber Engineering)"}`}
+                style={{
+                  fontSize: "11px",
+                  fontWeight: "700",
+                  fontFamily: "var(--font-mono)",
+                  letterSpacing: "0.5px",
+                  color: themeMode === "studio" ? "#00f5a0" : "var(--accent)",
+                  background: themeMode === "studio" ? "rgba(0, 245, 160, 0.12)" : "rgba(200, 169, 110, 0.12)",
+                  border: themeMode === "studio" ? "1px solid rgba(0, 245, 160, 0.35)" : "1px solid rgba(200, 169, 110, 0.3)",
+                  padding: "5px 9px",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "5px",
+                  transition: "all 0.2s",
+                }}
+              >
+                {themeMode === "studio" ? (
+                  <>
+                    <Zap size={12} style={{ color: "#00f5a0" }} />
+                    <span>STUDIO</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles size={12} style={{ color: "#c8a96e" }} />
+                    <span>EDITORIAL</span>
+                  </>
+                )}
+              </button>
+
               <a
                 href="https://wa.me/918825714576?text=Hi%20Adithya%2C%20I%20am%20interested%20in%20discussing%20an%20AI%20project"
                 target="_blank"
@@ -217,6 +266,49 @@ export function Navbar() {
             }}
           >
             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              {/* Workspace Mode Switcher Card */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "14px",
+                  padding: "10px 14px",
+                  background: "var(--bg-1)",
+                  borderRadius: "8px",
+                  border: "1px solid var(--border)",
+                }}
+              >
+                <div>
+                  <div style={{ fontSize: "12px", fontWeight: "600", color: "var(--text-1)" }}>
+                    Workspace Mode
+                  </div>
+                  <div style={{ fontSize: "11px", color: themeMode === "studio" ? "#00f5a0" : "var(--accent)" }}>
+                    {themeMode === "studio" ? "⚡ Professional Studio" : "📖 Editorial Classic"}
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={toggleThemeMode}
+                  style={{
+                    padding: "6px 12px",
+                    background: themeMode === "studio" ? "rgba(0, 245, 160, 0.15)" : "rgba(200, 169, 110, 0.15)",
+                    border: themeMode === "studio" ? "1px solid rgba(0, 245, 160, 0.4)" : "1px solid rgba(200, 169, 110, 0.4)",
+                    borderRadius: "6px",
+                    color: themeMode === "studio" ? "#00f5a0" : "var(--accent)",
+                    fontSize: "11.5px",
+                    fontWeight: "700",
+                    cursor: "pointer",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                  }}
+                >
+                  {themeMode === "studio" ? <Zap size={12} /> : <Sparkles size={12} />}
+                  <span>Toggle</span>
+                </button>
+              </div>
+
               <p
                 style={{
                   fontSize: "10px",
