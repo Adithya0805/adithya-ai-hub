@@ -176,30 +176,26 @@ export default function Index() {
 
           {/* Headline */}
           <motion.h1
-            initial={{ opacity: 0, y: 32 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             style={{
               fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(52px, 8vw, 100px)',
-              fontWeight: '400', lineHeight: '1.0',
-              letterSpacing: '-3px', color: 'var(--text-1)',
-              maxWidth: '820px', marginBottom: '28px'
+              fontSize: 'clamp(46px, 7vw, 88px)',
+              fontWeight: '400',
+              lineHeight: '1.08',
+              letterSpacing: '-1.5px',
+              color: 'var(--text-1)',
+              maxWidth: '860px',
+              marginBottom: '26px',
+              textWrap: 'balance',
             }}
           >
-            AI Engineer building<br />
-            <span style={{
-              color: 'var(--accent)', fontStyle: 'italic', position: 'relative'
-            }}>
+            AI Engineer building{' '}
+            <span style={{ color: 'var(--accent)', fontStyle: 'italic' }}>
               real systems
-              <span style={{
-                position: 'absolute', bottom: '-4px', left: 0, right: 0,
-                height: '1px',
-                background: 'linear-gradient(90deg, var(--accent), transparent)',
-                opacity: 0.5
-              }} />
-            </span>{' '}for<br />
-            real problems.
+            </span>{' '}
+            for real problems.
           </motion.h1>
 
           {/* Typewriter line */}

@@ -28,9 +28,8 @@ export function Navbar() {
 
   const navItems = [
     { label: "Work", path: "/work" },
-    { label: "Freelance", path: "/freelance" },
     { label: "Services", path: "/services" },
-    { label: "Resume ATS & Editor", path: "/tools/resume-editor", badge: "NEW" },
+    { label: "Resume Editor", path: "/tools/resume-editor", badge: "NEW" },
     { label: "AI Labs", path: "/tools" },
     { label: "Blog", path: "/blog" },
     { label: "About", path: "/about" },
@@ -65,7 +64,7 @@ export function Navbar() {
           <Logo variant="full" size="md" />
 
           {/* Desktop Nav Links */}
-          <div className="nav-links" style={{ display: "flex", gap: "22px", alignItems: "center" }}>
+          <div className="nav-links" style={{ display: "flex", gap: "16px", alignItems: "center" }}>
             {navItems.map((item) => {
               const isActive =
                 location.pathname === item.path ||
@@ -84,13 +83,14 @@ export function Navbar() {
                     transition: "color 0.15s",
                     position: "relative",
                     padding: "4px 0",
+                    whiteSpace: "nowrap",
                   }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-1)")}
                   onMouseLeave={(e) =>
                     (e.currentTarget.style.color = isActive ? "var(--text-1)" : "var(--text-2)")
                   }
                 >
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", whiteSpace: "nowrap" }}>
                     {item.label}
                     {item.badge && (
                       <span
@@ -130,7 +130,7 @@ export function Navbar() {
               );
             })}
 
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginLeft: "6px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginLeft: "8px", flexShrink: 0 }}>
               {/* Studio vs Editorial Mode Toggle */}
               <button
                 type="button"
