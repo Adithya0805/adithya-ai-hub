@@ -144,8 +144,8 @@ export default function Index() {
         overflow: 'hidden', borderBottom: '1px solid var(--border)'
       }}>
         <NeuralCanvas />
-        <GlowOrb top="35%" left="18%" size={700} opacity={0.07} />
-        <GlowOrb top="65%" left="72%" size={480} color="100,160,255" opacity={0.04} />
+        <GlowOrb top="35%" left="20%" size={750} opacity={0.22} />
+        <GlowOrb top="65%" left="72%" size={520} color="56, 189, 248" opacity={0.16} />
 
         <div style={{
           maxWidth: 'var(--max)', margin: '0 auto', padding: '140px 32px 120px',

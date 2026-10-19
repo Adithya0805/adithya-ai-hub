@@ -19,8 +19,14 @@
   /* Accent */
   --accent: #c8a96e;
   --accent-dim: rgba(200, 169, 110, 0.12);
+  --accent-rgb: 200, 169, 110;
   --accent-cyan: #38bdf8;
   --accent-violet: #a855f7;
+
+  /* Background Cyber Matrix & Cursor Spotlight */
+  --bg-grid-color: rgba(255, 255, 255, 0.045);
+  --bg-spotlight-color: rgba(200, 169, 110, 0.08);
+
 
   /* Borders */
   --border: rgba(255,255,255,0.06);
@@ -87,8 +93,14 @@ html[data-theme="studio"],
 
   --accent: #00f5a0;
   --accent-dim: rgba(0, 245, 160, 0.12);
+  --accent-rgb: 0, 245, 160;
   --accent-cyan: #38bdf8;
   --accent-violet: #a855f7;
+
+  /* Background Cyber Matrix & Cursor Spotlight */
+  --bg-grid-color: rgba(0, 245, 160, 0.045);
+  --bg-spotlight-color: rgba(0, 245, 160, 0.10);
+
 
   --border: rgba(255, 255, 255, 0.08);
   --border-hover: rgba(0, 245, 160, 0.3);
@@ -125,6 +137,11 @@ html {
   }
 }
 
+#root {
+  position: relative;
+  z-index: 1;
+}
+
 body {
   background-color: var(--bg-0);
   color: var(--text-1);
@@ -133,7 +150,25 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.2s ease, color 0.2s ease;
+  position: relative;
+  min-height: 100vh;
 }
+
+/* Global Cyber Matrix Grid & Interactive Cursor Spotlight */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle 650px at var(--mouse-x, 50vw) var(--mouse-y, 35vh), var(--bg-spotlight-color), transparent 70%),
+    radial-gradient(var(--bg-grid-color) 1.2px, transparent 1.2px);
+  background-size: 100% 100%, 28px 28px;
+  background-position: 0 0, 0 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: background-image 0.3s ease;
+}
+
 
 /* Modern Web Guidance: Balanced and pretty typography */
 h1, h2, h3, h4, h5, h6 {
@@ -407,4 +442,28 @@ p {
     gap: 8px;
   }
 }
+
+/* Ambient Floating Glow Animation */
+@keyframes orb-float {
+  0% {
+    transform: translate(-50%, -50%) scale(1) translate(0px, 0px);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.08) translate(24px, -20px);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.95) translate(-18px, 16px);
+  }
+}
+
+/* Accessibility: graceful motion degradation */
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    background-image: radial-gradient(var(--bg-grid-color) 1.2px, transparent 1.2px);
+  }
+  .glow-orb-pulse, [style*="orb-float"] {
+    animation: none !important;
+  }
+}
+
 

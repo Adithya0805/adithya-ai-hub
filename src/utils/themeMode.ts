@@ -64,11 +64,49 @@ export function applyThemeToDOM(mode: ThemeMode): void {
 }
 
 /**
- * Initializes the theme mode on initial page load.
+ * Sets up a lightweight, RAF-throttled pointer tracking listener that updates
+ * CSS custom properties `--mouse-x` and `--mouse-y` on the root document for ambient spotlight effects.
+ */
+export function initPointerSpotlight(): () => void {
+  if (typeof window === "undefined") return () => {};
+
+  // Skip on devices without fine pointer (touchscreens)
+  if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) {
+    return () => {};
+  }
+
+  let rafId: number | null = null;
+  let latestX = -1000;
+  let latestY = -1000;
+
+  const onPointerMove = (e: PointerEvent) => {
+    latestX = e.clientX;
+    latestY = e.clientY;
+
+    if (rafId === null) {
+      rafId = requestAnimationFrame(() => {
+        document.documentElement.style.setProperty("--mouse-x", `${latestX}px`);
+        document.documentElement.style.setProperty("--mouse-y", `${latestY}px`);
+        rafId = null;
+      });
+    }
+  };
+
+  window.addEventListener("pointermove", onPointerMove, { passive: true });
+
+  return () => {
+    window.removeEventListener("pointermove", onPointerMove);
+    if (rafId !== null) cancelAnimationFrame(rafId);
+  };
+}
+
+/**
+ * Initializes the theme mode and background pointer tracking on initial page load.
  */
 export function initThemeMode(): ThemeMode {
   const current = getThemeMode();
   applyThemeToDOM(current);
+  initPointerSpotlight();
   return current;
 }
 
@@ -90,3 +128,4 @@ export function subscribeToThemeMode(callback: (mode: ThemeMode) => void): () =>
     window.removeEventListener("storage", handler);
   };
 }
+
