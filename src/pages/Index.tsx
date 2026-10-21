@@ -68,6 +68,13 @@ const smallProjects = [
 
 const interactiveTools = [
   {
+    icon: '🐍',
+    badge: 'Python Wasm · Zero Quota',
+    name: 'Python AI Engineering Studio',
+    desc: 'Execute real Python 3.11 AI code in-browser: sliding-window RAG chunking, vector cosine distance, prompt security shields, and Google XYZ linters.',
+    route: '/tools?tab=python-studio',
+  },
+  {
     icon: '📄',
     badge: 'Gemini AI · Free',
     name: 'Resume ATS Scanner',
