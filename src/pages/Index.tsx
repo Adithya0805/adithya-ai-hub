@@ -3,7 +3,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/Layout";
-import { HeroMockupCluster } from "@/components/DeviceMockups";
+import { HeroNeuralStage } from "@/components/HeroNeuralStage";
+import { HeroNeuralTopology } from "@/components/HeroNeuralTopology";
+import { AIProblemAnalyzer } from "@/components/AIProblemAnalyzer";
 import { WorkCarousel } from "@/components/WorkCarousel";
 import { StoryScenes } from "@/components/StoryScenes";
 import { TRANSITION_EASE } from "@/lib/motion";
@@ -16,6 +18,7 @@ import {
   ExternalLink,
   ArrowUpRight,
   CheckCircle2,
+  Cpu,
 } from "lucide-react";
 
 export default function Index() {
@@ -51,36 +54,39 @@ export default function Index() {
   return (
     <Layout>
       <Helmet>
-        <title>Adithya Kuppusamy — Freelance Web & AI Developer</title>
+        <title>Adithya Kuppusamy — AI Systems Architect & Applied Researcher</title>
         <meta
           name="description"
-          content="Portfolio of Adithya Kuppusamy, freelance web & AI developer. Building high-performance websites and practical AI tools that make small businesses easier to run."
+          content="Applied AI researcher and systems architect building autonomous AI systems, multi-agent pipelines, and production digital platforms that solve deep real-world problems."
         />
         <link rel="canonical" href="https://adithya-ai-hub.vercel.app/" />
-        <meta property="og:title" content="Adithya Kuppusamy — Freelance Web & AI Developer" />
+        <meta property="og:title" content="Adithya Kuppusamy — AI Systems Architect & Applied Researcher" />
         <meta
           property="og:description"
-          content="Websites and AI that make small businesses easier to run. Custom platforms, smart automations, and practical AI tools."
+          content="AI systems engineered to solve what software alone cannot touch. From multi-agent clinical supervisors to bilingual RAG commerce engines."
         />
         <meta property="og:url" content="https://adithya-ai-hub.vercel.app/" />
         <meta property="og:type" content="website" />
       </Helmet>
 
-      {/* ── 1. HERO SECTION (Headline Left, Parallax Mockup Cluster Right) ─ */}
+      {/* ── 1. HERO SECTION (Aura Left, Living AI Operations Stage Right) ─ */}
       <section
         style={{
           position: "relative",
-          minHeight: "88vh",
+          minHeight: "90vh",
           display: "flex",
           alignItems: "center",
           borderBottom: "1px solid var(--border)",
           backgroundColor: "var(--bg-0)",
           overflow: "hidden",
-          paddingTop: "48px",
-          paddingBottom: "64px",
+          paddingTop: "56px",
+          paddingBottom: "72px",
         }}
       >
-        <div className="site-container">
+        {/* Background Neural Topology & Vector Mesh */}
+        <HeroNeuralTopology />
+
+        <div className="site-container" style={{ position: "relative", zIndex: 1 }}>
           <div
             style={{
               display: "grid",
@@ -90,9 +96,9 @@ export default function Index() {
             }}
             className="hero-split-grid"
           >
-            {/* Left Column: Typography & Action Buttons */}
+            {/* Left Column: Aura, Conviction & High-Level Positioning */}
             <div>
-              {/* Status Badge */}
+              {/* Status Beacon Badge */}
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -101,115 +107,161 @@ export default function Index() {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "8px",
-                  padding: "5px 14px",
+                  padding: "6px 14px",
                   borderRadius: "100px",
                   backgroundColor: "#FFFFFF",
                   border: "1px solid var(--border)",
-                  boxShadow: "0 2px 6px rgba(21, 21, 21, 0.04)",
-                  marginBottom: "28px",
+                  boxShadow: "0 2px 8px rgba(21, 21, 21, 0.04)",
+                  marginBottom: "24px",
                 }}
               >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
                 <span
                   style={{
-                    width: "7px",
-                    height: "7px",
-                    borderRadius: "50%",
-                    backgroundColor: "#059669",
-                    display: "block",
-                  }}
-                />
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "var(--text-1)",
+                    fontSize: "11px",
+                    color: "#151515",
                     fontFamily: "var(--font-mono)",
-                    letterSpacing: "0.5px",
-                    fontWeight: "600",
+                    letterSpacing: "1px",
+                    fontWeight: "700",
+                    textTransform: "uppercase",
                   }}
                 >
-                  Freelance Web & AI Developer · Available for Projects
+                  AI Systems Architect & Researcher · Solving Deep Problems
                 </span>
               </motion.div>
 
-              {/* Main Headline */}
+              {/* Main Headline with Heavy Aura */}
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1, ease: TRANSITION_EASE }}
                 className="text-display"
                 style={{
-                  marginBottom: "24px",
+                  marginBottom: "20px",
                   color: "#151515",
                   textWrap: "balance",
+                  lineHeight: "1.02",
                 }}
               >
-                Websites and AI that make small businesses easier to run.
+                AI systems engineered to solve what software alone{" "}
+                <span style={{ fontStyle: "italic", textDecoration: "underline", textDecorationColor: "var(--border)", textUnderlineOffset: "8px" }}>
+                  cannot touch.
+                </span>
               </motion.h1>
 
-              {/* One Supporting Line */}
+              {/* Supporting Authority Line */}
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2, ease: TRANSITION_EASE }}
                 style={{
-                  fontSize: "clamp(16px, 2vw, 19px)",
-                  color: "var(--text-2)",
-                  lineHeight: "1.7",
-                  marginBottom: "36px",
-                  maxWidth: "540px",
+                  fontSize: "clamp(16px, 1.8vw, 19px)",
+                  color: "#4A453E",
+                  lineHeight: "1.65",
+                  marginBottom: "32px",
+                  maxWidth: "560px",
                   textWrap: "pretty",
                 }}
               >
-                Custom web platforms, smart WhatsApp automations, and catalog AI assistants built for real commercial operations — backed by live client deployments.
+                Applied AI researcher turning frontier autonomous intelligence into production engines. From stateful multi-agent clinical supervisors to zero-overhead conversational WhatsApp commerce — if it can be imagined, it can be engineered.
               </motion.p>
 
-              {/* Action Buttons: Solid Ink "See my work" and WhatsApp Button */}
+              {/* Action Buttons: See my work (direct link to /work) + Advanced Services Workflow + WhatsApp */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3, ease: TRANSITION_EASE }}
                 style={{
                   display: "flex",
-                  gap: "14px",
+                  gap: "12px",
                   flexWrap: "wrap",
                   alignItems: "center",
                 }}
               >
-                <a href="#work" className="btn-ink" style={{ padding: "14px 28px", fontSize: "14.5px" }}>
+                {/* 1. See my work -> navigates directly to /work */}
+                <Link
+                  to="/work"
+                  className="btn-ink"
+                  style={{
+                    padding: "13px 26px",
+                    fontSize: "14px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
                   <span>See my work</span>
                   <ArrowRight size={15} />
-                </a>
+                </Link>
 
+                {/* 2. Advanced Service Workflow -> navigates to /services */}
+                <Link
+                  to="/services"
+                  style={{
+                    padding: "13px 22px",
+                    fontSize: "14px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    backgroundColor: "#FFFFFF",
+                    border: "1px solid var(--border)",
+                    color: "#151515",
+                    borderRadius: "6px",
+                    textDecoration: "none",
+                    fontWeight: "600",
+                    boxShadow: "0 2px 6px rgba(21, 21, 21, 0.04)",
+                    transition: "all 0.15s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "#FAF7F2";
+                    e.currentTarget.style.borderColor = "#151515";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "#FFFFFF";
+                    e.currentTarget.style.borderColor = "var(--border)";
+                  }}
+                >
+                  <Sparkles size={15} color="#8E6F32" />
+                  <span>AI Services & Workflow</span>
+                </Link>
+
+                {/* 3. WhatsApp Direct Consultation */}
                 <a
-                  href="https://wa.me/918825714576?text=Hi%20Adithya%2C%20I%20have%20a%20project%20in%20mind%20and%20would%20like%20to%20discuss."
+                  href="https://wa.me/918825714576?text=Hi%20Adithya%2C%20I%20have%20an%20AI%20system%20or%20complex%20problem%20I%20would%20like%20to%20architect%20with%20you."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-whatsapp"
-                  style={{ padding: "14px 24px", fontSize: "14.5px" }}
+                  style={{ padding: "13px 20px", fontSize: "14px" }}
                 >
-                  <MessageCircle size={16} />
-                  <span>WhatsApp me</span>
+                  <MessageCircle size={15} />
+                  <span>WhatsApp Consult</span>
                 </a>
               </motion.div>
             </div>
 
-            {/* Right Column: 3-Layer Parallax Mockup Cluster (Laptop Aranya + Phone SR Travels + Phone Dino Leathers) */}
+            {/* Right Column: Interactive AI Operations Console & Neural Simulator */}
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.2, ease: TRANSITION_EASE }}
               style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
             >
-              <HeroMockupCluster />
+              <HeroNeuralStage />
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ── 2. WORK SECTION (Horizontal Scroll-Snap Colour Stage Carousel) ─ */}
+      {/* ── 2. INTERACTIVE AI CAPABILITY & PROBLEM ANALYZER ──────────────── */}
+      <AIProblemAnalyzer />
+
+      {/* ── 3. WORK SECTION (Horizontal Scroll-Snap Colour Stage Carousel) ─ */}
       <WorkCarousel />
 
-      {/* ── 3. STORY SCENES (Light Cards with "Before / With AI" Slider) ── */}
+      {/* ── 4. STORY SCENES (Light Cards with "Before / With AI" Slider) ── */}
       <StoryScenes />
 
       {/* ── 4. AI SYSTEMS & RESPONSIBLE AI SECTION ─────────────────────── */}
