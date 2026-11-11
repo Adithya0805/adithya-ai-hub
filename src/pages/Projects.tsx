@@ -12,7 +12,7 @@ interface ProjectBrand {
   badgeBg: string;
   badgeColor: string;
   stageTag: string;
-  previewType?: "browser-aranya" | "phone-travel" | "phone-leather" | "system-cdss";
+  previewType?: "browser-aranya" | "phone-travel" | "phone-leather" | "system-cdss" | "system-townrise";
 }
 
 const projectBrands: Record<string, ProjectBrand> = {
@@ -44,11 +44,19 @@ const projectBrands: Record<string, ProjectBrand> = {
     stageTag: "Production CDSS · Multi-Agent Healthcare AI",
     previewType: "system-cdss",
   },
+  "townrise-intelligence": {
+    barColor: "#1E1B4B",
+    badgeBg: "rgba(30, 27, 75, 0.08)",
+    badgeColor: "#1E1B4B",
+    stageTag: "Flagship AI Engine · Under Work Process",
+    previewType: "system-townrise",
+  },
   "townrise-ai": {
     barColor: "#1E1B4B",
     badgeBg: "rgba(30, 27, 75, 0.08)",
     badgeColor: "#1E1B4B",
-    stageTag: "Growth Intelligence · 50+ Tamil Nadu Towns",
+    stageTag: "Flagship AI Engine · Under Work Process",
+    previewType: "system-townrise",
   },
   "job-mail-ai-agent": {
     barColor: "#18181B",
@@ -574,9 +582,11 @@ export default function Projects() {
                           </Link>
                         )}
 
-                        {p.slug === "townrise-ai" && (
-                          <Link
-                            to="/blog/how-i-built-townrise-ai-real-estate-platform"
+                        {(p.slug === "townrise-intelligence" || p.slug === "townrise-ai") && (
+                          <a
+                            href="https://github.com/Adithya0805/townrise-intelligence"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             style={{
                               fontSize: "13px",
                               color: "#151515",
@@ -585,8 +595,8 @@ export default function Projects() {
                               textUnderlineOffset: "4px",
                             }}
                           >
-                            Read Case Study →
-                          </Link>
+                            View Active Development Repo →
+                          </a>
                         )}
                       </div>
                     </div>
@@ -789,6 +799,74 @@ export default function Projects() {
                               <span style={{ fontSize: "10.5px", padding: "3px 8px", borderRadius: "4px", backgroundColor: "rgba(16, 185, 129, 0.15)", color: "#6EE7B7", fontFamily: "var(--font-mono)" }}>
                                 Execution: &lt;8s end-to-end
                               </span>
+                            </div>
+                          </div>
+                        )}
+
+                        {brand.previewType === "system-townrise" && (
+                          <div
+                            style={{
+                              backgroundColor: "#0F1423",
+                              borderRadius: "12px",
+                              overflow: "hidden",
+                              border: "1px solid rgba(129, 140, 248, 0.3)",
+                              boxShadow: "0 8px 24px rgba(15, 20, 35, 0.25)",
+                              color: "#FAF7F2",
+                            }}
+                          >
+                            <div
+                              style={{
+                                padding: "8px 14px",
+                                backgroundColor: "#090D18",
+                                borderBottom: "1px solid rgba(255,255,255,0.08)",
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                              }}
+                            >
+                              <span style={{ fontSize: "11px", color: "#818CF8", fontFamily: "var(--font-mono)", fontWeight: "600" }}>
+                                TOWNRISE INTELLIGENCE
+                              </span>
+                              <span style={{ fontSize: "10.5px", color: "#FBBF24", fontFamily: "var(--font-mono)", display: "inline-flex", alignItems: "center", gap: "5px" }}>
+                                <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#FBBF24" }} />
+                                Under Work Process / Active R&amp;D
+                              </span>
+                            </div>
+                            <div style={{ padding: "20px" }}>
+                              <p style={{ fontSize: "10px", color: "#A5B4FC", fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "6px" }}>
+                                Autonomous Geospatial Engine
+                              </p>
+                              <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "19px", color: "#FFFFFF", marginBottom: "8px" }}>
+                                TownRise Spatial Intelligence Core
+                              </h3>
+                              <p style={{ fontSize: "12px", color: "#CBD5E1", lineHeight: "1.5", marginBottom: "14px" }}>
+                                Multi-modal geospatial embeddings, commercial growth corridor modeling, and municipal intelligence pipeline across 50+ Tamil Nadu clusters.
+                              </p>
+                              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
+                                <span style={{ fontSize: "10.5px", padding: "3px 8px", borderRadius: "4px", backgroundColor: "rgba(245, 158, 11, 0.18)", color: "#FDE68A", fontFamily: "var(--font-mono)", fontWeight: "600" }}>
+                                  Active Development Sprint
+                                </span>
+                                <a
+                                  href="https://github.com/Adithya0805/townrise-intelligence"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  style={{
+                                    fontSize: "10.5px",
+                                    padding: "3px 8px",
+                                    borderRadius: "4px",
+                                    backgroundColor: "rgba(129, 140, 248, 0.18)",
+                                    color: "#C7D2FE",
+                                    fontFamily: "var(--font-mono)",
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: "4px",
+                                    textDecoration: "none",
+                                  }}
+                                >
+                                  <span>View GitHub Repo</span>
+                                  <ArrowUpRight size={11} />
+                                </a>
+                              </div>
                             </div>
                           </div>
                         )}

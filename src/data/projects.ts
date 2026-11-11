@@ -80,21 +80,21 @@ export const projects: Project[] = [
     flagship: true,
   },
   {
-    slug: "townrise-ai",
-    title: "TownRise AI",
-    tagline: "Growth intelligence platform analyzing 50+ Tamil Nadu towns.",
+    slug: "townrise-intelligence",
+    title: "TownRise Intelligence",
+    tagline: "Autonomous geospatial & economic growth intelligence engine. (Under Work Process · Active R&D)",
     problem:
-      "SMEs in Tamil Nadu lack access to local data and AI-driven insights for expansion decisions in regional markets.",
+      "SMEs, commercial investors, and regional businesses expanding across tier-2/tier-3 towns lack consolidated real-time analytics, geospatial indexing, and automated AI scoring to assess location viability and market velocity.",
     solution:
-      "AI-powered real estate & business expansion platform built with Next.js + Supabase + Google Gemini API. Users can analyze real estate metrics (growth score, AI score, pricing trends) for any Tamil Nadu town, with results persisted in Supabase.",
+      "Engineering a production geospatial intelligence platform combining OpenStreetMap data, vector spatial indexing, and Gemini/LLM reasoning models. Computes dynamic growth scores, price projections, and commercial infrastructure ratings across 50+ regional towns.",
     impact:
-      "Analyzed 50+ Tamil Nadu towns with live data. Deployed on Vercel with real-time AI scoring.",
+      "Under Active Engineering Sprint & Work Process. Core spatial data pipeline, regional index scoring, and predictive analysis models actively being built and tested on GitHub.",
     learned:
-      "Supabase real-time subscriptions, Gemini API prompt engineering for structured output, Next.js App Router data fetching patterns, and building for vernacular/regional user contexts.",
-    stack: ["Next.js", "Supabase", "Gemini API", "TypeScript", "Tailwind CSS", "Vercel"],
-    github: "https://github.com/Adithya0805/townrise_App_for_real_estates",
-    demo: "https://townrise-app-for-real-estates.vercel.app/",
-    category: "Data Analytics",
+      "High-density spatial vector indexing, automated demographic scoring graphs, Gemini API structured outputs, and real-time visualization architectures for regional decision-makers.",
+    stack: ["Next.js 14", "TypeScript", "Supabase", "Gemini API", "OpenStreetMap", "Geospatial Vectors", "Tailwind CSS"],
+    github: "https://github.com/Adithya0805/townrise-intelligence",
+    category: "AI Systems",
+    flagship: true,
   },
   {
     slug: "job-mail-ai-agent",

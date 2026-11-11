@@ -94,7 +94,7 @@ const BOTTLENECKS: BottleneckItem[] = [
     aiBreakthrough:
       "Custom Applied AI Engineering. From custom prompt-state graphs and domain vector embeddings to tailored web portals. If a human can follow an operational SOP, an autonomous AI system can execute it faster, cleaner, and without fatigue.",
     architectureStack: ["Custom Stack", "Python/TypeScript", "Supabase", "LLMs", "Docker"],
-    liveProofProject: "TownRise AI & Job Mail AI Agent",
+    liveProofProject: "TownRise Intelligence & Job Mail AI Agent",
     liveProofUrl: "/work",
     turnaroundDays: "7–14 Days",
     guarantee: "Full IP & Source Code Ownership · No Proprietary Lock-In",

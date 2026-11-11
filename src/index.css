@@ -321,6 +321,41 @@ p {
     display: inline-flex !important;
   }
 
+  .site-container {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .hero-split-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  .interactive-motion-wrapper {
+    height: 320px !important;
+    max-width: 100% !important;
+  }
+
+  .stage-panel {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+    padding: 24px 18px !important;
+  }
+
+  .carousel-snap-track {
+    gap: 16px !important;
+    padding-bottom: 20px !important;
+  }
+
+  .carousel-snap-item {
+    max-width: 90vw !important;
+  }
+
+  .section-spacing {
+    padding-top: 56px !important;
+    padding-bottom: 56px !important;
+  }
+
   .footer-grid {
     grid-template-columns: 1fr !important;
     gap: 32px !important;
@@ -340,8 +375,8 @@ p {
 
   .flagship-grid {
     grid-template-columns: 1fr !important;
-    padding: 32px 24px !important;
-    gap: 32px !important;
+    padding: 24px 18px !important;
+    gap: 24px !important;
   }
 
   .arch-diagram {
@@ -353,17 +388,19 @@ p {
   }
 
   .skills-grid {
-    grid-template-columns: 1fr 1fr !important;
+    grid-template-columns: 1fr !important;
   }
 
   .projects-header {
     flex-direction: column !important;
     align-items: flex-start !important;
+    gap: 16px !important;
   }
 
   .projects-stats {
-    flex-direction: row !important;
-    gap: 24px !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
   }
 
   .cta-banner-grid {

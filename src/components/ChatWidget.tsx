@@ -46,9 +46,10 @@ Try the live interactive sandbox on the **Tools** page!`,
 • Real-time JD keyword matcher and score breakdown
 Try it now on the **Tools** page!`,
 
-  townrise: `**TownRise AI** is a growth intelligence platform analyzing 50+ Tamil Nadu towns:
-• Integrates OpenStreetMap, Gemini API, and Supabase
-• Computes real estate growth score, affordability index, and town infrastructure ratings.`,
+  townrise: `**TownRise Intelligence** is an autonomous geospatial & economic growth intelligence engine (under work process / active R&D sprint):
+• Models commercial growth corridors and economic trends across 50+ Tamil Nadu clusters
+• Integrates multi-modal spatial embeddings, OSM topological graphs, and predictive scoring.
+• GitHub: https://github.com/Adithya0805/townrise-intelligence`,
 
   stack: `Adithya's specialized production stack:
 • **Languages:** Python, TypeScript, SQL, Modern Bash

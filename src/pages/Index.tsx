@@ -390,7 +390,7 @@ export default function Index() {
               </div>
             </div>
 
-            {/* System 3: TownRise AI */}
+            {/* System 3: TownRise Intelligence */}
             <div
               className="card-standard"
               style={{
@@ -399,36 +399,42 @@ export default function Index() {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
+                position: "relative",
               }}
             >
               <div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "8px" }}>
                   <span style={{ fontSize: "11px", fontFamily: "var(--font-mono)", color: "var(--accent)", fontWeight: "700" }}>
-                    INTELLIGENCE PLATFORM
+                    FLAGSHIP · AUTONOMOUS GEOSPATIAL AI
                   </span>
-                  <span style={{ fontSize: "11px", color: "var(--text-3)", border: "1px solid var(--border)", padding: "2px 8px", borderRadius: "4px" }}>
-                    50+ Towns
+                  <span style={{ fontSize: "10.5px", color: "#B45309", backgroundColor: "rgba(245, 158, 11, 0.1)", border: "1px solid rgba(245, 158, 11, 0.25)", padding: "2px 8px", borderRadius: "4px", fontFamily: "var(--font-mono)", fontWeight: "600" }}>
+                    ● Under Work Process
                   </span>
                 </div>
-                <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "24px", color: "#151515", marginBottom: "12px" }}>
-                  TownRise AI
+                <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "24px", color: "#151515", marginBottom: "8px" }}>
+                  TownRise Intelligence
                 </h3>
+                <p style={{ fontSize: "12.5px", color: "#8C857B", fontFamily: "var(--font-mono)", marginBottom: "12px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                  Tier-2/3 Growth Corridor Modeling · Active R&D
+                </p>
                 <p style={{ fontSize: "14px", color: "var(--text-2)", lineHeight: "1.65", marginBottom: "20px" }}>
-                  Geospatial intelligence platform analyzing real estate trends and commercial expansion scores across 50+ Tamil Nadu towns using OpenStreetMap and Gemini API scoring.
+                  Autonomous geospatial & economic growth intelligence engine modeling real estate clusters and commercial expansion scores across 50+ Tamil Nadu corridors. Currently in active development sprint.
                 </p>
               </div>
 
-              <div style={{ paddingTop: "16px", borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div style={{ paddingTop: "16px", borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
                 <span style={{ fontSize: "12px", color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>
-                  Next.js + Gemini API
+                  PyTorch + LangGraph + Spatial RAG
                 </span>
-                <Link
-                  to="/blog/how-i-built-townrise-ai-real-estate-platform"
+                <a
+                  href="https://github.com/Adithya0805/townrise-intelligence"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{ fontSize: "13px", color: "#151515", fontWeight: "600", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px" }}
                 >
-                  <span>Case Study</span>
+                  <span>GitHub (Active Sprint)</span>
                   <ArrowUpRight size={14} />
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -589,102 +595,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ── 6. CLOSING CTA ────────────────────────────────────────────── */}
-      <section
-        style={{
-          borderBottom: "1px solid var(--border)",
-          backgroundColor: "var(--bg-0)",
-        }}
-        className="section-spacing"
-      >
-        <div className="site-container">
-          <div
-            style={{
-              backgroundColor: "#FFFFFF",
-              border: "1px solid var(--border)",
-              borderRadius: "16px",
-              padding: "clamp(36px, 6vw, 64px) 32px",
-              textAlign: "center",
-              boxShadow: "0 6px 24px rgba(21, 21, 21, 0.04)",
-            }}
-          >
-            <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  padding: "4px 14px",
-                  borderRadius: "100px",
-                  backgroundColor: "#F7F3EC",
-                  border: "1px solid var(--border)",
-                  color: "#151515",
-                  fontSize: "12px",
-                  fontFamily: "var(--font-mono)",
-                  fontWeight: "600",
-                  marginBottom: "24px",
-                }}
-              >
-                <Sparkles size={13} color="var(--accent)" />
-                <span>Let's collaborate</span>
-              </div>
-
-              <h2
-                className="text-section-title"
-                style={{
-                  fontSize: "clamp(30px, 5vw, 50px)",
-                  marginBottom: "20px",
-                  color: "#151515",
-                }}
-              >
-                Let's build something extraordinary together.
-              </h2>
-
-              <p
-                style={{
-                  fontSize: "16px",
-                  color: "var(--text-2)",
-                  lineHeight: "1.7",
-                  marginBottom: "36px",
-                }}
-              >
-                Whether you need an enterprise AI system, an automated commercial platform, or a custom neural pipeline that eliminates weeks of manual work — let's engineer something exceptional.
-              </p>
-
-              <div
-                style={{
-                  display: "flex",
-                  gap: "14px",
-                  justifyContent: "center",
-                  flexWrap: "wrap",
-                }}
-              >
-                <a
-                  href="https://wa.me/918825714576?text=Hi%20Adithya%2C%20let%27s%20build%20an%20AI%20project%20or%20system."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-whatsapp"
-                  style={{ padding: "14px 28px", fontSize: "14.5px" }}
-                >
-                  <MessageCircle size={16} />
-                  <span>WhatsApp (+91 88257 14576)</span>
-                </a>
-
-                <a
-                  href="mailto:adithyaadhi0805@gmail.com?subject=AI%20Project%20Engineering%20Inquiry"
-                  className="btn-ink"
-                  style={{ padding: "14px 28px", fontSize: "14.5px" }}
-                >
-                  <Mail size={16} />
-                  <span>Email Inquiry</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 7. NEWSLETTER SUBSCRIPTION (At the very bottom of the page) ── */}
+      {/* ── 6. NEWSLETTER SUBSCRIPTION (At the very bottom of the page) ── */}
       <section
         style={{
           borderBottom: "1px solid var(--border)",

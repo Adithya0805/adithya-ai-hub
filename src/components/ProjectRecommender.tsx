@@ -21,7 +21,7 @@ export function ProjectRecommender({ onRecommend }: ProjectRecommenderProps) {
     if (interest === "ai") {
       return role === "demo" ? "skillspeak" : "mediaguard";
     } else if (interest === "fullstack") {
-      return role === "demo" ? "townrise-ai" : "linkedin-automation";
+      return role === "demo" ? "townrise-intelligence" : "linkedin-automation";
     } else {
       return role === "demo" ? "trading-bot" : "health-sense-nexus";
     }
@@ -41,6 +41,10 @@ export function ProjectRecommender({ onRecommend }: ProjectRecommenderProps) {
     mediaguard: {
       title: "MediGuard Multi-Agent AI System",
       desc: "A production-grade, highly secure clinical assistant built with LangGraph, Pinecone, and AWS Bedrock.",
+    },
+    "townrise-intelligence": {
+      title: "TownRise Intelligence",
+      desc: "Autonomous geospatial & economic growth engine modeling 50+ Tamil Nadu corridors (Under Work Process / Active R&D).",
     },
     "townrise-ai": {
       title: "TownRise AI Towns Analyzer",

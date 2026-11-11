@@ -118,12 +118,45 @@ export function InteractiveNeuralMotion() {
       pulseRadius = 0;
     };
 
+    const onTouchMove = (e: TouchEvent) => {
+      if (shouldReduceMotion) return;
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        const nx = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+        const ny = ((touch.clientY - rect.top) / rect.height) * 2 - 1;
+
+        targetRotY = nx * 1.35;
+        targetRotX = -ny * 1.2;
+
+        setCoords({
+          x: Math.round(nx * 100),
+          y: Math.round(ny * 100),
+        });
+      }
+    };
+
+    const onTouchStart = () => {
+      setIsHovered(true);
+      pulseActive = true;
+      pulseRadius = 0;
+    };
+
+    const onTouchEnd = () => {
+      setIsHovered(false);
+      targetRotX = 0;
+      targetRotY = 0;
+    };
+
     const container = containerRef.current;
     if (container) {
       container.addEventListener("mousemove", onMouseMove);
       container.addEventListener("mouseenter", onMouseEnter);
       container.addEventListener("mouseleave", onMouseLeave);
       container.addEventListener("click", onClick);
+      container.addEventListener("touchstart", onTouchStart, { passive: true });
+      container.addEventListener("touchmove", onTouchMove, { passive: true });
+      container.addEventListener("touchend", onTouchEnd, { passive: true });
     }
 
     // Animation loop
@@ -281,6 +314,9 @@ export function InteractiveNeuralMotion() {
         container.removeEventListener("mouseenter", onMouseEnter);
         container.removeEventListener("mouseleave", onMouseLeave);
         container.removeEventListener("click", onClick);
+        container.removeEventListener("touchstart", onTouchStart);
+        container.removeEventListener("touchmove", onTouchMove);
+        container.removeEventListener("touchend", onTouchEnd);
       }
     };
   }, [shouldReduceMotion]);
