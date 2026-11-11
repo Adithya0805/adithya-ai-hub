@@ -3,11 +3,11 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/Layout";
-import { HeroNeuralStage } from "@/components/HeroNeuralStage";
+import { InteractiveNeuralMotion } from "@/components/InteractiveNeuralMotion";
 import { HeroNeuralTopology } from "@/components/HeroNeuralTopology";
 import { AIProblemAnalyzer } from "@/components/AIProblemAnalyzer";
 import { WorkCarousel } from "@/components/WorkCarousel";
-import { StoryScenes } from "@/components/StoryScenes";
+import { NewsletterForm } from "@/components/NewsletterForm";
 import { TRANSITION_EASE } from "@/lib/motion";
 import {
   ArrowRight,
@@ -24,29 +24,29 @@ import {
 export default function Index() {
   const shouldReduceMotion = useReducedMotion();
 
-  const studioSteps = [
+  const deliverySteps = [
     {
       num: "01",
-      title: "Understand the client",
-      desc: "We review their catalog, customer buying habits, and friction points across WhatsApp, calls, or outdated sites.",
-      detail: "Audit product inventory, clarify order/booking workflows, and define the exact customer journey.",
+      title: "Understand the problem",
+      desc: "We review your operational workflows, customer buying habits, and bottlenecks across WhatsApp, calls, or legacy software.",
+      detail: "Audit product inventory, clarify order/booking flows, and define the exact AI integration points.",
     },
     {
       num: "02",
-      title: "Build",
-      desc: "Fast, focused development sprint crafting a custom, mobile-first web platform powered by your studio's photography.",
+      title: "Engineer & Build",
+      desc: "Fast, focused engineering sprint crafting a custom, high-performance web platform powered by modern production design and AI.",
       detail: "Clean catalog UI, instant WhatsApp checkout, database integration, and optional AI assistant answering customer questions.",
     },
     {
       num: "03",
-      title: "Launch",
+      title: "Launch to Production",
       desc: "Edge CDN deployment, custom domain mapping, SEO schema configuration, and full operational handoff.",
       detail: "Sub-second load times, instant mobile responsiveness, zero dropped inquiries, and simple owner training.",
     },
     {
       num: "04",
-      title: "Care (maintain & manage data)",
-      desc: "Ongoing reliability so the business owner never has to worry about broken forms, slow servers, or lost records.",
+      title: "Care & Manage Data",
+      desc: "Ongoing reliability so your team never has to worry about broken forms, slow servers, or lost records.",
       detail: "Regular updates, weekly backups, security monitoring, catalog price refreshes, and database cleanup.",
     },
   ];
@@ -69,7 +69,7 @@ export default function Index() {
         <meta property="og:type" content="website" />
       </Helmet>
 
-      {/* ── 1. HERO SECTION (Aura Left, Living AI Operations Stage Right) ─ */}
+      {/* ── 1. HERO SECTION (Premium Display Left, Interactive Neural Motion Right) ─ */}
       <section
         style={{
           position: "relative",
@@ -90,13 +90,13 @@ export default function Index() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "1.05fr 0.95fr",
+              gridTemplateColumns: "1.08fr 0.92fr",
               gap: "48px",
               alignItems: "center",
             }}
             className="hero-split-grid"
           >
-            {/* Left Column: Aura, Conviction & High-Level Positioning */}
+            {/* Left Column: Premium Typography, Aura & Authority */}
             <div>
               {/* Status Beacon Badge */}
               <motion.div
@@ -112,7 +112,7 @@ export default function Index() {
                   backgroundColor: "#FFFFFF",
                   border: "1px solid var(--border)",
                   boxShadow: "0 2px 8px rgba(21, 21, 21, 0.04)",
-                  marginBottom: "24px",
+                  marginBottom: "28px",
                 }}
               >
                 <span className="relative flex h-2 w-2">
@@ -133,22 +133,26 @@ export default function Index() {
                 </span>
               </motion.div>
 
-              {/* Main Headline with Heavy Aura */}
+              {/* Main Headline in Premium Instrument Serif */}
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1, ease: TRANSITION_EASE }}
                 className="text-display"
                 style={{
-                  marginBottom: "20px",
+                  marginBottom: "22px",
                   color: "#151515",
+                  fontFamily: "var(--font-serif)",
+                  fontSize: "clamp(46px, 6.5vw, 84px)",
+                  fontWeight: "400",
+                  lineHeight: "0.96",
+                  letterSpacing: "-2px",
                   textWrap: "balance",
-                  lineHeight: "1.02",
                 }}
               >
-                AI systems engineered to solve what software alone{" "}
+                AI systems engineered to solve what software{" "}
                 <span style={{ fontStyle: "italic", textDecoration: "underline", textDecorationColor: "var(--border)", textUnderlineOffset: "8px" }}>
-                  cannot touch.
+                  alone cannot touch.
                 </span>
               </motion.h1>
 
@@ -161,7 +165,7 @@ export default function Index() {
                   fontSize: "clamp(16px, 1.8vw, 19px)",
                   color: "#4A453E",
                   lineHeight: "1.65",
-                  marginBottom: "32px",
+                  marginBottom: "36px",
                   maxWidth: "560px",
                   textWrap: "pretty",
                 }}
@@ -242,14 +246,14 @@ export default function Index() {
               </motion.div>
             </div>
 
-            {/* Right Column: Interactive AI Operations Console & Neural Simulator */}
+            {/* Right Column: Interactive Motion Design with Clear Mouse Movement Effect */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.2, ease: TRANSITION_EASE }}
               style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
             >
-              <HeroNeuralStage />
+              <InteractiveNeuralMotion />
             </motion.div>
           </div>
         </div>
@@ -260,9 +264,6 @@ export default function Index() {
 
       {/* ── 3. WORK SECTION (Horizontal Scroll-Snap Colour Stage Carousel) ─ */}
       <WorkCarousel />
-
-      {/* ── 4. STORY SCENES (Light Cards with "Before / With AI" Slider) ── */}
-      <StoryScenes />
 
       {/* ── 4. AI SYSTEMS & RESPONSIBLE AI SECTION ─────────────────────── */}
       <section
@@ -291,159 +292,155 @@ export default function Index() {
               </span>
             </div>
             <h2 className="text-section-title" style={{ color: "#151515", margin: 0 }}>
-              Specialized AI systems built from scratch.
+              AI Systems Built for Real Operation
             </h2>
-            <p style={{ fontSize: "16px", color: "var(--text-2)", maxWidth: "580px", lineHeight: "1.7", marginTop: "10px" }}>
-              Stateful agent orchestrations, regional NLP pipelines, and geospatial analysis platforms.
+            <p style={{ fontSize: "16px", color: "var(--text-2)", maxWidth: "600px", lineHeight: "1.7", marginTop: "10px" }}>
+              Beyond websites — multi-agent clinical decision support, stateful knowledge RAG, and automated workflow pipelines deployed in production.
             </p>
           </div>
 
-          {/* 3 AI Systems Row */}
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
               gap: "24px",
-              marginBottom: "40px",
             }}
           >
-            {/* MediGuard */}
+            {/* System 1: MediGuard */}
             <div
               className="card-standard"
               style={{
                 backgroundColor: "#FFFFFF",
+                padding: "32px",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
               }}
             >
               <div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-                  <span style={{ fontSize: "11px", fontFamily: "var(--font-mono)", color: "#0369a1", backgroundColor: "#e0f2fe", padding: "2px 8px", borderRadius: "4px", fontWeight: "700" }}>
-                    Clinical AI
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                  <span style={{ fontSize: "11px", fontFamily: "var(--font-mono)", color: "var(--accent)", fontWeight: "700" }}>
+                    HEALTHCARE CDSS
                   </span>
-                  <a
-                    href="https://mediguard-v2.vercel.app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Visit MediGuard V2"
-                    style={{ color: "var(--text-2)" }}
-                  >
-                    <ExternalLink size={16} />
-                  </a>
+                  <span style={{ fontSize: "11px", color: "var(--text-3)", border: "1px solid var(--border)", padding: "2px 8px", borderRadius: "4px" }}>
+                    LangGraph · 5 Agents
+                  </span>
                 </div>
-                <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "22px", color: "#151515", marginBottom: "10px" }}>
+                <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "24px", color: "#151515", marginBottom: "12px" }}>
                   MediGuard V2
                 </h3>
-                <p style={{ fontSize: "14px", color: "var(--text-2)", lineHeight: "1.6", marginBottom: "20px" }}>
-                  Stateful multi-agent CDSS orchestrated with LangGraph, Pinecone RAG differential diagnosis over 50k+ papers, and HL7 FHIR report export.
+                <p style={{ fontSize: "14px", color: "var(--text-2)", lineHeight: "1.65", marginBottom: "20px" }}>
+                  Multi-agent clinical decision support. Five specialized agents intake patient data, triage symptoms, query 50,000+ medical research papers via RAG, verify drug-drug allergies, and compile HL7 FHIR standard PDFs in &lt;8s.
                 </p>
               </div>
-              <a
-                href="https://mediguard-v2.vercel.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontSize: "13px", fontWeight: "600", color: "#151515", textDecoration: "underline", display: "inline-flex", alignItems: "center", gap: "4px" }}
-              >
-                <span>Live System Demo</span>
-                <ArrowUpRight size={14} />
-              </a>
+
+              <div style={{ paddingTop: "16px", borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontSize: "12px", color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>
+                  Cloud Run + Vercel Edge
+                </span>
+                <Link
+                  to="/blog/how-i-built-mediaguard-multi-agent-ai-system"
+                  style={{ fontSize: "13px", color: "#151515", fontWeight: "600", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px" }}
+                >
+                  <span>Case Study</span>
+                  <ArrowUpRight size={14} />
+                </Link>
+              </div>
             </div>
 
-            {/* Urimai AI */}
+            {/* System 2: Urimai AI */}
             <div
               className="card-standard"
               style={{
                 backgroundColor: "#FFFFFF",
+                padding: "32px",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
               }}
             >
               <div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-                  <span style={{ fontSize: "11px", fontFamily: "var(--font-mono)", color: "#6b21a8", backgroundColor: "#f3e8ff", padding: "2px 8px", borderRadius: "4px", fontWeight: "700" }}>
-                    GovTech AI
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                  <span style={{ fontSize: "11px", fontFamily: "var(--font-mono)", color: "var(--accent)", fontWeight: "700" }}>
+                    CIVIC AI · TAMIL NLP
                   </span>
-                  <a
-                    href="https://github.com/Adithya0805"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="View Urimai AI Repository"
-                    style={{ color: "var(--text-2)" }}
-                  >
-                    <ExternalLink size={16} />
-                  </a>
+                  <span style={{ fontSize: "11px", color: "var(--text-3)", border: "1px solid var(--border)", padding: "2px 8px", borderRadius: "4px" }}>
+                    49/49 Tests Passing
+                  </span>
                 </div>
-                <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "22px", color: "#151515", marginBottom: "10px" }}>
+                <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "24px", color: "#151515", marginBottom: "12px" }}>
                   Urimai AI
                 </h3>
-                <p style={{ fontSize: "14px", color: "var(--text-2)", lineHeight: "1.6", marginBottom: "20px" }}>
-                  Multi-agent Tamil Nadu government scheme assistant evaluating 64 schemes with 199 codified rules in conversational Tamil and Tanglish.
+                <p style={{ fontSize: "14px", color: "var(--text-2)", lineHeight: "1.65", marginBottom: "20px" }}>
+                  Multi-agent Tamil Nadu government scheme eligibility platform. Evaluates 64 state schemes with 199 codified rules through conversational Tamil voice and text intake with 0% fabricated eligibility output.
                 </p>
               </div>
-              <a
-                href="https://github.com/Adithya0805"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontSize: "13px", fontWeight: "600", color: "#151515", textDecoration: "underline", display: "inline-flex", alignItems: "center", gap: "4px" }}
-              >
-                <span>Architecture & Code</span>
-                <ArrowUpRight size={14} />
-              </a>
+
+              <div style={{ paddingTop: "16px", borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontSize: "12px", color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>
+                  FastAPI + Supabase
+                </span>
+                <Link
+                  to="/projects"
+                  style={{ fontSize: "13px", color: "#151515", fontWeight: "600", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px" }}
+                >
+                  <span>View Details</span>
+                  <ArrowUpRight size={14} />
+                </Link>
+              </div>
             </div>
 
-            {/* TownRise AI */}
+            {/* System 3: TownRise AI */}
             <div
               className="card-standard"
               style={{
                 backgroundColor: "#FFFFFF",
+                padding: "32px",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
               }}
             >
               <div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-                  <span style={{ fontSize: "11px", fontFamily: "var(--font-mono)", color: "#166534", backgroundColor: "#dcfce7", padding: "2px 8px", borderRadius: "4px", fontWeight: "700" }}>
-                    Real Estate AI
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                  <span style={{ fontSize: "11px", fontFamily: "var(--font-mono)", color: "var(--accent)", fontWeight: "700" }}>
+                    INTELLIGENCE PLATFORM
                   </span>
-                  <a
-                    href="https://townrise-app-for-real-estates.vercel.app/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Visit TownRise AI"
-                    style={{ color: "var(--text-2)" }}
-                  >
-                    <ExternalLink size={16} />
-                  </a>
+                  <span style={{ fontSize: "11px", color: "var(--text-3)", border: "1px solid var(--border)", padding: "2px 8px", borderRadius: "4px" }}>
+                    50+ Towns
+                  </span>
                 </div>
-                <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "22px", color: "#151515", marginBottom: "10px" }}>
+                <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "24px", color: "#151515", marginBottom: "12px" }}>
                   TownRise AI
                 </h3>
-                <p style={{ fontSize: "14px", color: "var(--text-2)", lineHeight: "1.6", marginBottom: "20px" }}>
-                  Geospatial growth intelligence platform indexing 50+ Tamil Nadu towns using Gemini API structured output and OpenStreetMap data.
+                <p style={{ fontSize: "14px", color: "var(--text-2)", lineHeight: "1.65", marginBottom: "20px" }}>
+                  Geospatial intelligence platform analyzing real estate trends and commercial expansion scores across 50+ Tamil Nadu towns using OpenStreetMap and Gemini API scoring.
                 </p>
               </div>
-              <a
-                href="https://townrise-app-for-real-estates.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontSize: "13px", fontWeight: "600", color: "#151515", textDecoration: "underline", display: "inline-flex", alignItems: "center", gap: "4px" }}
-              >
-                <span>Live Platform</span>
-                <ArrowUpRight size={14} />
-              </a>
+
+              <div style={{ paddingTop: "16px", borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontSize: "12px", color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>
+                  Next.js + Gemini API
+                </span>
+                <Link
+                  to="/blog/how-i-built-townrise-ai-real-estate-platform"
+                  style={{ fontSize: "13px", color: "#151515", fontWeight: "600", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px" }}
+                >
+                  <span>Case Study</span>
+                  <ArrowUpRight size={14} />
+                </Link>
+              </div>
             </div>
           </div>
 
-          {/* Responsible AI Feature Card */}
+          {/* Responsible AI Callout Banner */}
           <div
             style={{
+              marginTop: "48px",
               backgroundColor: "#FFFFFF",
-              border: "1px solid #E6DFD3",
+              border: "1px solid var(--border)",
               borderRadius: "14px",
-              padding: "28px 32px",
+              padding: "32px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
@@ -451,14 +448,30 @@ export default function Index() {
               gap: "20px",
             }}
           >
-            <div>
-              <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", color: "#151515", fontWeight: "700", fontSize: "12px", fontFamily: "var(--font-mono)", marginBottom: "6px" }}>
-                <ShieldCheck size={16} color="#B8934A" />
-                <span>RESPONSIBLE AI STANDARDS</span>
+            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+              <div
+                style={{
+                  width: "44px",
+                  height: "44px",
+                  borderRadius: "10px",
+                  backgroundColor: "rgba(200, 169, 110, 0.15)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "var(--accent)",
+                  flexShrink: 0,
+                }}
+              >
+                <ShieldCheck size={22} />
               </div>
-              <h4 style={{ fontFamily: "var(--font-serif)", fontSize: "22px", color: "#151515", margin: 0 }}>
-                How we keep small business AI secure, private, and hallucination-free.
-              </h4>
+              <div>
+                <p style={{ fontSize: "11px", color: "var(--accent)", letterSpacing: "1px", textTransform: "uppercase", fontWeight: "700", margin: "0 0 4px" }}>
+                  OPERATIONAL ETHICS & ANTI-HALLUCINATION
+                </p>
+                <h4 style={{ fontFamily: "var(--font-serif)", fontSize: "20px", color: "#151515", margin: 0 }}>
+                  How we keep production AI secure, private, and hallucination-free.
+                </h4>
+              </div>
             </div>
 
             <Link to="/responsible-ai" className="btn-ink" style={{ fontSize: "13px", padding: "10px 20px" }}>
@@ -469,7 +482,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ── 5. HOW I'D WORK WITH THE STUDIO ───────────────────────────── */}
+      {/* ── 5. ENGINEERING & DEPLOYMENT METHODOLOGY ───────────────────── */}
       <section
         style={{
           borderBottom: "1px solid var(--border)",
@@ -491,14 +504,14 @@ export default function Index() {
                   fontWeight: "700",
                 }}
               >
-                Partnership Flow
+                Engineering Flow
               </span>
             </div>
             <h2 className="text-section-title" style={{ color: "#151515", margin: 0 }}>
-              How I'd work with your studio.
+              How we engineer and deploy your solution.
             </h2>
             <p style={{ fontSize: "16px", color: "var(--text-2)", maxWidth: "620px", lineHeight: "1.7", marginTop: "10px" }}>
-              A seamless collaboration: your studio shoots world-class photography and crafts the brand identity — I build the custom websites, booking engines, and AI tools your clients need to sell.
+              A clear, transparent four-stage methodology: from deep operational audit to production deployment, custom AI integrations, and ongoing data reliability.
             </p>
           </div>
 
@@ -510,7 +523,7 @@ export default function Index() {
               gap: "24px",
             }}
           >
-            {studioSteps.map((step, idx) => (
+            {deliverySteps.map((step, idx) => (
               <motion.div
                 key={step.num}
                 initial={{ opacity: 0, y: 16 }}
@@ -624,7 +637,7 @@ export default function Index() {
                   color: "#151515",
                 }}
               >
-                Let's build something for your next client.
+                Let's build something extraordinary together.
               </h2>
 
               <p
@@ -635,7 +648,7 @@ export default function Index() {
                   marginBottom: "36px",
                 }}
               >
-                Whether you have an upcoming brand shoot, a client asking for an online store, or a local business ready to automate customer replies — let's deliver something exceptional together.
+                Whether you need an enterprise AI system, an automated commercial platform, or a custom neural pipeline that eliminates weeks of manual work — let's engineer something exceptional.
               </p>
 
               <div
@@ -647,7 +660,7 @@ export default function Index() {
                 }}
               >
                 <a
-                  href="https://wa.me/918825714576?text=Hi%20Adithya%2C%20let%27s%20build%20something%20for%20a%20client."
+                  href="https://wa.me/918825714576?text=Hi%20Adithya%2C%20let%27s%20build%20an%20AI%20project%20or%20system."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-whatsapp"
@@ -658,7 +671,7 @@ export default function Index() {
                 </a>
 
                 <a
-                  href="mailto:adithyaadhi0805@gmail.com?subject=Studio%20Client%20Collaboration%20Inquiry"
+                  href="mailto:adithyaadhi0805@gmail.com?subject=AI%20Project%20Engineering%20Inquiry"
                   className="btn-ink"
                   style={{ padding: "14px 28px", fontSize: "14.5px" }}
                 >
@@ -667,6 +680,72 @@ export default function Index() {
                 </a>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 7. NEWSLETTER SUBSCRIPTION (At the very bottom of the page) ── */}
+      <section
+        style={{
+          borderBottom: "1px solid var(--border)",
+          backgroundColor: "#FFFFFF",
+          padding: "72px 24px",
+        }}
+      >
+        <div style={{ maxWidth: "680px", margin: "0 auto", textAlign: "center" }}>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "4px 12px",
+              borderRadius: "100px",
+              backgroundColor: "#FAF7F2",
+              border: "1px solid var(--border)",
+              marginBottom: "16px",
+            }}
+          >
+            <Mail size={13} color="#C8A96E" />
+            <span
+              style={{
+                fontSize: "11px",
+                fontFamily: "var(--font-mono)",
+                fontWeight: "700",
+                letterSpacing: "1.5px",
+                textTransform: "uppercase",
+                color: "#151515",
+              }}
+            >
+              The Applied AI Dispatch
+            </span>
+          </div>
+
+          <h3
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(26px, 3.5vw, 40px)",
+              color: "#151515",
+              lineHeight: "1.15",
+              marginBottom: "12px",
+              fontWeight: "400",
+            }}
+          >
+            Frontier AI research & production breakdowns.
+          </h3>
+
+          <p
+            style={{
+              fontSize: "14.5px",
+              color: "#6B665E",
+              lineHeight: "1.65",
+              marginBottom: "28px",
+            }}
+          >
+            Monthly engineering deep dives into LangGraph multi-agent orchestration, RAG architectures, and real client deployments. Zero spam.
+          </p>
+
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <NewsletterForm compact />
           </div>
         </div>
       </section>

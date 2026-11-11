@@ -34,7 +34,7 @@ const scenesData: SceneData[] = [
     },
     solution: {
       headline: "A clean online catalog with one shareable link",
-      details: "A high-performance web catalog with studio-grade image presentation, clear pricing, inventory status, and one-tap WhatsApp checkout.",
+      details: "A high-performance web catalog with professional image presentation, clear pricing, inventory status, and one-tap WhatsApp checkout.",
       result: "Customers browse without asking for photos, view live pricing, and share a single professional link.",
     },
     builtIn: {
@@ -115,7 +115,7 @@ const scenesData: SceneData[] = [
     },
     solution: {
       headline: "AI drafts captions from product photos for approval",
-      details: "AI drafts ready-to-publish social captions, hashtags, and product highlights directly from uploaded studio photos, and the owner approves with one tap.",
+      details: "AI drafts ready-to-publish social captions, hashtags, and product highlights directly from uploaded product photos, and the owner approves with one tap.",
       result: "Marketing stays consistent every week with under 5 minutes of owner review.",
     },
     builtIn: {

@@ -23,7 +23,7 @@ export function Navbar() {
     location.pathname === "/responsible-ai";
 
   const labLinks = [
-    { label: "AI Tools & Labs", path: "/tools", desc: "Simulated demos & interactive studios" },
+    { label: "AI Tools & Labs", path: "/tools", desc: "Simulated demos & interactive sandboxes" },
     { label: "Responsible AI", path: "/responsible-ai", desc: "Operational ethics & anti-hallucination" },
     { label: "Resume ATS Scanner", path: "/tools/ats-scanner", desc: "Gemini-powered JD keyword scan" },
     { label: "Resume Editor", path: "/tools/resume-editor", desc: "Markdown resume builder & exporter" },

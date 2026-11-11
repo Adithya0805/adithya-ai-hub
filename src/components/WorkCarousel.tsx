@@ -115,7 +115,7 @@ export function WorkCarousel() {
         "Ambur artisanal leather goods sold direct-to-consumer online",
         "Interactive custom monogram embossing initials preview",
         "Zero-fee 1-click WhatsApp order checkout with auto-filled message",
-        "Studio-enhanced product photography pipeline with fast WebP delivery",
+        "High-resolution product photography pipeline with fast WebP delivery",
       ],
       tech: ["Next.js 14", "TypeScript", "Supabase", "Tailwind", "WhatsApp API"],
       renderMockup: () => (
