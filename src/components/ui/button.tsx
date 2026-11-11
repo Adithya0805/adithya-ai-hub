@@ -9,14 +9,17 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-[#151515] text-[#F7F3EC] hover:bg-[#262626] transition-all duration-200",
+        primary: "bg-[#151515] text-[#F7F3EC] font-medium hover:bg-[#262626] hover:-translate-y-0.5 shadow-sm transition-all duration-300",
+        secondary: "bg-white border border-[#E6DFD3] text-[#151515] hover:bg-[#F0EAE1] hover:border-[#D5CCBD] hover:-translate-y-0.5 transition-all duration-300",
+        ink: "bg-[#151515] text-[#F7F3EC] font-medium hover:bg-[#262626] hover:-translate-y-0.5 shadow-sm transition-all duration-300",
+        whatsapp: "bg-[#25D366] text-[#052e16] font-bold hover:opacity-95 hover:-translate-y-0.5 shadow-sm transition-all duration-300",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-secondary/60 hover:text-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-gradient-primary text-primary-foreground shadow-glow hover:shadow-elegant hover:scale-[1.02] transition-smooth",
-        glass: "glass text-foreground hover:border-primary hover:text-primary transition-smooth",
+        hero: "bg-[#151515] text-[#F7F3EC] shadow-sm hover:bg-[#262626] hover:scale-[1.02] transition-smooth",
+        glass: "bg-white/80 border border-[#E6DFD3] text-[#151515] hover:bg-white transition-smooth",
       },
       size: {
         default: "h-10 px-4 py-2",

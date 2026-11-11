@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
@@ -26,6 +26,7 @@ const Contact = lazy(() => import("./pages/Contact.tsx"));
 const Privacy = lazy(() => import("./pages/Privacy.tsx"));
 const Terms = lazy(() => import("./pages/Terms.tsx"));
 const Resources = lazy(() => import("./pages/Resources.tsx"));
+const ResponsibleAI = lazy(() => import("./pages/ResponsibleAI.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const AdminNewsletter = lazy(() => import("./pages/AdminNewsletter.tsx"));
 
@@ -51,7 +52,7 @@ const App = () => (
               <Route path="/about" element={<About />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/work" element={<Projects />} />
-              <Route path="/freelance" element={<Freelance />} />
+              <Route path="/freelance" element={<Navigate to="/work" replace />} />
               <Route path="/services" element={<Services />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
@@ -63,6 +64,7 @@ const App = () => (
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/resources" element={<Resources />} />
+              <Route path="/responsible-ai" element={<ResponsibleAI />} />
               <Route path="/admin/newsletter" element={<AdminNewsletter />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

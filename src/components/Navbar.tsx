@@ -1,18 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowUpRight, Sparkles, MessageCircle, Zap, BookOpen } from "lucide-react";
+import { Menu, X, ChevronDown, MessageCircle, Sparkles, Zap, ArrowUpRight, ShieldCheck } from "lucide-react";
 import { Logo } from "./Logo";
 import { getThemeMode, setThemeMode, subscribeToThemeMode, ThemeMode } from "@/utils/themeMode";
+import { TRANSITION_EASE } from "@/lib/motion";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [labDropdownOpen, setLabDropdownOpen] = useState(false);
   const [themeMode, setLocalThemeMode] = useState<ThemeMode>(() => getThemeMode());
   const location = useLocation();
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Close mobile menu on route change
+  // Close mobile menu and dropdown on route change
   useEffect(() => {
     setMobileMenuOpen(false);
+    setLabDropdownOpen(false);
   }, [location.pathname]);
 
   // Subscribe to external theme mode updates
@@ -26,27 +30,46 @@ export function Navbar() {
     setLocalThemeMode(next);
   };
 
-  const navItems = [
-    { label: "Work", path: "/work" },
-    { label: "Services", path: "/services" },
-    { label: "Resume Editor", path: "/tools/resume-editor", badge: "NEW" },
-    { label: "AI Labs", path: "/tools" },
-    { label: "Blog", path: "/blog" },
-    { label: "About", path: "/about" },
-    { label: "Contact", path: "/contact" },
+  const isLabActive =
+    location.pathname.startsWith("/tools") ||
+    location.pathname.startsWith("/blog") ||
+    location.pathname === "/responsible-ai";
+
+  const labLinks = [
+    { label: "AI Tools & Labs", path: "/tools", desc: "Simulated demos & interactive studios" },
+    { label: "Responsible AI", path: "/responsible-ai", desc: "Operational ethics & anti-hallucination" },
+    { label: "Resume ATS Scanner", path: "/tools/ats-scanner", desc: "Gemini-powered JD keyword scan" },
+    { label: "Resume Editor", path: "/tools/resume-editor", desc: "Markdown resume builder & exporter" },
+    { label: "Blog & Tutorials", path: "/blog", desc: "Technical case studies & guides" },
   ];
+
+  const handleDropdownEnter = () => {
+    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+    setLabDropdownOpen(true);
+  };
+
+  const handleDropdownLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setLabDropdownOpen(false);
+    }, 150);
+  };
 
   return (
     <>
       <nav
         style={{
-          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-          height: '56px', display: 'flex', alignItems: 'center',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          backgroundColor: 'rgba(10,10,10,0.72)',
-          borderBottom: '1px solid rgba(255,255,255,0.05)',
-          backgroundImage: 'linear-gradient(180deg, rgba(200,169,110,0.025) 0%, transparent 100%)'
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          height: "64px",
+          display: "flex",
+          alignItems: "center",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          backgroundColor: "rgba(247, 243, 236, 0.92)",
+          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -64,158 +87,354 @@ export function Navbar() {
           <Logo variant="full" size="md" />
 
           {/* Desktop Nav Links */}
-          <div className="nav-links" style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-            {navItems.map((item) => {
-              const isActive =
-                location.pathname === item.path ||
-                (item.path === "/work" && location.pathname === "/projects") ||
-                (item.path === "/tools/resume-editor" && location.pathname === "/tools/ats-scanner");
-              return (
-                <Link
-                  key={item.label}
-                  to={item.path}
+          <div
+            className="nav-links"
+            style={{
+              display: "flex",
+              gap: "22px",
+              alignItems: "center",
+            }}
+          >
+            {/* Home */}
+            <Link
+              to="/"
+              style={{
+                fontSize: "14px",
+                color: location.pathname === "/" ? "var(--text-1)" : "var(--text-2)",
+                fontWeight: location.pathname === "/" ? "600" : "400",
+                textDecoration: "none",
+                position: "relative",
+                padding: "6px 0",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-1)")}
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color =
+                  location.pathname === "/" ? "var(--text-1)" : "var(--text-2)")
+              }
+            >
+              Home
+              {location.pathname === "/" && (
+                <motion.span
+                  layoutId="nav-underline"
                   style={{
-                    fontSize: "13px",
-                    color: isActive ? "var(--text-1)" : "var(--text-2)",
-                    fontWeight: isActive ? "600" : "400",
-                    textDecoration: "none",
-                    letterSpacing: "0.2px",
-                    transition: "color 0.15s",
-                    position: "relative",
-                    padding: "4px 0",
-                    whiteSpace: "nowrap",
+                    position: "absolute",
+                    bottom: "-2px",
+                    left: 0,
+                    right: 0,
+                    height: "2px",
+                    background: "#151515",
+                    borderRadius: "2px",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-1)")}
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = isActive ? "var(--text-1)" : "var(--text-2)")
-                  }
-                >
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", whiteSpace: "nowrap" }}>
-                    {item.label}
-                    {item.badge && (
-                      <span
-                        style={{
-                          fontSize: "9px",
-                          fontFamily: "var(--font-mono)",
-                          color: "#4ade80",
-                          background: "rgba(74, 222, 128, 0.12)",
-                          border: "1px solid rgba(74, 222, 128, 0.3)",
-                          padding: "1px 5px",
-                          borderRadius: "100px",
-                          fontWeight: "700",
-                          lineHeight: "1",
-                        }}
-                      >
-                        {item.badge}
-                      </span>
-                    )}
-                  </span>
-                  {isActive && (
-                    <motion.span
-                      layoutId="nav-underline"
-                      style={{
-                        position: "absolute",
-                        bottom: "-2px",
-                        left: 0,
-                        right: 0,
-                        height: "2px",
-                        background: "var(--accent)",
-                        borderRadius: "2px",
-                        boxShadow: "0 0 8px rgba(200, 169, 110, 0.4)",
-                      }}
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                </Link>
-              );
-            })}
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </Link>
 
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginLeft: "8px", flexShrink: 0 }}>
-              {/* Studio vs Editorial Mode Toggle */}
+            {/* Work */}
+            <Link
+              to="/work"
+              style={{
+                fontSize: "14px",
+                color:
+                  location.pathname === "/work" || location.pathname === "/projects"
+                    ? "var(--text-1)"
+                    : "var(--text-2)",
+                fontWeight:
+                  location.pathname === "/work" || location.pathname === "/projects"
+                    ? "600"
+                    : "400",
+                textDecoration: "none",
+                position: "relative",
+                padding: "6px 0",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-1)")}
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color =
+                  location.pathname === "/work" || location.pathname === "/projects"
+                    ? "var(--text-1)"
+                    : "var(--text-2)")
+              }
+            >
+              Work
+              {(location.pathname === "/work" || location.pathname === "/projects") && (
+                <motion.span
+                  layoutId="nav-underline"
+                  style={{
+                    position: "absolute",
+                    bottom: "-2px",
+                    left: 0,
+                    right: 0,
+                    height: "2px",
+                    background: "#151515",
+                    borderRadius: "2px",
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </Link>
+
+            {/* Services */}
+            <Link
+              to="/services"
+              style={{
+                fontSize: "14px",
+                color: location.pathname === "/services" ? "var(--text-1)" : "var(--text-2)",
+                fontWeight: location.pathname === "/services" ? "600" : "400",
+                textDecoration: "none",
+                position: "relative",
+                padding: "6px 0",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-1)")}
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color =
+                  location.pathname === "/services" ? "var(--text-1)" : "var(--text-2)")
+              }
+            >
+              Services
+              {location.pathname === "/services" && (
+                <motion.span
+                  layoutId="nav-underline"
+                  style={{
+                    position: "absolute",
+                    bottom: "-2px",
+                    left: 0,
+                    right: 0,
+                    height: "2px",
+                    background: "#151515",
+                    borderRadius: "2px",
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </Link>
+
+            {/* Lab with Dropdown */}
+            <div
+              style={{ position: "relative" }}
+              onMouseEnter={handleDropdownEnter}
+              onMouseLeave={handleDropdownLeave}
+            >
               <button
                 type="button"
-                onClick={toggleThemeMode}
-                aria-label={`Switch to ${themeMode === "studio" ? "Editorial" : "Studio"} Mode`}
-                title={`Switch to ${themeMode === "studio" ? "Editorial Mode (Classic Reading)" : "Professional Studio Mode (Cyber Engineering)"}`}
+                onClick={() => setLabDropdownOpen(!labDropdownOpen)}
+                aria-expanded={labDropdownOpen}
+                aria-haspopup="true"
                 style={{
-                  fontSize: "11px",
-                  fontWeight: "700",
-                  fontFamily: "var(--font-mono)",
-                  letterSpacing: "0.5px",
-                  color: themeMode === "studio" ? "#00f5a0" : "var(--accent)",
-                  background: themeMode === "studio" ? "rgba(0, 245, 160, 0.12)" : "rgba(200, 169, 110, 0.12)",
-                  border: themeMode === "studio" ? "1px solid rgba(0, 245, 160, 0.35)" : "1px solid rgba(200, 169, 110, 0.3)",
-                  padding: "5px 9px",
-                  borderRadius: "5px",
+                  background: "transparent",
+                  border: "none",
                   cursor: "pointer",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "5px",
-                  transition: "all 0.2s",
-                }}
-              >
-                {themeMode === "studio" ? (
-                  <>
-                    <Zap size={12} style={{ color: "#00f5a0" }} />
-                    <span>STUDIO</span>
-                  </>
-                ) : (
-                  <>
-                    <Sparkles size={12} style={{ color: "#c8a96e" }} />
-                    <span>EDITORIAL</span>
-                  </>
-                )}
-              </button>
-
-              <a
-                href="https://wa.me/918825714576?text=Hi%20Adithya%2C%20I%20am%20interested%20in%20discussing%20an%20AI%20project"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontSize: "12px",
-                  fontWeight: "600",
-                  color: "#25D366",
-                  background: "rgba(37, 211, 102, 0.1)",
-                  border: "1px solid rgba(37, 211, 102, 0.25)",
-                  padding: "5px 12px",
-                  borderRadius: "5px",
-                  textDecoration: "none",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "5px",
-                  transition: "all 0.2s",
-                }}
-              >
-                <MessageCircle size={13} />
-                WhatsApp
-              </a>
-
-              <Link
-                to="/services"
-                style={{
-                  fontSize: "12px",
-                  fontWeight: "600",
-                  color: "#000",
-                  background: "var(--accent)",
-                  padding: "6px 14px",
-                  borderRadius: "5px",
-                  textDecoration: "none",
-                  letterSpacing: "0.2px",
+                  fontSize: "14px",
+                  color: isLabActive ? "var(--text-1)" : "var(--text-2)",
+                  fontWeight: isLabActive ? "600" : "400",
+                  padding: "6px 0",
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "4px",
-                  boxShadow: "0 0 16px rgba(200, 169, 110, 0.25)",
-                  transition: "opacity 0.2s",
+                  position: "relative",
+                  transition: "color 0.2s ease",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
-                onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-1)")}
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.color = isLabActive ? "var(--text-1)" : "var(--text-2)")
+                }
               >
-                Hire Me
-              </Link>
+                <span>Lab</span>
+                <ChevronDown
+                  size={14}
+                  style={{
+                    transform: labDropdownOpen ? "rotate(180deg)" : "rotate(0deg)",
+                    transition: "transform 0.2s ease",
+                  }}
+                />
+                {isLabActive && (
+                  <motion.span
+                    layoutId="nav-underline"
+                    style={{
+                      position: "absolute",
+                      bottom: "-2px",
+                      left: 0,
+                      right: 0,
+                      height: "2px",
+                      background: "#151515",
+                      borderRadius: "2px",
+                    }}
+                    transition={{ duration: 0.3 }}
+                  />
+                )}
+              </button>
+
+              <AnimatePresence>
+                {labDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                    transition={{ duration: 0.2, ease: TRANSITION_EASE }}
+                    style={{
+                      position: "absolute",
+                      top: "calc(100% + 10px)",
+                      left: "-20px",
+                      width: "290px",
+                      backgroundColor: "#FFFFFF",
+                      backdropFilter: "blur(20px)",
+                      WebkitBackdropFilter: "blur(20px)",
+                      border: "1px solid var(--border)",
+                      borderRadius: "10px",
+                      padding: "8px",
+                      boxShadow: "0 18px 40px rgba(21, 21, 21, 0.08)",
+                      zIndex: 110,
+                    }}
+                  >
+                    <div style={{ padding: "4px 8px 6px", borderBottom: "1px solid var(--border)", marginBottom: "4px" }}>
+                      <p style={{ fontSize: "10px", textTransform: "uppercase", letterSpacing: "1.5px", color: "var(--text-3)", margin: 0, fontFamily: "var(--font-mono)" }}>
+                        Tools, Demos & Principles
+                      </p>
+                    </div>
+                    {labLinks.map((item) => {
+                      const isActive = location.pathname === item.path;
+                      return (
+                        <Link
+                          key={item.path}
+                          to={item.path}
+                          onClick={() => setLabDropdownOpen(false)}
+                          style={{
+                            display: "block",
+                            padding: "9px 12px",
+                            borderRadius: "6px",
+                            textDecoration: "none",
+                            backgroundColor: isActive ? "#F0EAE1" : "transparent",
+                            transition: "background-color 0.15s ease",
+                          }}
+                          onMouseEnter={(e) =>
+                            (e.currentTarget.style.backgroundColor = "#F7F3EC")
+                          }
+                          onMouseLeave={(e) =>
+                            (e.currentTarget.style.backgroundColor = isActive
+                              ? "#F0EAE1"
+                              : "transparent")
+                          }
+                        >
+                          <div
+                            style={{
+                              fontSize: "13px",
+                              fontWeight: "600",
+                              color: "#151515",
+                            }}
+                          >
+                            {item.label}
+                          </div>
+                          <div style={{ fontSize: "11px", color: "var(--text-2)", marginTop: "2px" }}>
+                            {item.desc}
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* About */}
+            <Link
+              to="/about"
+              style={{
+                fontSize: "14px",
+                color: location.pathname === "/about" ? "var(--text-1)" : "var(--text-2)",
+                fontWeight: location.pathname === "/about" ? "600" : "400",
+                textDecoration: "none",
+                position: "relative",
+                padding: "6px 0",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-1)")}
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color =
+                  location.pathname === "/about" ? "var(--text-1)" : "var(--text-2)")
+              }
+            >
+              About
+              {location.pathname === "/about" && (
+                <motion.span
+                  layoutId="nav-underline"
+                  style={{
+                    position: "absolute",
+                    bottom: "-2px",
+                    left: 0,
+                    right: 0,
+                    height: "2px",
+                    background: "#151515",
+                    borderRadius: "2px",
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </Link>
+
+            {/* Contact */}
+            <Link
+              to="/contact"
+              style={{
+                fontSize: "14px",
+                color: location.pathname === "/contact" ? "var(--text-1)" : "var(--text-2)",
+                fontWeight: location.pathname === "/contact" ? "600" : "400",
+                textDecoration: "none",
+                position: "relative",
+                padding: "6px 0",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-1)")}
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color =
+                  location.pathname === "/contact" ? "var(--text-1)" : "var(--text-2)")
+              }
+            >
+              Contact
+              {location.pathname === "/contact" && (
+                <motion.span
+                  layoutId="nav-underline"
+                  style={{
+                    position: "absolute",
+                    bottom: "-2px",
+                    left: 0,
+                    right: 0,
+                    height: "2px",
+                    background: "#151515",
+                    borderRadius: "2px",
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </Link>
+
+            {/* Right CTAs */}
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginLeft: "10px" }}>
+              {/* WhatsApp Button */}
+              <a
+                href="https://wa.me/918825714576?text=Hi%20Adithya%2C%20I%20have%20a%20project%20in%20mind%20and%20would%20like%20to%20discuss."
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Direct WhatsApp message"
+                className="btn-whatsapp"
+                style={{
+                  padding: "7px 14px",
+                  fontSize: "12.5px",
+                  borderRadius: "6px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  lineHeight: 1,
+                }}
+              >
+                <MessageCircle size={14} />
+                <span>WhatsApp</span>
+              </a>
             </div>
           </div>
 
-          {/* Mobile Menu Hamburger Button */}
+          {/* Mobile Hamburger Button (Tap target >= 44px) */}
           <button
             type="button"
             className="mobile-menu-btn"
@@ -224,187 +443,203 @@ export function Navbar() {
             aria-expanded={mobileMenuOpen}
             style={{
               display: "none",
-              background: "transparent",
+              minWidth: "44px",
+              minHeight: "44px",
+              background: "#FFFFFF",
               border: "1px solid var(--border)",
-              borderRadius: "6px",
-              padding: "6px 10px",
-              color: "var(--text-1)",
+              borderRadius: "8px",
+              color: "#151515",
               cursor: "pointer",
               alignItems: "center",
               justifyContent: "center",
+              padding: 0,
+              boxShadow: "0 2px 6px rgba(21, 21, 21, 0.04)",
             }}
           >
-            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </nav>
 
-      {/* Mobile Drawer Overlay with Framer Motion Spring */}
+      {/* Full-Screen Mobile Menu (Tap targets >= 44px) */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -16 }}
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.25, ease: TRANSITION_EASE }}
             style={{
               position: "fixed",
-              top: "56px",
+              top: 0,
               left: 0,
               right: 0,
               bottom: 0,
-              zIndex: 99,
-              backgroundColor: "rgba(10, 10, 10, 0.98)",
-              backdropFilter: "blur(24px)",
-              WebkitBackdropFilter: "blur(24px)",
-              padding: "24px",
+              zIndex: 999,
+              backgroundColor: "rgba(247, 243, 236, 0.98)",
+              backdropFilter: "blur(28px)",
+              WebkitBackdropFilter: "blur(28px)",
+              padding: "20px 24px 32px",
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-              borderBottom: "1px solid var(--border)",
               overflowY: "auto",
             }}
           >
-            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-              {/* Workspace Mode Switcher Card */}
+            {/* Top Bar with Logo and Close Button */}
+            <div>
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "space-between",
                   alignItems: "center",
-                  marginBottom: "14px",
-                  padding: "10px 14px",
-                  background: "var(--bg-1)",
-                  borderRadius: "8px",
-                  border: "1px solid var(--border)",
+                  justifyContent: "space-between",
+                  paddingBottom: "16px",
+                  borderBottom: "1px solid var(--border)",
+                  marginBottom: "20px",
                 }}
               >
-                <div>
-                  <div style={{ fontSize: "12px", fontWeight: "600", color: "var(--text-1)" }}>
-                    Workspace Mode
-                  </div>
-                  <div style={{ fontSize: "11px", color: themeMode === "studio" ? "#00f5a0" : "var(--accent)" }}>
-                    {themeMode === "studio" ? "⚡ Professional Studio" : "📖 Editorial Classic"}
-                  </div>
-                </div>
+                <Logo variant="full" size="md" />
                 <button
                   type="button"
-                  onClick={toggleThemeMode}
+                  onClick={() => setMobileMenuOpen(false)}
+                  aria-label="Close menu"
                   style={{
-                    padding: "6px 12px",
-                    background: themeMode === "studio" ? "rgba(0, 245, 160, 0.15)" : "rgba(200, 169, 110, 0.15)",
-                    border: themeMode === "studio" ? "1px solid rgba(0, 245, 160, 0.4)" : "1px solid rgba(200, 169, 110, 0.4)",
-                    borderRadius: "6px",
-                    color: themeMode === "studio" ? "#00f5a0" : "var(--accent)",
-                    fontSize: "11.5px",
-                    fontWeight: "700",
-                    cursor: "pointer",
-                    display: "inline-flex",
+                    minWidth: "44px",
+                    minHeight: "44px",
+                    display: "flex",
                     alignItems: "center",
-                    gap: "6px",
+                    justifyContent: "center",
+                    background: "#FFFFFF",
+                    border: "1px solid var(--border)",
+                    borderRadius: "8px",
+                    color: "#151515",
+                    cursor: "pointer",
                   }}
                 >
-                  {themeMode === "studio" ? <Zap size={12} /> : <Sparkles size={12} />}
-                  <span>Toggle</span>
+                  <X size={22} />
                 </button>
               </div>
 
-              <p
-                style={{
-                  fontSize: "10px",
-                  color: "var(--text-3)",
-                  textTransform: "uppercase",
-                  letterSpacing: "2.5px",
-                  marginBottom: "8px",
-                  fontFamily: "var(--font-mono)",
-                }}
-              >
-                Navigation
-              </p>
-              {[
-                ...navItems,
-                { label: "Curated Resources", path: "/resources" },
-                { label: "Resume & Credentials", path: "/resume" },
-              ].map((item, idx) => {
-                const isActive = location.pathname === item.path;
-                return (
-                  <motion.div
-                    key={item.label}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.04 }}
-                  >
+              {/* Mobile Nav Links (All with min-height: 48px >= 44px) */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                {[
+                  { label: "Home", path: "/" },
+                  { label: "Work", path: "/work" },
+                  { label: "Services", path: "/services" },
+                  { label: "About", path: "/about" },
+                  { label: "Contact", path: "/contact" },
+                ].map((item) => {
+                  const isActive = location.pathname === item.path;
+                  return (
                     <Link
+                      key={item.path}
                       to={item.path}
                       onClick={() => setMobileMenuOpen(false)}
                       style={{
-                        fontSize: "17px",
-                        fontFamily: "var(--font-serif)",
-                        color: isActive ? "var(--accent)" : "var(--text-1)",
-                        textDecoration: "none",
-                        padding: "10px 12px",
-                        borderRadius: "6px",
-                        background: isActive ? "rgba(200, 169, 110, 0.08)" : "transparent",
-                        border: isActive ? "1px solid rgba(200, 169, 110, 0.2)" : "1px solid transparent",
+                        minHeight: "48px",
                         display: "flex",
-                        justifyContent: "space-between",
                         alignItems: "center",
+                        justifyContent: "space-between",
+                        padding: "0 14px",
+                        fontSize: "18px",
+                        fontFamily: "var(--font-serif)",
+                        color: "#151515",
+                        textDecoration: "none",
+                        borderRadius: "8px",
+                        backgroundColor: isActive ? "#FFFFFF" : "transparent",
+                        border: isActive ? "1px solid var(--border)" : "1px solid transparent",
                       }}
                     >
-                      <span>{item.label}</span>
+                      <span style={{ fontWeight: isActive ? "600" : "400" }}>{item.label}</span>
                       <span style={{ fontSize: "14px", color: "var(--text-3)" }}>→</span>
                     </Link>
-                  </motion.div>
-                );
-              })}
+                  );
+                })}
+
+                {/* Lab Simple List on Mobile */}
+                <div style={{ marginTop: "12px", paddingTop: "12px", borderTop: "1px solid var(--border)" }}>
+                  <p
+                    style={{
+                      fontSize: "11px",
+                      textTransform: "uppercase",
+                      letterSpacing: "2px",
+                      color: "var(--text-3)",
+                      marginBottom: "8px",
+                      paddingLeft: "14px",
+                      fontFamily: "var(--font-mono)",
+                    }}
+                  >
+                    Lab & Principles
+                  </p>
+                  {labLinks.map((sub) => {
+                    const isActive = location.pathname === sub.path;
+                    return (
+                      <Link
+                        key={sub.path}
+                        to={sub.path}
+                        onClick={() => setMobileMenuOpen(false)}
+                        style={{
+                          minHeight: "48px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          padding: "0 14px",
+                          fontSize: "15px",
+                          color: "#151515",
+                          textDecoration: "none",
+                          borderRadius: "8px",
+                          backgroundColor: isActive ? "#FFFFFF" : "transparent",
+                        }}
+                      >
+                        <div>
+                          <div style={{ fontWeight: isActive ? "600" : "400" }}>{sub.label}</div>
+                          <div style={{ fontSize: "11px", color: "var(--text-2)" }}>{sub.desc}</div>
+                        </div>
+                        <span style={{ fontSize: "12px", color: "var(--text-3)" }}>↗</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
 
+            {/* Mobile Footer with WhatsApp and Contact Buttons (Tap target >= 44px) */}
             <div style={{ paddingTop: "20px", borderTop: "1px solid var(--border)", display: "flex", flexDirection: "column", gap: "10px" }}>
               <a
-                href="https://wa.me/918825714576"
+                href="https://wa.me/918825714576?text=Hi%20Adithya%2C%20I%20have%20a%20project%20in%20mind%20and%20would%20like%20to%20discuss."
                 target="_blank"
                 rel="noopener noreferrer"
+                className="btn-whatsapp"
                 style={{
+                  minHeight: "48px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: "8px",
-                  padding: "12px",
-                  background: "rgba(37, 211, 102, 0.12)",
-                  border: "1px solid rgba(37, 211, 102, 0.3)",
-                  color: "#25D366",
-                  fontSize: "13px",
-                  fontWeight: "700",
+                  fontSize: "14px",
                   textDecoration: "none",
-                  borderRadius: "6px",
+                  borderRadius: "8px",
                 }}
               >
-                <MessageCircle size={16} /> Direct WhatsApp (+91 88257 14576)
+                <MessageCircle size={18} />
+                <span>WhatsApp (+91 88257 14576)</span>
               </a>
 
               <Link
-                to="/services"
+                to="/contact"
                 onClick={() => setMobileMenuOpen(false)}
+                className="btn-ink"
                 style={{
+                  minHeight: "48px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: "8px",
-                  padding: "13px",
-                  background: "var(--accent)",
-                  color: "#000",
                   fontSize: "14px",
-                  fontWeight: "700",
-                  textDecoration: "none",
-                  borderRadius: "6px",
-                  letterSpacing: "0.3px",
+                  borderRadius: "8px",
                 }}
               >
-                Hire for AI Work <ArrowUpRight size={16} />
+                <span>Get in touch</span>
+                <ArrowUpRight size={16} />
               </Link>
-              <p style={{ fontSize: "11px", color: "var(--text-3)", textAlign: "center" }}>
-                Ambur, Tamil Nadu · Available for Full-Time & Freelance
-              </p>
             </div>
           </motion.div>
         )}
@@ -412,3 +647,5 @@ export function Navbar() {
     </>
   );
 }
+
+export default Navbar;

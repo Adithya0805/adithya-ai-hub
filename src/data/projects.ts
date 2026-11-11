@@ -32,6 +32,36 @@ export const projects: Project[] = [
     flagship: true,
   },
   {
+    slug: "sr-travels",
+    title: "SR Travels",
+    tagline: "Intercity travel & car booking platform with dynamic fare calculation.",
+    problem:
+      "A Tamil Nadu intercity travels & car rental business was losing booking leads in unorganized phone calls and lacked an automated fare calculation system taking into account fuel rates, vehicle types, and driver bata.",
+    solution:
+      "Engineered a high-performance web platform featuring map-based pickup/drop selection, dynamic petrol/diesel price fare calculator, automated driver bata rules, fleet comparison, and instant WhatsApp booking confirmation with an admin dispatch dashboard.",
+    impact:
+      "Live at https://sr-travels-tau.vercel.app with instant route calculations, zero dropped bookings, and seamless mobile booking flow.",
+    stack: ["Next.js", "React", "Tailwind CSS", "Supabase", "Fare Calculator", "WhatsApp API", "Vercel"],
+    demo: "https://sr-travels-tau.vercel.app",
+    category: "Full-Stack AI",
+    flagship: true,
+  },
+  {
+    slug: "dino-leathers",
+    title: "Dino Leathers",
+    tagline: "Mobile-first D2C leather catalog with zero-cost WhatsApp checkout.",
+    problem:
+      "An artisanal leather goods manufacturer in Ambur, Tamil Nadu had products scattered across WhatsApp photos and chats with no central showcase or structured order capture.",
+    solution:
+      "Built a mobile-first D2C e-commerce progressive web app with high-resolution cataloging, AI image enhancement pipeline, monogram embossing option, and a zero-friction 1-click WhatsApp order checkout backed by Supabase inventory.",
+    impact:
+      "Live at https://leather-hub-chi.vercel.app with instant product sharing, structured order intake, and premium brand aesthetics.",
+    stack: ["Next.js 14", "TypeScript", "Supabase", "Tailwind CSS", "Vercel", "WhatsApp API"],
+    demo: "https://leather-hub-chi.vercel.app",
+    category: "Full-Stack AI",
+    flagship: true,
+  },
+  {
     slug: "mediaguard",
     title: "MediGuard V2",
     tagline: "Enterprise Multi-Agent Clinical Decision Support System (CDSS).",
