@@ -84,39 +84,6 @@
   --radius: 0.5rem;
 }
 
-/* ⚡ Professional Studio Mode (Cyber Graphite & Tensor Emerald) */
-html[data-theme="studio"],
-.theme-studio {
-  --bg-0: #08090b;
-  --bg-1: #0f1115;
-  --bg-2: #171a21;
-  --bg-3: #212530;
-
-  --text-1: #f8fafc;
-  --text-2: #94a3b8;
-  --text-3: #64748b;
-
-  --accent: #00f5a0;
-  --accent-dim: rgba(0, 245, 160, 0.12);
-  --accent-rgb: 0, 245, 160;
-  --accent-cyan: #38bdf8;
-  --accent-violet: #a855f7;
-
-  /* Background Cyber Matrix & Cursor Spotlight */
-  --bg-grid-color: rgba(0, 245, 160, 0.045);
-  --bg-spotlight-color: rgba(0, 245, 160, 0.10);
-
-
-  --border: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(0, 245, 160, 0.3);
-
-  --scrollbar-thumb: #1e293b;
-  --scrollbar-track: #08090b;
-
-  --accent-hsl: 159 100% 48%;
-  --ring: 159 100% 48%;
-}
-
 /* Global reset */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 

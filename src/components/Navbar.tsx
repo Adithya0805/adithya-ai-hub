@@ -1,15 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, MessageCircle, Sparkles, Zap, ArrowUpRight, ShieldCheck } from "lucide-react";
+import { Menu, X, ChevronDown, MessageCircle, ArrowUpRight } from "lucide-react";
 import { Logo } from "./Logo";
-import { getThemeMode, setThemeMode, subscribeToThemeMode, ThemeMode } from "@/utils/themeMode";
 import { TRANSITION_EASE } from "@/lib/motion";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [labDropdownOpen, setLabDropdownOpen] = useState(false);
-  const [themeMode, setLocalThemeMode] = useState<ThemeMode>(() => getThemeMode());
   const location = useLocation();
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -18,17 +16,6 @@ export function Navbar() {
     setMobileMenuOpen(false);
     setLabDropdownOpen(false);
   }, [location.pathname]);
-
-  // Subscribe to external theme mode updates
-  useEffect(() => {
-    return subscribeToThemeMode((mode) => setLocalThemeMode(mode));
-  }, []);
-
-  const toggleThemeMode = () => {
-    const next = themeMode === "studio" ? "editorial" : "studio";
-    setThemeMode(next);
-    setLocalThemeMode(next);
-  };
 
   const isLabActive =
     location.pathname.startsWith("/tools") ||

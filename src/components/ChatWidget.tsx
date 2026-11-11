@@ -260,15 +260,15 @@ Feel free to click any quick chip below!`;
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-[#111111] border border-[#c8a96e]/40 text-white shadow-2xl hover:border-[#c8a96e] transition-all"
+            className="group relative flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#151515] border border-[#E6DFD3] text-[#F7F3EC] shadow-xl hover:border-[#151515] transition-all"
             aria-label="Chat with Adithya's AI"
           >
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
             </span>
-            <span className="text-xs font-semibold tracking-wide flex items-center gap-1.5">
-              <Bot className="w-4 h-4 text-[#c8a96e]" />
+            <span className="text-xs font-semibold tracking-wide flex items-center gap-1.5 text-[#F7F3EC]">
+              <Bot className="w-4 h-4 text-[#C8A96E]" />
               Ask AI Agent
             </span>
           </motion.button>
