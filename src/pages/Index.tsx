@@ -1,10 +1,9 @@
 import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { InteractiveNeuralMotion } from "@/components/InteractiveNeuralMotion";
-import { HeroNeuralTopology } from "@/components/HeroNeuralTopology";
 import { AIProblemAnalyzer } from "@/components/AIProblemAnalyzer";
 import { WorkCarousel } from "@/components/WorkCarousel";
 import { NewsletterForm } from "@/components/NewsletterForm";
@@ -14,15 +13,10 @@ import {
   MessageCircle,
   Mail,
   ShieldCheck,
-  Sparkles,
-  ExternalLink,
   ArrowUpRight,
-  CheckCircle2,
-  Cpu,
 } from "lucide-react";
 
 export default function Index() {
-  const shouldReduceMotion = useReducedMotion();
 
   const deliverySteps = [
     {
@@ -54,51 +48,49 @@ export default function Index() {
   return (
     <Layout>
       <Helmet>
-        <title>Adithya Kuppusamy — AI Systems Architect & Applied Researcher</title>
+        <title>Adithya Kuppusamy — Web &amp; AI Developer · Ambur, Tamil Nadu</title>
         <meta
           name="description"
-          content="Applied AI researcher and systems architect building autonomous AI systems, multi-agent pipelines, and production digital platforms that solve deep real-world problems."
+          content="Websites and AI systems that answer customers, run orders and protect your data. Built in Ambur for small businesses entering the AI era."
         />
         <link rel="canonical" href="https://adithya-ai-hub.vercel.app/" />
-        <meta property="og:title" content="Adithya Kuppusamy — AI Systems Architect & Applied Researcher" />
+        <meta property="og:title" content="Adithya Kuppusamy — Web & AI Developer · Ambur, Tamil Nadu" />
         <meta
           property="og:description"
-          content="AI systems engineered to solve what software alone cannot touch. From multi-agent clinical supervisors to bilingual RAG commerce engines."
+          content="Websites and AI systems that answer customers, run orders and protect your data. Built in Ambur for small businesses entering the AI era."
         />
         <meta property="og:url" content="https://adithya-ai-hub.vercel.app/" />
         <meta property="og:type" content="website" />
       </Helmet>
 
-      {/* ── 1. HERO SECTION (Premium Display Left, Interactive Neural Motion Right) ─ */}
+      {/* ── 1. HERO SECTION (Editorial Copy Left, 3D Neural Field Right) ─ */}
       <section
+        className="hero-section"
         style={{
           position: "relative",
-          minHeight: "90vh",
+          minHeight: "85vh",
           display: "flex",
           alignItems: "center",
           borderBottom: "1px solid var(--border)",
           backgroundColor: "var(--bg-0)",
           overflow: "hidden",
-          paddingTop: "56px",
-          paddingBottom: "72px",
+          paddingTop: "48px",
+          paddingBottom: "56px",
         }}
       >
-        {/* Background Neural Topology & Vector Mesh */}
-        <HeroNeuralTopology />
-
         <div className="site-container" style={{ position: "relative", zIndex: 1 }}>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "1.08fr 0.92fr",
-              gap: "48px",
+              gridTemplateColumns: "minmax(0, 1.06fr) minmax(0, 0.94fr)",
+              gap: "40px",
               alignItems: "center",
             }}
             className="hero-split-grid"
           >
-            {/* Left Column: Premium Typography, Aura & Authority */}
-            <div>
-              {/* Status Beacon Badge */}
+            {/* Left Column: Hero Copy */}
+            <div style={{ minWidth: 0 }}>
+              {/* Status Pill */}
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -112,10 +104,11 @@ export default function Index() {
                   backgroundColor: "#FFFFFF",
                   border: "1px solid var(--border)",
                   boxShadow: "0 2px 8px rgba(21, 21, 21, 0.04)",
-                  marginBottom: "28px",
+                  marginBottom: "24px",
+                  maxWidth: "100%",
                 }}
               >
-                <span className="relative flex h-2 w-2">
+                <span className="relative flex h-2 w-2 shrink-0">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
@@ -124,39 +117,47 @@ export default function Index() {
                     fontSize: "11px",
                     color: "#151515",
                     fontFamily: "var(--font-mono)",
-                    letterSpacing: "1px",
+                    letterSpacing: "0.7px",
                     fontWeight: "700",
                     textTransform: "uppercase",
                   }}
                 >
-                  AI Systems Architect & Researcher · Solving Deep Problems
+                  WEB &amp; AI DEVELOPER · AMBUR, TAMIL NADU · OPEN FOR PROJECTS
                 </span>
               </motion.div>
 
-              {/* Main Headline in Premium Instrument Serif */}
+              {/* Main Headline */}
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1, ease: TRANSITION_EASE }}
                 className="text-display"
                 style={{
-                  marginBottom: "22px",
+                  marginBottom: "20px",
                   color: "#151515",
                   fontFamily: "var(--font-serif)",
-                  fontSize: "clamp(46px, 6.5vw, 84px)",
+                  fontSize: "clamp(40px, 7vw, 92px)",
                   fontWeight: "400",
-                  lineHeight: "0.96",
-                  letterSpacing: "-2px",
+                  lineHeight: "1.02",
+                  letterSpacing: "-1.5px",
                   textWrap: "balance",
                 }}
               >
-                AI systems engineered to solve what software{" "}
-                <span style={{ fontStyle: "italic", textDecoration: "underline", textDecorationColor: "var(--border)", textUnderlineOffset: "8px" }}>
-                  alone cannot touch.
-                </span>
+                Intelligence,{" "}
+                <span
+                  style={{
+                    fontStyle: "italic",
+                    textDecoration: "underline",
+                    textDecorationColor: "var(--accent)",
+                    textUnderlineOffset: "8px",
+                  }}
+                >
+                  stitched
+                </span>{" "}
+                into real businesses.
               </motion.h1>
 
-              {/* Supporting Authority Line */}
+              {/* Supporting Line */}
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -164,16 +165,59 @@ export default function Index() {
                 style={{
                   fontSize: "clamp(16px, 1.8vw, 19px)",
                   color: "#4A453E",
-                  lineHeight: "1.65",
-                  marginBottom: "36px",
+                  lineHeight: "1.6",
+                  marginBottom: "24px",
                   maxWidth: "560px",
                   textWrap: "pretty",
                 }}
               >
-                Applied AI researcher turning frontier autonomous intelligence into production engines. From stateful multi-agent clinical supervisors to zero-overhead conversational WhatsApp commerce — if it can be imagined, it can be engineered.
+                Websites and AI systems that answer customers, run orders and protect your data. Built in Ambur for small businesses entering the AI era.
               </motion.p>
 
-              {/* Action Buttons: See my work (direct link to /work) + Advanced Services Workflow + WhatsApp */}
+              {/* Proof Chips */}
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.25, ease: TRANSITION_EASE }}
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                  marginBottom: "28px",
+                }}
+              >
+                {["3 client sites live", "3 AI systems built"].map((chip) => (
+                  <span
+                    key={chip}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      padding: "6px 12px",
+                      borderRadius: "999px",
+                      backgroundColor: "#FFFFFF",
+                      border: "1px solid var(--border)",
+                      fontSize: "12.5px",
+                      fontFamily: "var(--font-mono)",
+                      color: "#151515",
+                      fontWeight: "500",
+                    }}
+                  >
+                    <span
+                      aria-hidden="true"
+                      style={{
+                        width: "6px",
+                        height: "6px",
+                        borderRadius: "50%",
+                        backgroundColor: "var(--accent)",
+                      }}
+                    />
+                    {chip}
+                  </span>
+                ))}
+              </motion.div>
+
+              {/* Action Buttons */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -185,7 +229,6 @@ export default function Index() {
                   alignItems: "center",
                 }}
               >
-                {/* 1. See my work -> navigates directly to /work */}
                 <Link
                   to="/work"
                   className="btn-ink"
@@ -197,61 +240,29 @@ export default function Index() {
                     gap: "8px",
                   }}
                 >
-                  <span>See my work</span>
+                  <span>See the work</span>
                   <ArrowRight size={15} />
                 </Link>
 
-                {/* 2. Advanced Service Workflow -> navigates to /services */}
-                <Link
-                  to="/services"
-                  style={{
-                    padding: "13px 22px",
-                    fontSize: "14px",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    backgroundColor: "#FFFFFF",
-                    border: "1px solid var(--border)",
-                    color: "#151515",
-                    borderRadius: "6px",
-                    textDecoration: "none",
-                    fontWeight: "600",
-                    boxShadow: "0 2px 6px rgba(21, 21, 21, 0.04)",
-                    transition: "all 0.15s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = "#FAF7F2";
-                    e.currentTarget.style.borderColor = "#151515";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "#FFFFFF";
-                    e.currentTarget.style.borderColor = "var(--border)";
-                  }}
-                >
-                  <Sparkles size={15} color="#8E6F32" />
-                  <span>AI Services & Workflow</span>
-                </Link>
-
-                {/* 3. WhatsApp Direct Consultation */}
                 <a
                   href="https://wa.me/918825714576?text=Hi%20Adithya%2C%20I%20have%20an%20AI%20system%20or%20complex%20problem%20I%20would%20like%20to%20architect%20with%20you."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-whatsapp"
-                  style={{ padding: "13px 20px", fontSize: "14px" }}
+                  className="btn-secondary"
+                  style={{ padding: "13px 22px", fontSize: "14px" }}
                 >
                   <MessageCircle size={15} />
-                  <span>WhatsApp Consult</span>
+                  <span>WhatsApp me</span>
                 </a>
               </motion.div>
             </div>
 
-            {/* Right Column: Interactive Motion Design with Clear Mouse Movement Effect */}
+            {/* Right Column: Interactive 3D Neural Field */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.2, ease: TRANSITION_EASE }}
-              style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+              style={{ display: "flex", justifyContent: "center", alignItems: "center", minWidth: 0, width: "100%" }}
             >
               <InteractiveNeuralMotion />
             </motion.div>

@@ -326,9 +326,15 @@ p {
     padding-right: 20px !important;
   }
 
+  .hero-section {
+    min-height: auto !important;
+    padding-top: 32px !important;
+    padding-bottom: 40px !important;
+  }
+
   .hero-split-grid {
-    grid-template-columns: 1fr !important;
-    gap: 32px !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 24px !important;
   }
 
   .interactive-motion-wrapper {
